@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -20,8 +21,10 @@ public class TimeTable {
 	private String timeInterval;
 	@OneToMany(mappedBy = "timeTable", cascade = CascadeType.ALL)
 	private List<Appointment> appointment = new ArrayList<>();
-	@OneToMany(mappedBy = "timeTable", cascade = CascadeType.ALL)
-	private List<DentistTime> dentistTime = new ArrayList<>();
+//	@OneToMany(mappedBy = "timeTable")
+//	private List<DentistTime> dentistTime = new ArrayList<>();
+	@ManyToMany(mappedBy = "timeTable")
+	private List<Dentist> dentist = new ArrayList<>();
 	
 	public TimeTable() {
 	}
@@ -66,12 +69,12 @@ public class TimeTable {
 		this.appointment = appointment;
 	}
 
-	public List<DentistTime> getDentistTime() {
-		return dentistTime;
+	public List<Dentist> getDentist() {
+		return dentist;
 	}
 
-	public void setDentistTime(List<DentistTime> dentistTime) {
-		this.dentistTime = dentistTime;
+	public void setDentist(List<Dentist> dentist) {
+		this.dentist = dentist;
 	}
 
 	@Override
@@ -87,10 +90,10 @@ public class TimeTable {
 		builder.append(timeInterval);
 		builder.append(", appointment=");
 		builder.append(appointment);
-		builder.append(", dentistTime=");
-		builder.append(dentistTime);
+		builder.append(", dentist=");
+		builder.append(dentist);
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

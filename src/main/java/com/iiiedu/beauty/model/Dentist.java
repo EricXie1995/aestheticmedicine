@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -25,78 +27,75 @@ public class Dentist {
 	private String dentistGender;
 	@OneToMany(mappedBy = "dentist", cascade = CascadeType.ALL)
 	private List<Appointment> appointment = new ArrayList<>();
-	@OneToMany(mappedBy = "dentist", cascade = CascadeType.ALL)
-	private List<DentistTime> dentistTime = new ArrayList<>();
-	@OneToMany(mappedBy = "dentist", cascade = CascadeType.ALL)
-	private List<DentistItem> dentistItem = new ArrayList<>();
+//	@OneToMany(mappedBy = "dentist")
+//	private List<DentistTime> dentistTime = new ArrayList<>();
+//	@OneToMany(mappedBy = "dentist")
+//	private List<DentistItem> dentistItem = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(
+			name = "DentistItem",
+			joinColumns = @JoinColumn(name = "dentistPkId"),	
+			inverseJoinColumns = @JoinColumn(name = "itemPkId")
+			)
+	private List<Items> items = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(
+			name = "DentistTime",
+			joinColumns = @JoinColumn(name = "dentistPkId"),	
+			inverseJoinColumns = @JoinColumn(name = "timeTablePkId")
+			)
+	private List<TimeTable> timeTable = new ArrayList<>();
 	
 	public Dentist() {
 	}
-
 	public Integer getDentistPkId() {
 		return dentistPkId;
 	}
-
 	public void setDentistPkId(Integer dentistPkId) {
 		this.dentistPkId = dentistPkId;
 	}
-
 	public Clinic getClinic() {
 		return clinic;
 	}
-
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
 	}
-
 	public String getDentistName() {
 		return dentistName;
 	}
-
 	public void setDentistName(String dentistName) {
 		this.dentistName = dentistName;
 	}
-
 	public String getDentistImage() {
 		return dentistImage;
 	}
-
 	public void setDentistImage(String dentistImage) {
 		this.dentistImage = dentistImage;
 	}
-
 	public String getDentistGender() {
 		return dentistGender;
 	}
-
 	public void setDentistGender(String dentistGender) {
 		this.dentistGender = dentistGender;
 	}
-
 	public List<Appointment> getAppointment() {
 		return appointment;
 	}
-
 	public void setAppointment(List<Appointment> appointment) {
 		this.appointment = appointment;
 	}
-
-	public List<DentistTime> getDentistTime() {
-		return dentistTime;
+	public List<Items> getItem() {
+		return items;
 	}
-
-	public void setDentistTime(List<DentistTime> dentistTime) {
-		this.dentistTime = dentistTime;
+	public void setItem(List<Items> item) {
+		this.items = item;
 	}
-
-	public List<DentistItem> getDentistItem() {
-		return dentistItem;
+	public List<TimeTable> getTimeTable() {
+		return timeTable;
 	}
-
-	public void setDentistItem(List<DentistItem> dentistItem) {
-		this.dentistItem = dentistItem;
+	public void setTimeTable(List<TimeTable> timeTable) {
+		this.timeTable = timeTable;
 	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -112,10 +111,10 @@ public class Dentist {
 		builder.append(dentistGender);
 		builder.append(", appointment=");
 		builder.append(appointment);
-		builder.append(", dentistTime=");
-		builder.append(dentistTime);
-		builder.append(", dentistItem=");
-		builder.append(dentistItem);
+		builder.append(", item=");
+		builder.append(items);
+		builder.append(", timeTable=");
+		builder.append(timeTable);
 		builder.append("]");
 		return builder.toString();
 	}
