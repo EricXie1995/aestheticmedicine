@@ -33,7 +33,7 @@ public class Appointment {
 	private Date appointDate;
 	@ManyToOne
 	@JoinColumn(name = "timeTablePkId")
-	private TimeTable timetable ;
+	private TimeTable timeTable ;
 	@ManyToOne
 	@JoinColumn(name = "itemPkId")
 	private Items items;
@@ -110,11 +110,11 @@ public class Appointment {
 	}
 
 	public TimeTable getTimetable() {
-		return timetable;
+		return timeTable;
 	}
 
 	public void setTimetable(TimeTable timetable) {
-		this.timetable = timetable;
+		this.timeTable = timetable;
 	}
 
 	public Items getItems() {
@@ -169,7 +169,7 @@ public class Appointment {
 		builder.append(", appointDate=");
 		builder.append(appointDate);
 		builder.append(", timetable=");
-		builder.append(timetable);
+		builder.append(timeTable);
 		builder.append(", items=");
 		builder.append(items);
 		builder.append(", memberReply=");
