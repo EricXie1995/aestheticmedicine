@@ -2,7 +2,7 @@ package com.iiiedu.beauty.model;
 
 import javax.persistence.Entity;
 
-//回覆問題後的通知，構思中
+//論壇，回覆問題後的通知，構思中
 //@Entity
 public class Notification {
 	private int id;
