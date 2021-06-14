@@ -32,6 +32,8 @@ public class Member {
 	private List<Orders> orders = new ArrayList<>();
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Appointment> appointment = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Question> question = new ArrayList<>();
 	
 	public Member() {
 	}
