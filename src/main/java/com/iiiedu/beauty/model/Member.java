@@ -3,14 +3,7 @@ package com.iiiedu.beauty.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Member {
@@ -20,14 +13,36 @@ public class Member {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "memberDetailsPkId")
 	private MemberDetails memberDetails;
+
+	@Column(nullable = false,unique = true,length = 45)
 	private String memberAccount;
+
+	@Column(nullable = false,length = 64)
 	private String memberPwd;
+
+	@Column(nullable = false,length = 10)
 	private String memberIdNumber;
+
+	@Column(nullable = false)
 	private String memberName;
+
+	@Column(nullable = false)
 	private String memberAddress;
+
+	@Column(nullable = false)
 	private String memberPhone;
-	private String memberStatus;
+
+	@Column(nullable = false)
+	private String memberStatus = "0";
+
+	@Column(nullable = false)
 	private String memberLineId;
+
+	@Column(length = 64)
+	private String verificationCode;
+
+	private boolean enabled;
+
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Orders> orders = new ArrayList<>();
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -134,6 +149,22 @@ public class Member {
 		this.appointment = appointment;
 	}
 
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -164,5 +195,5 @@ public class Member {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }
