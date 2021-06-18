@@ -24,5 +24,8 @@
 	});
 	</script>
 	
+	<!--底部-->
+	<jsp:include page="common/footer.jsp" />
+	
 </body>
 </html>
