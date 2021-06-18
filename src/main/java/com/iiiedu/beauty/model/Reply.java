@@ -1,11 +1,15 @@
 package com.iiiedu.beauty.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Reply {
@@ -16,7 +20,8 @@ public class Reply {
 	private Integer type;
 	private Integer commentor;
 	private Integer like_count;
-	private Long createtime;
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date createtime;
 	private Integer commentcount;
 	private String content;
 	@ManyToOne
@@ -55,10 +60,10 @@ public class Reply {
 	public void setLike_count(Integer like_count) {
 		this.like_count = like_count;
 	}
-	public Long getCreatetime() {
+	public Date getCreatetime() {
 		return createtime;
 	}
-	public void setCreatetime(Long createtime) {
+	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
 	public Integer getCommentcount() {

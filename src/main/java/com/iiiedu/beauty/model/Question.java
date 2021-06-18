@@ -1,6 +1,7 @@
 package com.iiiedu.beauty.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Question {
@@ -23,7 +26,8 @@ public class Question {
     private Integer view_count;
     private Integer like_count;
     private String tag;
-    private Long createtime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createtime;
     @ManyToOne
 	@JoinColumn(name = "memberPkId")
 	private Member member;
@@ -75,10 +79,10 @@ public class Question {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	public Long getCreatetime() {
+	public Date getCreatetime() {
 		return createtime;
 	}
-	public void setCreatetime(Long createtime) {
+	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
 	public Member getMember() {
