@@ -1,4 +1,4 @@
-package com.iiiedu.beauty.controller;
+package com.iiiedu.beauty.testController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
