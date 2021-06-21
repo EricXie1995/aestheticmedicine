@@ -12,7 +12,7 @@ import com.iiiedu.beauty.model.AdminUser;
 
 public interface AdminUserService {
 	/**
-     * 根据id查询
+     * 根據id查詢
      *
      * @param id
      * @return
@@ -20,7 +20,7 @@ public interface AdminUserService {
     AdminUser findById(int id);
 
     /**
-     * 分页查询所有
+     * 分頁查詢所有
      *
      * @param pageable
      * @return
@@ -28,7 +28,7 @@ public interface AdminUserService {
     Page<AdminUser> findAll(Pageable pageable);
 
     /**
-     * 按条件查询
+     * 依條件查詢
      *
      * @param example
      * @return
@@ -44,7 +44,7 @@ public interface AdminUserService {
     void update(AdminUser adminUser);
 
     /**
-     * 创建
+     * 創建
      *
      * @param adminUser
      * @return
@@ -52,7 +52,7 @@ public interface AdminUserService {
     int create(AdminUser adminUser);
 
     /**
-     * 根据Id删除
+     * 根據ID刪除
      *
      * @param id
      * @return
@@ -60,7 +60,7 @@ public interface AdminUserService {
     void delById(int id);
 
     /**
-     * 检查登录
+     * 檢查登入
      * @param request
      * @param username
      * @param pwd
