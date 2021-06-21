@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>測試頁</title>
 <!-- 引入jquery webjars -->
-<script type="text/javascript" src="<c:url value='/webjars/jquery/3.6.0/jquery.js' />">></script>
+<script type="text/javascript" src="<c:url value='/webjars/jquery/3.6.0/jquery.js' />"></script>
 <!-- 引入bootstrap webjars -->
 <link rel="stylesheet" href="<c:url value='/webjars/bootstrap/4.3.1/css/bootstrap.min.css' />" />
 <script src="<c:url value='/webjars/bootstrap/4.3.1/js/bootstrap.min.js' />"></script>
