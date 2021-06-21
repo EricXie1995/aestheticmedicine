@@ -3,7 +3,7 @@ package com.iiiedu.beauty.forum.dto;
 import javax.validation.constraints.NotBlank;
 
 public class QuestionDto {
-	
+	private Integer questionPkId;
 	@NotBlank(message = "標題不能為空")
     private String title;
 	@NotBlank(message = "描述不能為空")
@@ -12,6 +12,14 @@ public class QuestionDto {
 	private String tag;
     
 	public QuestionDto() {
+	}
+
+	public Integer getQuestionPkId() {
+		return questionPkId;
+	}
+
+	public void setQuestionPkId(Integer questionPkId) {
+		this.questionPkId = questionPkId;
 	}
 
 	public String getTitle() {
