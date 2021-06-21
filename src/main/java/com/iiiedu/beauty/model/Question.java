@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Question {
@@ -31,6 +32,8 @@ public class Question {
     @ManyToOne
 	@JoinColumn(name = "memberPkId")
 	private Member member;
+//    @Transient
+//    private Integer memberPkId;
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Reply> reply = new ArrayList<>();
     
@@ -90,6 +93,19 @@ public class Question {
 	}
 	public void setMember(Member member) {
 		this.member = member;
+	}
+	
+//	public Integer getMemberPkId() {
+//		return memberPkId;
+//	}
+//	public void setMemberPkId(Integer memberPkId) {
+//		this.memberPkId = memberPkId;
+//	}
+	public List<Reply> getReply() {
+		return reply;
+	}
+	public void setReply(List<Reply> reply) {
+		this.reply = reply;
 	}
 	@Override
 	public String toString() {

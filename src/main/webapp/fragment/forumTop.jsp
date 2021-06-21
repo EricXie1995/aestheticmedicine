@@ -5,8 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-
+<title>論壇共同頁首</title>
 </head>
 <body>
 <!--導航欄-->
@@ -26,18 +25,19 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-
             <form class="navbar-form navbar-left">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="搜尋內容">
                 </div>
                 <button type="submit" class="btn btn-default">搜尋</button>
             </form>
-            <!--根据session中是否存在user判断展示的内容-->
+            <!--根據session中是否存在user判斷顯示的内容-->
             <ul class="nav navbar-nav navbar-right">
+            <!-- 這裡要照書偉那邊設定的登錄controller路徑，這邊先暫設/login -->
             <c:if test="${user==null}"><li><a href="/login">登錄</a></li></c:if>
             <c:if test="${user!=null}">
                 <li>
+                	<!-- 私人訊息還沒做 -->
                     <a href="/personal/information">
                         <span class="glyphicon glyphicon glyphicon-envelope" aria-hidden="true"
                               style="padding-top: 2px;"></span>
@@ -50,14 +50,15 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false" style="margin-right: 190px;">
-                        <span></span>
+<%--                          這邊等到登錄做好要改成${user.memberAccount} --%>
+                        <span>${user}</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" style="margin-right: 190px;">
-                        <li><a href="/personal/questions">我的提問</a></li>
+                    
+                        <li><a href="<c:url value='/personal/questions' />">我的提問</a></li>
                         <li><a href="#">個人資料</a></li>
                         <li><a href="/logout">登出</a></li>
-                        <li><a href="/logout">${user}</a></li>
                     </ul>
                 </li>
               </c:if>

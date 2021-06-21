@@ -37,6 +37,6 @@ public class ForumController {
 		}
 		Page<Question> page = questionService.findAllByPage(pagegable);
 		model.addAttribute("page", page);
-		return "forum";
+		return "forum/forum";
     }
 }

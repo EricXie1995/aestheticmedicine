@@ -12,7 +12,15 @@ public interface QuestionService {
 	
 	public Page<Question> findAllByPage(Pageable pageable);
 	
+	public Question findOne(Integer id);
+	
+	Page<Question> findByMemIdToQues(Integer memPkId,Pageable pageable);
+	
 	public Question save(Question question);
+	
+	Integer increaseview(Integer queId);
+	
+	
 	
 	
 }
