@@ -36,7 +36,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login.do")
 	public void login(String username, String password, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		AdminUser adminUser = adminUserService.checkLogin(request, username, password);
-		response.sendRedirect("/aestheticmedicine/admin/index");
+		response.sendRedirect("/beauty/admin/index");
 	}
 	
 //	登出清求
