@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!--     拿來時間格式化的標籤 -->
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
@@ -26,9 +27,11 @@
                 <!--正文-->
                 <span class="common-list">
                 	<!-- 用這樣的方式抓到外鍵擁有的屬性 -->
+                	分類： <span>${question.type.typeName}</span>
                     作者： <span>${question.member.memberName}</span> |
                     發布時間： <span><fmt:formatDate value="${question.createtime}" type="both"/></span> |
-                    閱讀數： <span>${question.view_count}</span>
+                    閱讀數： <span>${question.view_count}</span>|
+                    讚數： <span>${question.like_count}</span>
             </span>
                 <hr>
                 <!--内容-->
@@ -56,7 +59,7 @@
                 <!--編輯-->
                 <!-- 比對登錄中的user id(透過session抓的，等於發問題的user id，就顯示編輯按鈕)，等書偉session，先暫時用下面代替 -->
 <%--                 <c:if test="${user!=null && user.memberPkId==question.member.memberPkId}"> --%>
-				<c:if test="${user!=null}">
+				<c:if test="${member!=null && member.memberPkId==question.member.memberPkId}">
                 <a href="<c:url value='/publish/${question.questionPkId}' />">
                 <span class="glyphicon glyphicon-pencil question-menu" aria-hidden="true">
                     編輯
@@ -65,68 +68,73 @@
                 </c:if>
             </div>
             <!--回覆內容-->
-<!--             <hr class="col-lg-12 col-md-12 col-sm-12 col-ss-12"> -->
-<!--             <h3> -->
-<%--                 <span th:text="${questionDto.comment_count}"></span>个回复 --%>
-<!--             </h3> -->
-<!--             <hr class="col-lg-12 col-md-12 col-sm-12 col-ss-12" style="margin-top: 0;"> -->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-ss-12">
+            <h3>
+                <span>${question.comment_count}</span>個回覆
+            </h3>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-ss-12" style="margin-top: 0;">
             <!--一級評論-->
-<%--             <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" th:each="comment:${comments}" id="comment_content"> --%>
-<!--                 <div class="media"> -->
-<!--                     <div class="media-left"> -->
-<!--                         <img class="media-object img-rounded picset" -->
-<%--                              th:src="${comment.user.headpic}"> --%>
-<!--                     </div> -->
-<!--                     <div class="media-body"> -->
-<!--                         <h4 class="media-heading"> -->
-<%--                             <span th:text="${comment.user.name}"/> --%>
-<%--                             <div style="font-size: 15px; margin-top:5px;" th:text="${comment.content}"> --%>
-<!--                             </div> -->
-<!--                             点赞评论时间 -->
-<!--                             <div class="question-menu"> -->
-<!--                                 <span class="glyphicon glyphicon-thumbs-up icon" aria-hidden="true"></span> -->
-<!--                                 回复按钮 -->
-<!--                                 <span class="glyphicon glyphicon-comment icon" aria-hidden="true" -->
-<%--                                       th:data-id="${comment.id}" th:data-check="1" onclick="secondcomment(this)" th:text="${comment.commentcount}"></span> --%>
-<%--                                 <span th:text="${#dates.format(comment.createtime,'yyyy-MM-dd')}"></span> --%>
-<!--                             </div> -->
-<!--                             <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12 collapse sub-comment" -->
-<%--                                  th:id="${'comment-'+comment.id}"> --%>
-<!--                                 二級評論插入到這裡 -->
-<!--                                 二級評論輸入框 -->
-<!--                                 <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" style="margin-top: 10px;"> -->
-<%--                                     <input type="text" class="form-control" placeholder="評論一下....." th:id="${'input-'+comment.id}"> --%>
-<!--                                     <button type="button" class="btn btn-success" style="float: right;margin: 10px;" -->
-<%--                                             onclick="replypost(this)" th:data-id="${comment.id}"> --%>
-<!--                                         提交 -->
-<!--                                     </button> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </h4> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
+            <c:forEach var="reply" items="${reply}">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" id="comment_content">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object img-rounded picset"
+                             src="<c:url value='/images/testimg.jpg' />">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+<!--                         缺session -->
+<%--                             <span>${reply.member.memberName}</span> --%>
+							<span>${reply.member.memberName}</span>
+							<span></span>
+                            <div style="font-size: 15px; margin-top:5px;">${reply.content}</div>
+                            <!-- 點讚、評論、時間 -->
+                            <div class="question-menu">
+                                <span class="glyphicon glyphicon-thumbs-up icon" aria-hidden="true"></span>
+                                <!-- 回覆按鈕 -->
+                                <span class="glyphicon glyphicon-comment icon" aria-hidden="true"
+                                      data-id="${reply.replyPkId}" data-check="1" onclick="secondcomment(this)">${reply.commentcount}</span>
+                                <span><fmt:formatDate value="${reply.createtime}" type="both"/></span>
+                            </div>                                
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12 collapse sub-comment"
+                                 id="reply-${reply.replyPkId}">
+                                 <!-- 二級評論插入到這裡 -->
+                                 <!-- 二級評論輸入框 -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" style="margin-top: 10px;">
+                                    <input type="text" class="form-control" placeholder="評論一下....." id="input-${reply.replyPkId}">
+                                    <button type="button" class="btn btn-success" style="float: right;margin: 10px;"
+                                            onclick="replypost(this)" data-id="${reply.replyPkId}">
+                                        提交
+                                    </button>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            </c:forEach>
 
-            <!--回复框-->
-<!--             <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" id="comment_section"> -->
-<!--                 <div class="media" style="margin-bottom: 20px"> -->
-<!--                     <div class="media-left"> -->
-<!--                         <img class="media-object img-rounded picset" -->
-<%--                              th:src="${session.user.headpic}"> --%>
-<!--                     </div> -->
-<!--                     <div class="media-body" style="padding-top:10px;"> -->
-<!--                         <h4 class="media-heading"> -->
-<%--                             <span th:text="${questionDto.user.name}"/> --%>
-<!--                         </h4> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<%--                 <input type="hidden" id="question_id" th:value="${questionDto.id}"> --%>
-<!--                 <textarea class="form-control" rows="6" style="margin-top:10px; margin-bottom: 10px;" -->
-<!--                           id="content"></textarea> -->
-<!--                 <button type="button" class="btn btn-success" style="float: right;margin: 10px;" -->
-<!--                         onclick="post()">提交 -->
-<!--                 </button> -->
-<!--             </div> -->
+            <!--回覆框-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" id="comment_section">
+                <div class="media" style="margin-bottom: 20px">
+                    <div class="media-left">
+                        <img class="media-object img-rounded picset"
+                             src="<c:url value='/images/testimg.jpg' />">
+                    </div>
+                    <div class="media-body" style="padding-top:10px;">
+                        <h4 class="media-heading">
+<!--                         這裡預想改成session的user(登錄者)，然後設個id給js抓，傳json給replyController -->
+                            <span />${member.memberName}
+                        </h4>
+                    </div>
+                </div>
+                <input type="hidden" id="question_id" value="${question.questionPkId}">
+                <textarea class="form-control" rows="6" style="margin-top:10px; margin-bottom: 10px;"
+                          id="content"></textarea>
+                <button type="button" class="btn btn-success" style="float: right;margin: 10px;"
+                        onclick="post()">提交
+                </button>
+            </div>
         </div>
         <!--右側信息框-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-ss-12">
@@ -158,12 +166,147 @@
     </div>
 </div>
 
+<script type="text/javascript">
+
+function post() {
+    var questionid = $("#question_id").val();
+    var content = $("#content").val();
+    if (content == '') {
+        alert("回覆內容不能為空")
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/beauty/reply",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "parentid": questionid,
+                "type": 1,
+                "content": content
+            }),
+            success: function (data) {
+                if (data.code == 200) {
+                    window.location.reload();
+                } else {
+                    alert("出現了錯誤");
+                }
+            },
+            dataType: "json"
+        });
+    }
+}
 
 
+function replypost(e) {
+    var commentid = e.getAttribute("data-id");
+    var content = $("#input-" + commentid).val();
+    if (content == '') {
+        alert("回覆內容不能為空")
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/beauty/reply",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "parentid": commentid,
+                "type": 2,
+                "content": content
+            }),
+            success: function (data) {
+                if (data.code == 200) {
+                    window.location.reload();
+                } else {
+                    alert("出現了錯誤");
+                }
+            },
+            dataType: "json"
+        });
+
+        console.log(commentid);
+        console.log(content);
+    }
+}
+
+	
+function secondcomment(e) {
+    var id = e.getAttribute("data-id");
+    var check = e.getAttribute("data-check");
+    var reply = $("#reply-" + id);
+    //如果check为1则展开二级评论，否则收缩
+    if (check == "1") {
+        $.getJSON("/beauty/reply/" + id, function (data) {
+            var subCommentContainer = $("#reply-" + id);
+            <%--//如果子元素的长度为1，即第一次添加，则调用下面的方法--%>
+            if (subCommentContainer.children().length == 1) {
+                $.each(data.data.reverse(), function (index, reply) {
+                	<%--//对应<span th:text="${comment.user.name}"/>--%>
+                    var usernameElement = $("<span/>", {
+                        html: reply.memberName
+                    });
+                    <%--//对应<div style="font-size: 15px; margin-top:5px;"--%>
+                    <%--//      th:text="${comment.content}">--%>
+                    <%--//    </div>--%>
+                    var contentElement = $("<div/>", {
+                        "style": "font-size: 15px; margin-top:5px;",
+                        html: reply.content
+                    });
+
+                    var timeElement = $("<span/>", {
+                        "style": "float: right",
+                        html: moment(reply.createtime).format('YYYY-MM-DD')
+                    });
+                    var questionmenuElement = $("<div/>", {
+                        "class": "question-menu"
+                    }).append(timeElement);
+                    <%--
+                    var imgElement = $("<img/>", {
+                        "class": "media-object img-rounded picset",
+                        "src": comment.user.headpic
+                    });
+
+                    var medialeftElement = $("<div/>", {
+                        "class": "media-left"
+                    }).append(imgElement);
+														--%>
+                    var mediaheadingElement = $("<h4/>", {
+                        "class": "media-heading",
+                    }).append(usernameElement)
+                        .append(contentElement)
+                        .append(questionmenuElement);
+
+                    var mediabodyElement = $("<div/>", {
+                        "class": "media-body",
+                    }).append(mediaheadingElement);
+
+                    var mediaElement = $("<div/>", {
+                        "class": "media"
+                    }).append(mediabodyElement);
+                    <%--.append(medialeftElement)--%>
+
+                    var commentElement = $("<div/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-ss-12 comments",
+                    }).append(mediaElement);
+
+                    subCommentContainer.prepend(commentElement);
+                })
+            }
+        });
+        reply.addClass("in");
+        e.setAttribute("data-check", "0");
+        e.classList.add("active");
+
+    } else {
+    	reply.removeClass("in");
+        e.setAttribute("data-check", "1")
+        e.classList.remove("active");
+    }
+}
+
+</script>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> 
-<script type="text/javascript" src="<c:url value='/js/community.js' />"></script>
-<script type="text/javascript" src="<c:url value='/js/moment.js.js' />"></script>
+<%-- <script type="text/javascript" src="<c:url value='/js/community.js' />"></script>  --%>
+<!-- momemt.js是現成的時間格式化涵式庫，給js、jq使用 -->
+<script type="text/javascript" src="<c:url value='/js/moment.js' />"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>

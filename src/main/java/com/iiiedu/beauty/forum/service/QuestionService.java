@@ -14,11 +14,13 @@ public interface QuestionService {
 	
 	public Question findOne(Integer id);
 	
-	Page<Question> findByMemIdToQues(Integer memPkId,Pageable pageable);
+	public Page<Question> findByMemIdToQues(Integer memPkId,Pageable pageable);
 	
 	public Question save(Question question);
 	
-	Integer increaseview(Integer queId);
+	public Integer increaseview(Integer queId);
+	
+	public Integer increasecomment(Integer parId);
 	
 	
 	

@@ -34,8 +34,8 @@
             <!--根據session中是否存在user判斷顯示的内容-->
             <ul class="nav navbar-nav navbar-right">
             <!-- 這裡要照書偉那邊設定的登錄controller路徑，這邊先暫設/login -->
-            <c:if test="${user==null}"><li><a href="/login">登錄</a></li></c:if>
-            <c:if test="${user!=null}">
+            <c:if test="${member==null}"><li><a href="<c:url value="/"></c:url>">登錄</a></li></c:if>
+            <c:if test="${member!=null}">
                 <li>
                 	<!-- 私人訊息還沒做 -->
                     <a href="/personal/information">
@@ -45,13 +45,16 @@
                     </a>
                 </li>
              </c:if>
-             <c:if test="${user!=null}"><li><a href="<c:url value='/publish' />">發佈</a></li></c:if>
-             <c:if test="${user!=null}">
+             <c:if test="${member!=null}"><li><a href="<c:url value='/publish' />">發佈</a></li></c:if>
+             <c:if test="${member!=null}">
+             	<a class="navbar-brand" href="<c:url value="/personal2"></c:url>"> 
+    				<img src="<c:url value="/images/testimg.jpg"></c:url>" alt="Logo" style="width:40px;">
+  				</a>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false" style="margin-right: 190px;">
 <%--                          這邊等到登錄做好要改成${user.memberAccount} --%>
-                        <span>${user}</span>
+                        <span>${member.memberName}</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" style="margin-right: 190px;">

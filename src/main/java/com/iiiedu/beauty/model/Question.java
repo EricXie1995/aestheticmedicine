@@ -29,13 +29,20 @@ public class Question {
     private String tag;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createtime;
+    
     @ManyToOne
 	@JoinColumn(name = "memberPkId")
 	private Member member;
-//    @Transient
-//    private Integer memberPkId;
+    
+    @ManyToOne
+    @JoinColumn(name = "typePkId")
+    private Type type;
+    
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Reply> reply = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	private List<Notification> notification = new ArrayList<>();
     
 	public Question() {
 		super();
@@ -95,18 +102,20 @@ public class Question {
 		this.member = member;
 	}
 	
-//	public Integer getMemberPkId() {
-//		return memberPkId;
-//	}
-//	public void setMemberPkId(Integer memberPkId) {
-//		this.memberPkId = memberPkId;
-//	}
 	public List<Reply> getReply() {
 		return reply;
 	}
 	public void setReply(List<Reply> reply) {
 		this.reply = reply;
 	}
+	
+	public Type getType() {
+		return type;
+	}	
+	public void setType(Type type) {
+		this.type = type;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -128,10 +137,10 @@ public class Question {
 		builder.append(createtime);
 		builder.append(", member=");
 		builder.append(member);
+		builder.append(", reply=");
+		builder.append(reply);
 		builder.append("]");
 		return builder.toString();
 	}
-    
-    
-    
+	
 }

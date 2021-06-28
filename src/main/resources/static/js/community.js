@@ -2,14 +2,14 @@ function post() {
     var questionid = $("#question_id").val();
     var content = $("#content").val();
     if (content == '') {
-        alert("回复内容不能为空")
+        alert("回覆內容不能為空")
     } else {
         $.ajax({
             type: "POST",
-            url: "/comment",
+            url: "/beauty/reply",
             contentType: 'application/json',
             data: JSON.stringify({
-                "parent_id": questionid,
+                "parentid": questionid,
                 "type": 1,
                 "content": content
             }),
@@ -17,7 +17,7 @@ function post() {
                 if (data.code == 200) {
                     window.location.reload();
                 } else {
-                    alert("出现了错误");
+                    alert("出現了錯誤");
                 }
             },
             dataType: "json"
@@ -25,32 +25,33 @@ function post() {
     }
 }
 
+
 function secondcomment(e) {
     var id = e.getAttribute("data-id");
     var check = e.getAttribute("data-check");
-    var comment = $("#comment-" + id);
+    var comment = $("#reply${reply.replyPkId}");
     //如果check为1则展开二级评论，否则收缩
     if (check == "1") {
-        $.getJSON("/comment/" + id, function (data) {
-            var subCommentContainer = $("#comment-" + id);
+        $.getJSON("/beauty/reply/" + id, function (data) {
+            var subCommentContainer = $("#reply${reply.replyPkId}");
             //如果子元素的长度为1，即第一次添加，则调用下面的方法
             if (subCommentContainer.children().length == 1) {
                 $.each(data.data.reverse(), function (index, comment) {
-                    //对应<span th:text="${comment.user.name}"/>
+                    //对应<span>姓名(缺session)<span/>
                     var usernameElement = $("<span/>", {
-                        html: comment.user.name
+                        html: user
                     });
                     //对应<div style="font-size: 15px; margin-top:5px;"
-                    //      th:text="${comment.content}">
+                    //      ${reply.content}
                     //    </div>
                     var contentElement = $("<div/>", {
                         "style": "font-size: 15px; margin-top:5px;",
-                        html: comment.content
+                        html: reply.content
                     });
 
                     var timeElement = $("<span/>", {
                         "style": "float: right",
-                        html: moment(comment.createtime).format('YYYY-MM-DD')
+                        html: moment(reply.createtime).format('YYYY-MM-DD')
                     });
                     var questionmenuElement = $("<div/>", {
                         "class": "question-menu"
@@ -98,6 +99,7 @@ function secondcomment(e) {
         e.classList.remove("active");
     }
 }
+
 
 function replypost(e) {
     var commentid = e.getAttribute("data-id");
