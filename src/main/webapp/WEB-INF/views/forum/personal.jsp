@@ -101,50 +101,76 @@
             </div>
             </c:if>
             <!--我的消息-->
-<%--             <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" th:if="${section}=='information'"> --%>
-<%--                 <div class="media" th:each="notification:${notifications.data}"> --%>
-<%--                     <span th:text="${notification.notifier.name}"></span> --%>
-<%--                     <span th:if="${notification.type==1}">回复了你的评论</span> --%>
-<%--                     <span th:if="${notification.type==2}">回复了你的问题</span> --%>
-<%--                     <a th:href="@{'/notification/'+${notification.id}}"> --%>
-<%--                         <span th:text="${notification.outercontent}"></span> --%>
-<!--                     </a> -->
-<%--                     <span class="label label-danger" th:if="${notification.status==0}">未读</span> --%>
-<!--                     <br> -->
-<%--                     <span th:text="${#dates.format(notification.createtime,'yyyy-MM-dd')}"></span> --%>
-<!--                     <hr> -->
-<!--                 </div> -->
-<!--                 页码 -->
-<!--                 <nav aria-label="Page navigation"> -->
-<!--                     <ul class="pagination"> -->
-<%--                         <li th:if="${notifications.showfirst}"> --%>
-<%--                             <a th:href="@{'/personal/'+${section}(page=${1})}" aria-label="Previous"> --%>
-<!--                                 <span aria-hidden="true">&lt;&lt;</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<%--                         <li th:if="${notifications.showPre}"> --%>
-<%--                             <a th:href="@{'/personal/'+${section}(page=${notifications.page - 1})}" aria-label="Previous"> --%>
-<!--                                 <span aria-hidden="true">&lt;</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<%--                         <li th:each="page:${notifications.pages}" th:class="${notifications.page==page}? 'active' : ''"> --%>
-<%--                             <a th:href="@{'/personal/'+${section}(page=${page})}" th:text="${page}"></a> --%>
-<!--                         </li> -->
-<%--                         <li th:if="${notifications.shownext}"> --%>
-<%--                             <a th:href="@{'/personal/'+${section}(page=${notifications.page + 1})}" aria-label="Next"> --%>
-<!--                                 <span aria-hidden="true">&gt;</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<%--                         <li th:if="${notifications.showlast}"> --%>
-<%--                             <a th:href="@{'/personal/'+${section}(page=${notifications.totalpage})}" aria-label="Next"> --%>
-<!--                                 <span aria-hidden="true">&gt;&gt;</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                 </nav> -->
-<!--             </div> -->
-
+            <c:if test="${section == 'information'}">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12">
+            	<c:forEach var="notification" items="${page.content}">
+                <div class="media">
+<%--                 th:text="${notification.notifier.name}" --%>
+                    <span>${notification.reply.memberPkId}</span>
+                    <c:if test="${notification.reply.type==1}">
+                    <span>回覆了你的問題</span>
+                    </c:if>
+                    <c:if test="${notification.reply.type==2}">
+                    <span>回覆了你的評論</span>
+                    </c:if>
+                    <a href="<c:url value="/notification/${notification.notificationPkId}" />">
+                        <span>${notification.reply.content}</span>
+                    </a>
+                    <c:if test="${notification.status==0}"><span class="label label-danger">未讀</span></c:if>
+                    <br>
+                    <span><fmt:formatDate value="${notification.createtime}" type="both"/></span>
+                    <hr>
+                </div>
+                </c:forEach>
+                頁碼區塊
+                <nav aria-label="Page navigation">
+                <ul class="pagination">
+<%--                 <c:if test="${!page.first}"> --%>
+                    <li>
+                        <a href="<c:url value='/personal/${section}?page=0' />" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+<%--                  </c:if> --%>
+                 <c:if test="${!page.first}">
+                    <li class="disable">
+                        <a href="<c:url value='/personal/${section}?page=${page.number-1}' />" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    </c:if>
+                    
+                    <c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1">
+                    <c:if test="${i==page.number}">
+                    	<li class="active">
+                        <a href="<c:url value='/personal/${section}?page=${i}' />">${i+1}</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${i!=page.number}">
+                    	<li>
+                        <a href="<c:url value='/personal/${section}?page=${i}' />">${i+1}</a>
+                        </li>
+                    </c:if>
+                    </c:forEach>
+                    
+                    <c:if test="${!page.last}">
+                    <li>
+                        <a href="<c:url value='/personal/${section}?page=${page.number+1}' />" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    </c:if>
+<%--                     <c:if test="${!page.last}"> --%>
+                    <li>
+                        <a href="<c:url value='/personal/${section}?page=${page.totalPages-1}' />" aria-label="Next">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+<%--                     </c:if> --%>
+                </ul>
+            </nav>
         </div>
+        </c:if>
         <!--右側的導航欄-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-ss-12">
             <div class="list-group personal">

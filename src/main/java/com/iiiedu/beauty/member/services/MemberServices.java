@@ -2,6 +2,8 @@ package com.iiiedu.beauty.member.services;
 
 import com.iiiedu.beauty.member.repository.MemberRepository;
 import com.iiiedu.beauty.model.Member;
+import com.iiiedu.beauty.model.Question;
+
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -78,4 +80,5 @@ public class MemberServices {
             return true;
         }
     }
+    
 }

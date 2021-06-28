@@ -15,16 +15,52 @@
 <body>
 	<!-- 引入共同的頁首 -->  
 <jsp:include page="/fragment/forumTop.jsp" /> 	
+<p>${user}</p>
 <!--問題發佈頁面-->
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-ss-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 發起問題 </h2>
             <hr>
-
-            <form action="<c:url value='/publish' />" method="post">
+			<form action="<c:url value='/publish?quId=${question.questionPkId}' />" method="post">
+<%--             <form action="<c:url value='/publish/${question.questionPkId}' />" method="post"> --%>
                 <!--透過隱藏標籤判斷是創建問題還是編輯問題，因為傳回的值若有主鍵就是修改，沒有是新增(對JPA來說)-->
                 <input type="hidden" name="questionPkId" value="${question.questionPkId}">
+                
+          <!-- 分類選擇 -->
+                <div class="form-group">
+                	<select name="type">
+						<!-- 判斷第一次點進來沒有經過驗證 -->
+                		<c:if test="${questionDto.type == null}">
+                		<!-- 新增的情況所以type沒值，要顯示請選擇分類 -->
+                		<c:if test="${question.type==null}">
+                			<option value="" selected>請選擇分類</option>
+                		</c:if>
+                		<!-- 秀出所有分類，判斷若是更新已經有選過的值給selected屬性 -->
+                		<c:forEach var="type" items="${types}">
+	                		<c:if test="${question.type.typePkId==type.typePkId}">
+	                			<option value="${question.type.typePkId}" selected>${question.type.typeName}</option>
+	                		</c:if>
+					    	<c:if test="${question.type.typePkId!=type.typePkId}">
+					    		<option value="${type.typePkId}">${type.typeName}</option>
+					    	</c:if>
+					    </c:forEach>
+					    </c:if>
+					    <!-- 若是送出後驗證有問題則在返回頁面，此時questionDto.type有值，繼續顯示選過的選項 -->
+					    <c:if test="${questionDto.type != null}">
+						    <c:forEach var="type" items="${types}">
+						    	<c:if test="${type.typePkId==questionDto.type.typePkId}">
+						    	<option value="${questionDto.type.typePkId}" selected>${questionDto.type.typeName}</option>
+						    	</c:if>
+						    	<c:if test="${type.typePkId!=questionDto.type.typePkId}">
+						    	<option value="${type.typePkId}">${type.typeName}</option>
+						    	</c:if>
+						    </c:forEach>
+					    </c:if>
+					</select>
+					<p class="form-control-static text-danger"><form:errors path="questionDto.type"/></p>
+                </div>
+          <!-- 分類選擇 -->
                 
                 <div class="form-group">
                     <label for="title">問題標題</label>
@@ -64,15 +100,15 @@
 
                 <div class="form-group" >
                     <label for="tag">添加標籤</label>
-                    <c:if test="${questionDto.description==null}">
-                    <input type="text" class="form-control" id="tag" autocomplete="on"
-                           value="${question.tag}" name="tag" onclick="showselecttag()">
-                    </c:if>
-                    <c:if test="${questionDto.description!=null}">
+<%--                     <c:if test="${questionDto.description==null}"> --%>
+<!--                     <input type="text" class="form-control" id="tag" autocomplete="on" -->
+<%--                            value="${question.tag}" name="tag" onclick="showselecttag()"> --%>
+<%--                     </c:if> --%>
+<%--                     <c:if test="${questionDto.description!=null}"> --%>
                     <input type="text" class="form-control" id="tag" autocomplete="on"
                            value="${questionDto.tag}" name="tag" onclick="showselecttag()">
-                    </c:if>
-                     <p class="form-control-static text-danger"><form:errors path="questionDto.tag"/></p>
+<%--                     </c:if> --%>
+<%--                      <p class="form-control-static text-danger"><form:errors path="questionDto.tag"/></p> --%>
                 </div>
                 <!--標籤頁-->
 <%--                 <a th:href="@{'#'+${category.categoryname}}" aria-controls="home" --%>

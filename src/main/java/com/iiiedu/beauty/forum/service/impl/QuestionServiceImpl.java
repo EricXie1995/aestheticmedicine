@@ -54,6 +54,11 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionRepository.updateView(queId);
 	}
 
+	@Override
+	public Integer increasecomment(Integer parId) {
+		return questionRepository.updatecomment(parId);
+	}
+
 
 
 	

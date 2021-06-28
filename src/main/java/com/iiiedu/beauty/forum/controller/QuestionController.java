@@ -1,6 +1,8 @@
 package com.iiiedu.beauty.forum.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.iiiedu.beauty.forum.dao.ReplyRepository;
 import com.iiiedu.beauty.forum.service.QuestionService;
+import com.iiiedu.beauty.forum.service.ReplyService;
+import com.iiiedu.beauty.forum.service.TypeService;
 import com.iiiedu.beauty.model.Question;
+import com.iiiedu.beauty.model.Reply;
+import com.iiiedu.beauty.model.Type;
 
 @Controller
 public class QuestionController {
 	
 	@Autowired
 	private QuestionService questionService;
+	
+	@Autowired
+	private ReplyService replyService;
+	
+	@Autowired
+	private TypeService typeService;
 
 	
 	@GetMapping("/question/{id}")
@@ -50,13 +63,14 @@ public class QuestionController {
 //        }
 //        Questiondto questiondto=questionService.getbyid(id);
 		
+		
 		Question question = questionService.findOne(id);
         //增加閱讀數
         questionService.increaseview(id);
         model.addAttribute("question",question);
         //展示回復數據
-//        List<CommentDto> comments=commentService.getByid(id);
-//        model.addAttribute("comments",comments);
+        List<Reply> reply =replyService.findByParentid(id);
+        model.addAttribute("reply",reply);
         //相關問題
 //        String[] tags=questiondto.getTag().split(",");
 //        StringBuilder msg=new StringBuilder();
