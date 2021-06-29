@@ -8,27 +8,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.iiiedu.beauty.appointment.dao.AppointmentDao;
+import com.iiiedu.beauty.appointment.service.AppointmentCityService;
+import com.iiiedu.beauty.appointment.service.AppointmentDistService;
+import com.iiiedu.beauty.appointment.service.AppointmentItemsService;
 import com.iiiedu.beauty.model.City;
+import com.iiiedu.beauty.model.Items;
 
 @Controller
 @RequestMapping("/appointment")
 public class AppointmentController {
 
-//	@Autowired
-//	private AppointmentService appointmentService;
-
 	@Autowired
-	private AppointmentDao appointmentDao;
+	AppointmentCityService appointmentCityService;
 	
+	@Autowired
+	AppointmentDistService appointmentDistService;
 	
+	@Autowired
+	AppointmentItemsService appointmentItemsService;
 	
 	@GetMapping(value = "/appointment")
 	public String getAllCity(Model model) {
-		List<City> cities = appointmentDao.findAll();
+		List<City> cities = appointmentCityService.findAll();
 		model.addAttribute("cities", cities);
-//		List<Items> items = appointmentService.getAllItems();
-//		model.addAttribute("items", items);
+		List<Items> items = appointmentItemsService.findAll();
+		model.addAttribute("items", items);
 		return "schedule-timings";
 	}
 }
