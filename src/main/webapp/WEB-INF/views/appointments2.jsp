@@ -280,11 +280,14 @@
 															class="form-control form-control-lg"
 															style="display: inline; width: 40%">
 															<option id="distDefault" value="0" selected disabled>請選擇</option>
+															<c:forEach var="city" items="${items}" varStatus="vs">
+																<option value="${dist.distPkId}">${dist.distName}</option>
+															</c:forEach>
 														</select> <br>
 													</div>
 													<span> <label for="date">您想選擇的日期：</label></span> <input
 														type="date" id="date" name="appointdate"
-														style="width: 40%"> <span><label for="time"><strong>您想預約的時間：</strong></label></span>
+														style="width: 60%"> <span><label for="time"><strong>您想預約的時間：</strong></label></span>
 													<select name="time" id="time"
 														class="form-control form-control-lg"
 														style="display: inline; width: 40%">
@@ -345,14 +348,250 @@
 											</div>
 										</div>
 
+										<script>
+	//登入彈窗顯示帳號密碼錯誤訊息
+	$(document).ready(function(){
+		if(${errorMsg=='帳號密碼錯誤'}){
+			$("#memberModal").modal('show');
+		}
+	})
+	//登入彈窗顯示被停權訊息
+	$(document).ready(function(){
+		if(${errorMsg=='您有多次預約未到診紀錄已被停權'}){
+			$("#memberModal").modal('show');
+		}
+	})
+		//設定是否有登入session時顯示的bar
+		$(function() {
+
+			if ("${LoginOK}" == "") {
+				$("#fh5co-nav ul").html(
+								"<li><img src='images/UYAYI_white.png' id='logo' width='200' style='float:left;position: absolute; left: 100px; top: 17.6px;' /></li>"
+										+ "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/index' class='transition'>Home</a></li>"
+										+ "<li class='animate-box fadeInUp animated fh5co-active'><a href='#' class='transition'>立即預約</a></li>"
+										+ "<li class='animate-box fadeInUp animated'><a href data-toggle='modal' data-target='#barMemberModal' >用戶登入</a></li>"
+										+ "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/products' class='transition'>商城</a></li>");
+			} else {
+				$("#fh5co-nav ul").html(
+								 "<li><img src='images/UYAYI_white.png' id='logo' width='200' style='float:left;position: absolute; left: 100px; top: 17.6px;' /></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/index' class='transition'>Home</a></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/memberModify' class='transition'>會員資料</a></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/memberFirstVisit' class='transition'>會員初診</a></li>"
+						          + "<li class='animate-box fh5co-active fadeInUp animated'><a href='#' class='transition'>立即預約</a></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/appointmentRecord' class='transition'>預約紀錄</a></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/memberOrderTracking' class='transition'>訂單查詢</a></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/products' class='transition'>商城</a></li>"
+						          + "<li class='animate-box fadeInUp animated'><a href='${pageContext.request.contextPath}/memberLogout' class='transition'>登出</a></li>");
+			}
+		});
+		//設定無法選取今日以前的日期
+
+		//當使用者選擇程式後會自動帶出鄉鎮市區
+		$(function() {
+			$("#city").children("option").eq(0).attr("selected");
+			$(function() {
+				$("#city").change(function() {
+									let str = "";
+									let urlQuery = new URLSearchParams({
+										cityPkId : $("#city").val(),
+										method : "fetch()",
+										doWhat : "GET"
+									});
+
+									fetch("getDist?" + urlQuery, {
+										method : "GET"
+									}).then(function(response) {
+									return response.json();
+									}).then(function(data) {
+														// 利用console.log(data)判斷取到何值
+														// console.log(data[0].clinics[0].clinicName);
+									var jsonLength = 0;
+									for ( var item in data) {
+									jsonLength++;
+									}
+									for (var i = 0; i < data.length; i++) {
+									let distName = data[i].distName;
+									str += "<option value='" + data[i].distPkId + "'>" + distName + "</option>";}
+									$("#dist").html(str);
+									})
+								})
+			})
+		});
+
+		//當使用者選擇日期可自動帶出時段供使用者選擇
+		$(function() {
+			$("#date").change(function() {
+								let str = "";
+								let urlQuery = new URLSearchParams({
+									appointDate : $("#date").val(),
+									method : "fetch()",
+									doWhat : "GET"
+								});
+								fetch("getTimeTable?" + urlQuery, {
+									method : "GET"
+								}).then(function(response) {
+								return response.json();
+								}).then(function(data) {
+								var jsonLength = 0;
+								for ( var item in data) {
+								jsonLength++;
+								}
+								for (var i = 0; i < data.length; i++) {
+								let times = data[i].times;
+								str += "<option value='" + data[i].timeTablePkId + "'>" + times + "</option>";
+								str += "<span id=timetableid style='display:none'>" + data[i].timeTablePkId + "</span>";
+								}
+								$("#time").html(str);
+								})
+							});
+		});
+		//查詢醫生和診所的fetch方法
+		$(function() {
+			$("#close").click(function() {
+				$("#searchresult").modal('hide');
+			})
+		});
+		$(function() {
+			var fetchData;
+			$("#sdentist").click(function() {
+								let str = "";
+								let str1 = "";
+								let urlQuery = new URLSearchParams({
+									distPkId : $("#dist").val(),
+									timeTablePkId : $("#time").val(),
+									itemPkId : $("#item").val(),
+									clinicDist : $("#dist").val(),
+									dateString : $("#date").val(),
+									method : "fetch()",
+									doWhat : "GET"
+								});
+								fetch("searchDoctor?" + urlQuery, {
+									method : "GET"
+								}).then(function(response) {
+								return response.json();
+										}).then(function(data) {
+													console.log(data);
+													fetchData = data;
+													var jsonLength = 0;
+													for ( var item in data) {
+														jsonLength++;
+													}
+													for (var i = 0; i < data.length; i++) {
+														str += "<div style='margin-left:20px'><span id=clinicid style='display:none'>"
+																+ data[i].clinicBean.clinicPkId
+																+ "</span>"
+																+ "<span id=dentistid style='display:none'>"
+																+ data[i].dentistPkId
+																+ "</span>"
+																+ data[i].dentistName
+																+ "<br>"
+																+ data[i].clinicBean.clinicName
+																+ "<br>"
+																+ data[i].clinicBean.clinicAddress
+																+ "<br>"
+																+ "<button class='aplogin btn-info' value='" + data[i].dentistPkId + "'>預 約</button>" + "<hr>"
+																+ "</div>";
+													}
+													$("#den").html(str);
+													//點下搜尋按鈕會跳出modal彈窗
+													$("#searchresult").modal('show');
+													str1 = "<div>" + $("#date").val() + "/" + $("#city option[value=" + $("#city").val() + "]").text()
+															+ "/" + $("#dist option[value=" + $("#dist").val()+ "]").text()
+															+ "/項目:" + $("#item option[value=" + $("#item").val() + "]").text() + "<div>";
+													$("#searchtitle").html(str1);
+													//如果搜尋結果為空顯示空的文字
+													if (str.length == 0) {
+														$("#empty").show();
+													} else {
+														$("#empty").hide();
+													}
+													;
+													$(".aplogin").click(function(event) {
+																		event.stopPropagation();
+																		goprocess();
+																		console.log(goprocess());
+																		event.stopImmediatePropagation();
+																		//塞值進隱藏欄位
+																		$("#mclinic").val($("#clinicid").text());
+																		$("#mdentist").val($("#dentistid").text());
+																		$("#mappointdate").val($("#date").val());
+																		$("#mtimetable").val($("#time").val());
+																		$("#mitem").val($("#item").val());
+																		//判斷是否已經登入過
+																		if ("${LoginOK}" == "") {
+																			$("#memberModal").modal('show');
+																		} else {
+																			//form:form一定要用trigger送出	
+																			$("#hiddenForm").trigger("submit");
+																		}
+																	})
+												})
+							})
+		});
+		//判斷登入帳號密碼是否正確
+		$("#loginbtn").click(
+						function() {
+							let urlQuery = new URLSearchParams({
+								account : $("#uname1").val(),
+								pwd : $("#upsw1").val(),
+								method : "fetch()",
+								doWhat : "POST"
+							});
+
+							fetch("appointmentCheckLogin", {
+								method : "POST",
+								body : urlQuery
+
+							}).then(function(response) {
+							   return response.json();
+							}).then(function(data) {
+							if (data) {
+							window.location.href = "${pageContext.request.contextPath}/appointmentCheckLogin";
+							} 
+							});
+						});
+		//塞值方法
+		function goprocess() {
+			$("#apclinic").val($("#clinicid").text());
+			$("#apdentist").val($("#dentistid").text());
+			$("#apappointdate").val($("#date").val());
+			$("#aptimetable").val($("#time").val());
+			$("#apitem").val($("#item").val());
+		};
+		//Demo一鍵輸入
+		$("#demo").click(function(){
+			$("#uname1").val("ssfee@gmail.com"); 
+			$("#upsw1").val("P@ssw0rd123");	
+		})
+		//Demo錯誤帳號密碼一鍵輸入
+		$("#demoWrong").click(function(){
+			$("#uname1").val("zxcv12345@gmail.com");
+			$("#upsw1").val("P@ssw0rd123");	
+		})
+		//Demo停權帳號一鍵輸入
+		$("#demoStopAccount").click(function(){
+			$("#uname1").val("zaoan@msn.com.tw"); 
+			$("#upsw1").val("P@ssw0rd123");	
+		})
+		//未登入狀態的頁面中用戶登入裡的admin一鍵輸入
+		$("#adminLogin").click(function(){
+		    $("#uname").val("admin");
+		    $("#upsw").val("admin123");
+	    });
+		//未登入狀態的頁面中用戶登入裡的會員一鍵輸入
+	    $("#meberLogin").click(function(){
+		    $("#uname").val("zzz63214780000@gmail.com");
+		    $("#upsw").val("a,123123");
+	    });
+	</script>
+
+
 										<!-- 這裡是界線 -->
 										<div class="profile-box">
 											<div class="row">
 
 												<div class="col-lg-4">
-													<div class="form-group">
-														
-													</div>
+													<div class="form-group"></div>
 												</div>
 
 											</div>
@@ -364,7 +603,7 @@
 														<div class="schedule-header">
 
 															<!-- Schedule Nav -->
-															
+
 															<!-- /Schedule Nav -->
 
 														</div>
@@ -374,78 +613,77 @@
 														<div class="tab-content schedule-cont">
 
 															<!-- Sunday Slot -->
-															
+
 															<!-- /Sunday Slot -->
 
 															<!-- Monday Slot -->
-															
 
-																<!-- Slot List -->
-																
-																<!-- /Slot List -->
 
-															</div>
-															<!-- /Monday Slot -->
+															<!-- Slot List -->
 
-															<!-- Tuesday Slot -->
-															<div id="slot_tuesday" class="tab-pane fade">
-																<h4 class="card-title d-flex justify-content-between">
-																	<span>Time Slots</span> <a class="edit-link"
-																		data-toggle="modal" href="#add_time_slot"><i
-																		class="fa fa-plus-circle"></i> Add Slot</a>
-																</h4>
-																<p class="text-muted mb-0">Not Available</p>
-															</div>
-															<!-- /Tuesday Slot -->
-
-															<!-- Wednesday Slot -->
-															<div id="slot_wednesday" class="tab-pane fade">
-																<h4 class="card-title d-flex justify-content-between">
-																	<span>Time Slots</span> <a class="edit-link"
-																		data-toggle="modal" href="#add_time_slot"><i
-																		class="fa fa-plus-circle"></i> Add Slot</a>
-																</h4>
-																<p class="text-muted mb-0">Not Available</p>
-															</div>
-															<!-- /Wednesday Slot -->
-
-															<!-- Thursday Slot -->
-															<div id="slot_thursday" class="tab-pane fade">
-																<h4 class="card-title d-flex justify-content-between">
-																	<span>Time Slots</span> <a class="edit-link"
-																		data-toggle="modal" href="#add_time_slot"><i
-																		class="fa fa-plus-circle"></i> Add Slot</a>
-																</h4>
-																<p class="text-muted mb-0">Not Available</p>
-															</div>
-															<!-- /Thursday Slot -->
-
-															<!-- Friday Slot -->
-															<div id="slot_friday" class="tab-pane fade">
-																<h4 class="card-title d-flex justify-content-between">
-																	<span>Time Slots</span> <a class="edit-link"
-																		data-toggle="modal" href="#add_time_slot"><i
-																		class="fa fa-plus-circle"></i> Add Slot</a>
-																</h4>
-																<p class="text-muted mb-0">Not Available</p>
-															</div>
-															<!-- /Friday Slot -->
-
-															<!-- Saturday Slot -->
-															<div id="slot_saturday" class="tab-pane fade">
-																<h4 class="card-title d-flex justify-content-between">
-																	<span>Time Slots</span> <a class="edit-link"
-																		data-toggle="modal" href="#add_time_slot"><i
-																		class="fa fa-plus-circle"></i> Add Slot</a>
-																</h4>
-																<p class="text-muted mb-0">Not Available</p>
-															</div>
-															<!-- /Saturday Slot -->
+															<!-- /Slot List -->
 
 														</div>
-														<!-- /Schedule Content -->
+														<!-- /Monday Slot -->
+
+														<!-- Tuesday Slot -->
+														<div id="slot_tuesday" class="tab-pane fade">
+															<h4 class="card-title d-flex justify-content-between">
+																<span>Time Slots</span> <a class="edit-link"
+																	data-toggle="modal" href="#add_time_slot"><i
+																	class="fa fa-plus-circle"></i> Add Slot</a>
+															</h4>
+															<p class="text-muted mb-0">Not Available</p>
+														</div>
+														<!-- /Tuesday Slot -->
+
+														<!-- Wednesday Slot -->
+														<div id="slot_wednesday" class="tab-pane fade">
+															<h4 class="card-title d-flex justify-content-between">
+																<span>Time Slots</span> <a class="edit-link"
+																	data-toggle="modal" href="#add_time_slot"><i
+																	class="fa fa-plus-circle"></i> Add Slot</a>
+															</h4>
+															<p class="text-muted mb-0">Not Available</p>
+														</div>
+														<!-- /Wednesday Slot -->
+
+														<!-- Thursday Slot -->
+														<div id="slot_thursday" class="tab-pane fade">
+															<h4 class="card-title d-flex justify-content-between">
+																<span>Time Slots</span> <a class="edit-link"
+																	data-toggle="modal" href="#add_time_slot"><i
+																	class="fa fa-plus-circle"></i> Add Slot</a>
+															</h4>
+															<p class="text-muted mb-0">Not Available</p>
+														</div>
+														<!-- /Thursday Slot -->
+
+														<!-- Friday Slot -->
+														<div id="slot_friday" class="tab-pane fade">
+															<h4 class="card-title d-flex justify-content-between">
+																<span>Time Slots</span> <a class="edit-link"
+																	data-toggle="modal" href="#add_time_slot"><i
+																	class="fa fa-plus-circle"></i> Add Slot</a>
+															</h4>
+															<p class="text-muted mb-0">Not Available</p>
+														</div>
+														<!-- /Friday Slot -->
+
+														<!-- Saturday Slot -->
+														<div id="slot_saturday" class="tab-pane fade">
+															<h4 class="card-title d-flex justify-content-between">
+																<span>Time Slots</span> <a class="edit-link"
+																	data-toggle="modal" href="#add_time_slot"><i
+																	class="fa fa-plus-circle"></i> Add Slot</a>
+															</h4>
+															<p class="text-muted mb-0">Not Available</p>
+														</div>
+														<!-- /Saturday Slot -->
 
 													</div>
+													<!-- /Schedule Content -->
+
 												</div>
 											</div>
 										</div>
@@ -453,14 +691,15 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
-				</div>
 
+				</div>
 			</div>
 
 		</div>
-		<!-- /Page Content -->
+
+	</div>
+	<!-- /Page Content -->
 
 
 
@@ -472,156 +711,155 @@
 
 
 
-		<!-- Footer -->
-		<footer class="footer">
+	<!-- Footer -->
+	<footer class="footer">
 
-			<!-- Footer Top -->
-			<div class="footer-top">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-lg-3 col-md-6">
+		<!-- Footer Top -->
+		<div class="footer-top">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
 
-							<!-- Footer Widget -->
-							<div class="footer-widget footer-about">
-								<div class="footer-logo">
-									<img src="../assets/img/footer-logo.png" alt="logo">
-								</div>
-								<div class="footer-about-content">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-										sed do eiusmod tempor incididunt ut labore et dolore magna
-										aliqua.</p>
-									<div class="social-icon">
-										<ul>
-											<li><a href="#" target="_blank"><i
-													class="fab fa-facebook-f"></i> </a></li>
-											<li><a href="#" target="_blank"><i
-													class="fab fa-twitter"></i> </a></li>
-											<li><a href="#" target="_blank"><i
-													class="fab fa-linkedin-in"></i></a></li>
-											<li><a href="#" target="_blank"><i
-													class="fab fa-instagram"></i></a></li>
-											<li><a href="#" target="_blank"><i
-													class="fab fa-dribbble"></i> </a></li>
-										</ul>
-									</div>
-								</div>
+						<!-- Footer Widget -->
+						<div class="footer-widget footer-about">
+							<div class="footer-logo">
+								<img src="../assets/img/footer-logo.png" alt="logo">
 							</div>
-							<!-- /Footer Widget -->
-
-						</div>
-
-						<div class="col-lg-3 col-md-6">
-
-							<!-- Footer Widget -->
-							<div class="footer-widget footer-menu">
-								<h2 class="footer-title">For Patients</h2>
-								<ul>
-									<li><a href="search.html"><i
-											class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
-									<li><a href="login.html"><i
-											class="fas fa-angle-double-right"></i> Login</a></li>
-									<li><a href="register.html"><i
-											class="fas fa-angle-double-right"></i> Register</a></li>
-									<li><a href="booking.html"><i
-											class="fas fa-angle-double-right"></i> Booking</a></li>
-									<li><a href="patient-dashboard.html"><i
-											class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
-								</ul>
-							</div>
-							<!-- /Footer Widget -->
-
-						</div>
-
-						<div class="col-lg-3 col-md-6">
-
-							<!-- Footer Widget -->
-							<div class="footer-widget footer-menu">
-								<h2 class="footer-title">For Doctors</h2>
-								<ul>
-									<li><a href="appointments.html"><i
-											class="fas fa-angle-double-right"></i> Appointments</a></li>
-									<li><a href="chat.html"><i
-											class="fas fa-angle-double-right"></i> Chat</a></li>
-									<li><a href="login.html"><i
-											class="fas fa-angle-double-right"></i> Login</a></li>
-									<li><a href="doctor-register.html"><i
-											class="fas fa-angle-double-right"></i> Register</a></li>
-									<li><a href="doctor-dashboard.html"><i
-											class="fas fa-angle-double-right"></i> Doctor Dashboard</a></li>
-								</ul>
-							</div>
-							<!-- /Footer Widget -->
-
-						</div>
-
-						<div class="col-lg-3 col-md-6">
-
-							<!-- Footer Widget -->
-							<div class="footer-widget footer-contact">
-								<h2 class="footer-title">Contact Us</h2>
-								<div class="footer-contact-info">
-									<div class="footer-address">
-										<span><i class="fas fa-map-marker-alt"></i></span>
-										<p>
-											3556 Beech Street, San Francisco,<br> California, CA
-											94108
-										</p>
-									</div>
-									<p>
-										<i class="fas fa-phone-alt"></i> +1 315 369 5943
-									</p>
-									<p class="mb-0">
-										<i class="fas fa-envelope"></i> doccure@example.com
-									</p>
-								</div>
-							</div>
-							<!-- /Footer Widget -->
-
-						</div>
-
-					</div>
-				</div>
-			</div>
-			<!-- /Footer Top -->
-
-			<!-- Footer Bottom -->
-			<div class="footer-bottom">
-				<div class="container-fluid">
-
-					<!-- Copyright -->
-					<div class="copyright">
-						<div class="row">
-							<div class="col-md-6 col-lg-6">
-								<div class="copyright-text">
-									<p class="mb-0">
-										&copy; 2019 Doccure. All rights <a
-											href="http://www.bootstrapmb.com/" title="bootstrapmb">Reserved</a>.
-									</p>
-								</div>
-							</div>
-							<div class="col-md-6 col-lg-6">
-
-								<!-- Copyright Menu -->
-								<div class="copyright-menu">
-									<ul class="policy-menu">
-										<li><a href="term-condition.html">Terms and
-												Conditions</a></li>
-										<li><a href="privacy-policy.html">Policy</a></li>
+							<div class="footer-about-content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+									sed do eiusmod tempor incididunt ut labore et dolore magna
+									aliqua.</p>
+								<div class="social-icon">
+									<ul>
+										<li><a href="#" target="_blank"><i
+												class="fab fa-facebook-f"></i> </a></li>
+										<li><a href="#" target="_blank"><i
+												class="fab fa-twitter"></i> </a></li>
+										<li><a href="#" target="_blank"><i
+												class="fab fa-linkedin-in"></i></a></li>
+										<li><a href="#" target="_blank"><i
+												class="fab fa-instagram"></i></a></li>
+										<li><a href="#" target="_blank"><i
+												class="fab fa-dribbble"></i> </a></li>
 									</ul>
 								</div>
-								<!-- /Copyright Menu -->
-
 							</div>
 						</div>
+						<!-- /Footer Widget -->
+
 					</div>
-					<!-- /Copyright -->
+
+					<div class="col-lg-3 col-md-6">
+
+						<!-- Footer Widget -->
+						<div class="footer-widget footer-menu">
+							<h2 class="footer-title">For Patients</h2>
+							<ul>
+								<li><a href="search.html"><i
+										class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
+								<li><a href="login.html"><i
+										class="fas fa-angle-double-right"></i> Login</a></li>
+								<li><a href="register.html"><i
+										class="fas fa-angle-double-right"></i> Register</a></li>
+								<li><a href="booking.html"><i
+										class="fas fa-angle-double-right"></i> Booking</a></li>
+								<li><a href="patient-dashboard.html"><i
+										class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
+							</ul>
+						</div>
+						<!-- /Footer Widget -->
+
+					</div>
+
+					<div class="col-lg-3 col-md-6">
+
+						<!-- Footer Widget -->
+						<div class="footer-widget footer-menu">
+							<h2 class="footer-title">For Doctors</h2>
+							<ul>
+								<li><a href="appointments.html"><i
+										class="fas fa-angle-double-right"></i> Appointments</a></li>
+								<li><a href="chat.html"><i
+										class="fas fa-angle-double-right"></i> Chat</a></li>
+								<li><a href="login.html"><i
+										class="fas fa-angle-double-right"></i> Login</a></li>
+								<li><a href="doctor-register.html"><i
+										class="fas fa-angle-double-right"></i> Register</a></li>
+								<li><a href="doctor-dashboard.html"><i
+										class="fas fa-angle-double-right"></i> Doctor Dashboard</a></li>
+							</ul>
+						</div>
+						<!-- /Footer Widget -->
+
+					</div>
+
+					<div class="col-lg-3 col-md-6">
+
+						<!-- Footer Widget -->
+						<div class="footer-widget footer-contact">
+							<h2 class="footer-title">Contact Us</h2>
+							<div class="footer-contact-info">
+								<div class="footer-address">
+									<span><i class="fas fa-map-marker-alt"></i></span>
+									<p>
+										3556 Beech Street, San Francisco,<br> California, CA
+										94108
+									</p>
+								</div>
+								<p>
+									<i class="fas fa-phone-alt"></i> +1 315 369 5943
+								</p>
+								<p class="mb-0">
+									<i class="fas fa-envelope"></i> doccure@example.com
+								</p>
+							</div>
+						</div>
+						<!-- /Footer Widget -->
+
+					</div>
 
 				</div>
 			</div>
-			<!-- /Footer Bottom -->
+		</div>
+		<!-- /Footer Top -->
 
-		</footer>
-		<!-- /Footer -->
+		<!-- Footer Bottom -->
+		<div class="footer-bottom">
+			<div class="container-fluid">
+
+				<!-- Copyright -->
+				<div class="copyright">
+					<div class="row">
+						<div class="col-md-6 col-lg-6">
+							<div class="copyright-text">
+								<p class="mb-0">
+									&copy; 2019 Doccure. All rights <a
+										href="http://www.bootstrapmb.com/" title="bootstrapmb">Reserved</a>.
+								</p>
+							</div>
+						</div>
+						<div class="col-md-6 col-lg-6">
+
+							<!-- Copyright Menu -->
+							<div class="copyright-menu">
+								<ul class="policy-menu">
+									<li><a href="term-condition.html">Terms and Conditions</a></li>
+									<li><a href="privacy-policy.html">Policy</a></li>
+								</ul>
+							</div>
+							<!-- /Copyright Menu -->
+
+						</div>
+					</div>
+				</div>
+				<!-- /Copyright -->
+
+			</div>
+		</div>
+		<!-- /Footer Bottom -->
+
+	</footer>
+	<!-- /Footer -->
 
 	</div>
 	<!-- /Main Wrapper -->

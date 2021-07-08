@@ -6,5 +6,7 @@ import com.iiiedu.beauty.model.Dist;
 
 public interface AppointmentDistService {
 
-	public List<Dist> getAllDist();
+
+
+	public List<Dist> findAll();
 }
