@@ -280,9 +280,9 @@
 															class="form-control form-control-lg"
 															style="display: inline; width: 40%">
 															<option id="distDefault" value="0" selected disabled>請選擇</option>
-															<c:forEach var="city" items="${items}" varStatus="vs">
-																<option value="${dist.distPkId}">${dist.distName}</option>
-															</c:forEach>
+<%-- 															<c:forEach var="city" items="${items}" varStatus="vs"> --%>
+<%-- 																<option value="${dist.distPkId}">${dist.distName}</option> --%>
+<%-- 															</c:forEach> --%>
 														</select> <br>
 													</div>
 													<span> <label for="date">您想選擇的日期：</label></span> <input

@@ -13,12 +13,9 @@ import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.iiiedu.beauty.appointment.service.AppointmentCityService;
 import com.iiiedu.beauty.appointment.service.AppointmentDistService;
@@ -31,7 +28,6 @@ import com.iiiedu.beauty.model.City;
 import com.iiiedu.beauty.model.Dentist;
 import com.iiiedu.beauty.model.Dist;
 import com.iiiedu.beauty.model.Items;
-import com.iiiedu.beauty.model.Member;
 import com.iiiedu.beauty.model.TimeTable;
 
 @Controller
@@ -75,10 +71,8 @@ public class AppointmentController {
 	@GetMapping(value = "/appointment2")
 	public String getAllCity(Model model) {
 		List<City> cities = appointmentCityService.findAll();
-		System.out.println(cities.get(0));
 		model.addAttribute("cities", cities);
 		List<Dist> dist = appointmentDistService.findAll();
-		System.out.println(dist.get(0));
 		model.addAttribute("dist", dist);
 		List<Items> items = appointmentItemsService.findAll();
 		model.addAttribute("items", items);

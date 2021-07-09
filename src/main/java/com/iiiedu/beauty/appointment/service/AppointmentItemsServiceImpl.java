@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iiiedu.beauty.appointment.dao.AppointmentItemsDao;
-import com.iiiedu.beauty.model.Appointment;
 import com.iiiedu.beauty.model.Items;
 
 @Service
