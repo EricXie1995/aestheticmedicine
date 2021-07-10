@@ -1,6 +1,8 @@
 package com.iiiedu.beauty.member.security;
 
-import com.iiiedu.beauty.member.details.CustomMemberDetailsService;
+import com.iiiedu.beauty.member.services.CustomOAuth2UserService;
+import com.iiiedu.beauty.member.services.MemberServices;
+import com.iiiedu.beauty.member.services.MemberUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,12 +11,18 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -23,9 +31,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private CustomOAuth2UserService oauthUserService;
+
+    @Autowired
+    private MemberServices memberServices;
+
     @Bean
     public UserDetailsService userDetailsService(){
-        return  new CustomMemberDetailsService();
+        return  new MemberUserDetailsService();
     }
 
     @Bean
@@ -57,24 +71,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/members").authenticated()
+                .antMatchers("/member/**", "/memberDetails/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .csrf().disable()
-                .formLogin()
-                    .loginPage("/login")
+                    .csrf().disable()
+                    .formLogin()
+                    .loginPage("/member/login")
                     .usernameParameter("memberAccount")
                     .passwordParameter("memberPwd")
-                    .defaultSuccessUrl("/members")
+                    .defaultSuccessUrl("/member/login")
                     .permitAll()
                 .and()
-                .logout()
-                    .logoutSuccessUrl("/")
-                    .permitAll()
+                    .logout().logoutSuccessUrl("/").permitAll()
                 .and()
-                .rememberMe()
-                    .tokenRepository(persistentTokenRepository());
+                    .rememberMe().tokenRepository(persistentTokenRepository())
+                .and()
+                    .oauth2Login().loginPage("/login").userInfoEndpoint().userService(oauthUserService)
+                .and()
+                    .successHandler(new AuthenticationSuccessHandler() {
 
+                        @Override
+                        public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+                                                            HttpServletResponse httpServletResponse,
+                                                            Authentication authentication)
+                                throws IOException, ServletException {
+                            MemberOAuth2User oAuth2User = (MemberOAuth2User) authentication.getPrincipal();
+                            memberServices.processOAuthPostLogin(oAuth2User.getEmail(), httpServletRequest.getSession());
+                            httpServletResponse.sendRedirect("/beauty");
+                        }
+                    });
     }
 
 }
