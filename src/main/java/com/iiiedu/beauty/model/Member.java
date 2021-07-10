@@ -60,6 +60,10 @@ public class Member {
 	private List<Reply> reply = new ArrayList<>();
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Notification> notification = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Liked> liked = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Favorites> Favorites = new ArrayList<>();
 	
 	public Member() {
 	}
@@ -244,6 +248,14 @@ public class Member {
 
 	public void setReply(List<Reply> reply) {
 		this.reply = reply;
+	}
+
+	public List<Liked> getLiked() {
+		return liked;
+	}
+
+	public void setLiked(List<Liked> liked) {
+		this.liked = liked;
 	}
 
 	@Override

@@ -1,14 +1,19 @@
 package com.iiiedu.beauty.member.security;
 
+
+import javax.sql.DataSource;
+
 import com.iiiedu.beauty.member.services.CustomOAuth2UserService;
 import com.iiiedu.beauty.member.services.MemberServices;
 import com.iiiedu.beauty.member.services.MemberUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
@@ -18,11 +23,15 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+
+import com.iiiedu.beauty.member.details.CustomMemberDetailsService;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+
 
 @Configuration
 @EnableWebSecurity
@@ -101,5 +110,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                     });
     }
-
+    
 }
