@@ -32,6 +32,7 @@
     <![endif]-->
 </head>
 <body>
+
 <!-- Main Wrapper -->
 <div class="main-wrapper">
 
@@ -76,7 +77,7 @@
                             <li><a href="invoices.html">Invoices</a></li>
                             <li><a href="doctor-profile-settings.html">Profile Settings</a></li>
                             <li><a href="reviews.html">Reviews</a></li>
-                            <li><a href="doctor-register.html">Doctor <c:url value='/register'/></a></li>
+                            <li><a href="doctor-register.html">Doctor Register</a></li>
                         </ul>
                     </li>
                     <li class="has-submenu active">
@@ -89,10 +90,10 @@
                             <li><a href="booking-success.html">Booking Success</a></li>
                             <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
                             <li><a href="favourites.html">Favourites</a></li>
-                            <li  class="active"><a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a></li>
-                            <li><a href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a></li>
-                            <li><a href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
-                            <li><a href="change-password.html">Change Password</a></li>
+                            <li><a href="<c:url value='/member/photo_settings/${memberDetails.member.memberPkId}'/>">Photo Settings</a></li>
+                            <li><a href="<c:url value='/member/basic_settings/${memberDetails.member.memberPkId}'/>">Basic Settings</a></li>
+                            <li class="active"><a href="<c:url value='/memberDetails/profile_settings/${memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
+                            <li><a href="<c:url value='/change_password'/>">Change Password</a></li>
                         </ul>
                     </li>
                     <li class="has-submenu">
@@ -134,74 +135,218 @@
                         <p class="contact-info-header"> +1 315 369 5943</p>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link header-login" href="<c:url value='/member/login'/>">login / Signup </a>
+
+                <!-- User Menu -->
+                <li class="nav-item dropdown has-arrow logged-item">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+								<span class="user-img">
+
+									<img class="rounded-circle" src="<c:url value='${memberDetails.member.photosImagePath}'/>" width="31">
+								</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+
+                                <img src="<c:url value='${memberDetails.member.photosImagePath}' />" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>${memberDetails.member.memberName}</h6>
+                                <p class="text-muted mb-0">Patient</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+                        <a class="dropdown-item" href="<c:url value='/memberDetails/profile_settings/${memberDetails.memberDetailsPkId}'/>">Profile Settings</a>
+                        <a class="dropdown-item" href="login">Logout</a>
+                    </div>
                 </li>
+                <!-- /User Menu -->
+
             </ul>
         </nav>
     </header>
     <!-- /Header -->
 
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-12 col-12">
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
+                        </ol>
+                    </nav>
+                    <h2 class="breadcrumb-title">Profile Settings</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
     <!-- Page Content -->
     <div class="content">
         <div class="container-fluid">
-
             <div class="row">
-                <div class="col-md-8 offset-md-2">
 
-                    <!-- Login Tab Content -->
-                    <div class="account-content">
-                        <div class="row align-items-center justify-content-center">
-                            <div class="col-md-7 col-lg-6 login-left">
-                                <img src="<c:url value='/assets/img/login-banner.png'/>" class="img-fluid" alt="Doccure Login">
-                            </div>
-                            <div class="col-md-12 col-lg-6 login-right">
-                                <div class="login-header">
-                                    <h3>Login <span>Doccure</span></h3>
+                <!-- Profile Sidebar -->
+                <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                    <div class="profile-sidebar">
+                        <div class="widget-profile pro-widget-content">
+                            <div class="profile-info-widget">
+                                <a href="#" class="booking-doc-img">
+                                    <img src="<c:url value='${memberDetails.member.photosImagePath}' />" alt="User Image">
+                                </a>
+                                <div class="profile-det-info">
+                                    <h3>${memberDetails.member.memberName}</h3>
+                                    <div class="patient-details">
+                                        <h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
+                                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
+                                    </div>
                                 </div>
-                                <div>
-                                    <c:if test="${message != null}">
-                                        <p class="text-danger">${message}</p>
-                                    </c:if>
-                                </div>
-                                <form action="<c:url value='/member/login'/>" method="post">
-                                    <div class="form-group form-focus">
-                                        <input type="email" name="memberAccount" class="form-control floating">
-                                        <label class="focus-label">Email</label>
-                                    </div>
-                                    <div class="form-group form-focus">
-                                        <input type="password" name="memberPwd" class="form-control floating">
-                                        <label class="focus-label">Password</label>
-                                    </div>
-                                    <p>
-                                        <input type="checkbox" name="remember-me" />&nbsp;Remember Me
-                                    </p>
-                                    <div class="text-right">
-                                        <a class="forgot-link" href="<c:url value='/forgot_password'/>">Forgot Password ?</a>
-                                    </div>
-                                    <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Login</button>
-                                    <div class="login-or">
-                                        <span class="or-line"></span>
-                                        <span class="span-or">or</span>
-                                    </div>
-                                    <div class="row form-row social-login">
-<%--                                        <div class="col-6">--%>
-<%--                                            <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f mr-1"></i> Login</a>--%>
-<%--                                        </div>--%>
-                                        <div class="col-12">
-                                            <a href="<c:url value='/oauth2/authorization/google'/>" class="btn btn-google btn-block"><i class="fab fa-google mr-1"></i> Login</a>
-                                        </div>
-                                    </div>
-                                    <div class="text-center dont-have">Don’t have an account? <a href="<c:url value='/register'/>">Register</a></div>
-                                </form>
                             </div>
                         </div>
-                    </div>
-                    <!-- /Login Tab Content -->
+                        <div class="dashboard-widget">
+                            <nav class="dashboard-menu">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fas fa-columns"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="favourites.html">
+                                            <i class="fas fa-bookmark"></i>
+                                            <span>Favourites</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value='/member/photo_settings/${memberDetails.member.memberPkId}'/>">
+                                            <i class="far fa-grin-squint-tears"></i>
+                                            <span>Photo Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value='/member/basic_settings/${memberDetails.member.memberPkId}'/>">
+                                            <i class="far fa-address-card"></i>
+                                            <span>Basic Settings</span>
+                                        </a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="<c:url value='/memberDetails/profile_settings/${memberDetails.memberDetailsPkId}'/>">
+                                            <i class="fas fa-user-cog"></i>
+                                            <span>Profile Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value='/change_password'/>">
+                                            <i class="fas fa-lock"></i>
+                                            <span>Change Password</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value='/logout'/>">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span>Logout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
 
+                    </div>
+                </div>
+                <!-- /Profile Sidebar -->
+
+                <div class="col-md-7 col-lg-8 col-xl-9">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <!-- Profile Settings Form -->
+                            <form action="<c:url value='/memberDetails/save'/>" method="post">
+                                <f class="row form-row">
+                                    <div class="col-12 col-md-6" hidden="hidden">
+                                        <div class="form-group">
+                                            <label>MemberDetails PkId</label>
+                                            <input type="text" class="form-control" name="memberDetailsPkId"  value="${memberDetails.memberDetailsPkId}">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Emergency Contact</label>
+                                            <input type="text" class="form-control" name="emergencyContact" value="${memberDetails.emergencyContact}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Emergency Number</label>
+                                            <input type="text" class="form-control" name="emergencyNumber" value="${memberDetails.emergencyNumber}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Emergency Relationship</label>
+                                            <select class="form-control" name="emergencyRelationship" >
+                                                <option>${memberDetails.emergencyRelationship}</option>
+                                                <option>Father</option>
+                                                <option>Mother</option>
+                                                <option>Husband</option>
+                                                <option>Wife</option>
+                                                <option>Son</option>
+                                                <option>Daughter</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Smoke</label>
+                                            <select class="form-control" name="smoke" >
+                                                <option>${memberDetails.smoke}</option>
+                                                <option>Yes</option>
+                                                <option>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>BetelNut</label>
+                                            <select class="form-control" name="betelNut" >
+                                                <option>${memberDetails.betelNut}</option>
+                                                <option>Yes</option>
+                                                <option>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Diseases</label>
+                                            <input type="text" class="form-control" name="diseases" value="${memberDetails.diseases}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Allergy</label>
+                                            <input type="text" class="form-control" name="allergy" value="${memberDetails.allergy}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Surgery</label>
+                                            <input type="text" class="form-control" name="surgery" value="${memberDetails.surgery}" >
+                                        </div>
+                                    </div>
+                                        <div class="submit-section">
+                                            <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                                        </div>
+                            </form>
+                            <!-- /Profile Settings Form -->
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
 
     </div>
@@ -256,7 +401,7 @@
                             <ul>
                                 <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
                                 <li><a href="login"><i class="fas fa-angle-double-right"></i> Login</a></li>
-                                <li><a href="<c:url value='/register'/>"><i class="fas fa-angle-double-right"></i> Register</a></li>
+                                <li><a href="register"><i class="fas fa-angle-double-right"></i> Register</a></li>
                                 <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
                                 <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
                             </ul>
@@ -348,6 +493,9 @@
 
 </div>
 <!-- /Main Wrapper -->
+
+<!-- jQuery -->
+
 <script src="<c:url value='/assets/js/jquery.min.js'/>"></script>
 
 <!-- Bootstrap Core JS -->
@@ -355,7 +503,24 @@
 <script src="<c:url value='/assets/js/popper.min.js'/>"></script>
 <script src="http://cdn.bootstrapmb.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
 
+<!-- Select2 JS -->
+
+<script src="<c:url value='/assets/plugins/select2/js/select2.min.js'/>"></script>
+
+<!-- Datetimepicker JS -->
+
+<script src="<c:url value='/assets/js/moment.min.js'/>"></script>
+
+<script src="<c:url value='/assets/js/bootstrap-datetimepicker.min.js'/>"></script>
+
+<!-- Sticky Sidebar JS -->
+
+<script src="<c:url value='/assets/plugins/theia-sticky-sidebar/ResizeSensor.js'/>"></script>
+
+<script src="<c:url value='/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js'/>"></script>
+
 <!-- Custom JS -->
+
 <script src="<c:url value='/assets/js/script.js'/>"></script>
 
 </body>

@@ -31,7 +31,9 @@
     <script src=" <c:url value='/assets/js/respond.min.js'/>"></script>
     <![endif]-->
 </head>
-<body>
+
+<body class="account-page">
+
 <!-- Main Wrapper -->
 <div class="main-wrapper">
 
@@ -46,6 +48,7 @@
 								<span></span>
 							</span>
                 </a>
+
                 <a href="<c:url value='/'/>" class="navbar-brand logo">
                     <img src="<c:url value='/assets/img/logo.png'/>" class="img-fluid" alt="Logo">
                 </a>
@@ -53,8 +56,7 @@
             <div class="main-menu-wrapper">
                 <div class="menu-header">
                     <a href="<c:url value='/'/>" class="menu-logo">
-
-                        <img src=" <c:url value='/assets/img/logo.png'/>" class="img-fluid" alt="Logo">
+                        <img src="<c:url value='/assets/img/logo.png'/>" class="img-fluid" alt="Logo">
                     </a>
                     <a id="menu_close" class="menu-close" href="javascript:void(0);">
                         <i class="fas fa-times"></i>
@@ -76,10 +78,10 @@
                             <li><a href="invoices.html">Invoices</a></li>
                             <li><a href="doctor-profile-settings.html">Profile Settings</a></li>
                             <li><a href="reviews.html">Reviews</a></li>
-                            <li><a href="doctor-register.html">Doctor <c:url value='/register'/></a></li>
+                            <li><a href="doctor-register.html">Doctor Register</a></li>
                         </ul>
                     </li>
-                    <li class="has-submenu active">
+                    <li class="has-submenu">
                         <a href="">Patients <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
                             <li><a href="search.html">Search Doctor</a></li>
@@ -89,13 +91,13 @@
                             <li><a href="booking-success.html">Booking Success</a></li>
                             <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
                             <li><a href="favourites.html">Favourites</a></li>
-                            <li  class="active"><a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a></li>
-                            <li><a href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a></li>
-                            <li><a href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
+                            <li><a href="<c:url value='/member/photo_settings/${memberDetails.member.memberPkId}'/>">Photo Settings</a></li>
+                            <li><a href="<c:url value='/member/basic_settings/${memberDetails.member.memberPkId}'/>">Basic Settings</a></li>
+                            <li><a href="<c:url value='/memberDetails/profile_settings/${memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
                             <li><a href="change-password.html">Change Password</a></li>
                         </ul>
                     </li>
-                    <li class="has-submenu">
+                    <li class="has-submenu active">
                         <a href="">Pages <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
                             <li><a href="voice-call.html">Voice Call</a></li>
@@ -112,15 +114,15 @@
                             </li>
                             <li><a href="blank-page.html">Starter Page</a></li>
                             <li><a href="login">Login</a></li>
-                            <li><a href="register">Register</a></li>
+                            <li class="active"><a href="register">Register</a></li>
                             <li><a href="forgot-password.html">Forgot Password</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="admin/index.html" target="_blank">Admin</a>
+                        <a href="admin/index" target="_blank">Admin</a>
                     </li>
                     <li class="login-link">
-                        <a href="login">Login / Signup</a>
+                        <a href="<c:url value='/member/login'/>">Login / Signup</a>
                     </li>
                 </ul>
             </div>
@@ -149,55 +151,88 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
 
-                    <!-- Login Tab Content -->
+                    <!-- Register Content -->
                     <div class="account-content">
                         <div class="row align-items-center justify-content-center">
                             <div class="col-md-7 col-lg-6 login-left">
-                                <img src="<c:url value='/assets/img/login-banner.png'/>" class="img-fluid" alt="Doccure Login">
+                                <img src="<c:url value='/assets/img/login-banner.png'/>" class="img-fluid" alt="Doccure Register">
                             </div>
                             <div class="col-md-12 col-lg-6 login-right">
                                 <div class="login-header">
-                                    <h3>Login <span>Doccure</span></h3>
+                                    <h3>Patient Register <a href="doctor-register.html">Are you a Doctor?</a></h3>
                                 </div>
-                                <div>
-                                    <c:if test="${message != null}">
-                                        <p class="text-danger">${message}</p>
-                                    </c:if>
-                                </div>
-                                <form action="<c:url value='/member/login'/>" method="post">
+
+                                <!-- Register Form -->
+                                <form action="<c:url value='/process_register'/>" method="post">
+                                    <div id="memberAccountInfo" class="text-danger"></div>
                                     <div class="form-group form-focus">
-                                        <input type="email" name="memberAccount" class="form-control floating">
-                                        <label class="focus-label">Email</label>
+                                        <input type="email" name="memberAccount" id="memberAccount" onblur="validateNotRepeatedAccount();"
+                                               class="email form-control floating" required />
+                                        <label class="focus-label">E-mail Account</label>
+                                    </div>
+
+                                    <div class="form-group form-focus">
+                                        <input type="password" name="memberPwd" id="memberPwd" class="password form-control floating" minlength="6" maxlength="10"
+                                               required />
+                                        <label class="focus-label">Create Password</label>
+
                                     </div>
                                     <div class="form-group form-focus">
-                                        <input type="password" name="memberPwd" class="form-control floating">
-                                        <label class="focus-label">Password</label>
+                                        <input type="text" name="memberName" class="form-control floating" required minlength="2" maxlength="20"/>
+                                        <label class="focus-label">Member Name</label>
                                     </div>
-                                    <p>
-                                        <input type="checkbox" name="remember-me" />&nbsp;Remember Me
-                                    </p>
+                                    <div class="form-group form-focus">
+                                        <input type="text" name="memberIdNumber" class="form-control floating" required minlength="10" maxlength="20"/>
+                                        <label class="focus-label">Id Number</label>
+                                    </div>
+                                    <div class="form-group form-focus">
+                                        <input type="text" name="memberAddress" class="form-control floating" required minlength="10" maxlength="20"/>
+                                        <label class="focus-label">Address</label>
+                                    </div>
+                                    <div class="form-group form-focus">
+                                        <input type="text" name="memberPhone" class="form-control floating" required minlength="10" maxlength="20"/>
+                                        <label class="focus-label">Cell phone</label>
+                                    </div>
+                                    <div class="form-group form-focus">
+                                        <input type="text" name="memberLineId" class="form-control floating" required minlength="10" maxlength="20"/>
+                                        <label class="focus-label">Line Id</label>
+                                    </div>
+
                                     <div class="text-right">
-                                        <a class="forgot-link" href="<c:url value='/forgot_password'/>">Forgot Password ?</a>
+                                        <a class="forgot-link" href="<c:url value='/member/login'/>">Already have an account?</a>
                                     </div>
-                                    <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Login</button>
-                                    <div class="login-or">
-                                        <span class="or-line"></span>
-                                        <span class="span-or">or</span>
-                                    </div>
-                                    <div class="row form-row social-login">
-<%--                                        <div class="col-6">--%>
-<%--                                            <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f mr-1"></i> Login</a>--%>
-<%--                                        </div>--%>
-                                        <div class="col-12">
-                                            <a href="<c:url value='/oauth2/authorization/google'/>" class="btn btn-google btn-block"><i class="fab fa-google mr-1"></i> Login</a>
-                                        </div>
-                                    </div>
-                                    <div class="text-center dont-have">Don’t have an account? <a href="<c:url value='/register'/>">Register</a></div>
+                                    <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Signup</button>
                                 </form>
+                                <script>
+                                    var xmlhttprequest = null;
+                                    function validateNotRepeatedAccount() {
+                                        if (window.ActiveXObject) {//IE瀏覽器
+                                            xmlhttprequest = new ActiveXObject("Microsoft.XMLHTTP");
+                                        } else if (window.XMLHttpRequest) {
+                                            xmlhttprequest = new XMLHttpRequest();
+                                        }
+                                        if (null != xmlhttprequest) {
+                                            var text1 = document.getElementById("memberAccount").value;
+                                            xmlhttprequest.open("POST", "registerValidate?memberAccount=" + text1, true);
+                                            xmlhttprequest.onreadystatechange = ajaxcallback;
+                                            xmlhttprequest.send(null);
+                                        }
+                                    }
+                                    function ajaxcallback() {
+                                        if (xmlhttprequest.readyState == 4) {
+                                            if (xmlhttprequest.status == 200) {
+                                                var text = xmlhttprequest.responseText;
+                                                document.getElementById("memberAccountInfo").innerHTML = text;
+                                            }
+                                        }
+                                    }
+                                </script>
+                                <!-- /Register Form -->
+
                             </div>
                         </div>
                     </div>
-                    <!-- /Login Tab Content -->
+                    <!-- /Register Content -->
 
                 </div>
             </div>
@@ -348,10 +383,11 @@
 
 </div>
 <!-- /Main Wrapper -->
+
+<!-- jQuery -->
 <script src="<c:url value='/assets/js/jquery.min.js'/>"></script>
 
 <!-- Bootstrap Core JS -->
-
 <script src="<c:url value='/assets/js/popper.min.js'/>"></script>
 <script src="http://cdn.bootstrapmb.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
 

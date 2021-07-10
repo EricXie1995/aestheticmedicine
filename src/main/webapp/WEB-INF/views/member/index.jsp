@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: student
   Date: 2021/6/19
-  Time: 下午 08:05
+  Time: 下午 07:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -12,9 +12,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Registration Success</title>
+    <title>Welcome to iiideuBeauty Home</title>
     <!-- 引入jquery webjars -->
-    <script type="text/javascript" src="<c:url value='/webjars/jquery/3.6.0/jquery.js' />"></script>
+    <script type="text/javascript" src="<c:url value='/webjars/jquery/3.6.0/jquery.js' />">></script>
     <!-- 引入bootstrap webjars -->
     <link rel="stylesheet" href="<c:url value='/webjars/bootstrap/4.3.1/css/bootstrap.min.css' />" />
     <script src="<c:url value='/webjars/bootstrap/4.3.1/js/bootstrap.min.js' />"></script>
@@ -22,9 +22,11 @@
 </head>
 <body>
 <div class="container text-center" style="margin-top: 50px">
-    <h4>You have signed up successfully!</h4>
-    <p>Please check your email to verify your account</p>
-    <h4><a href="<c:url value='/login'/>">Click here to Login</a></h4>
+    <h1>Welcome to beauty.org</h1>
+
+    <h3><a href="<c:url value='/member/basic_settings'/>">List of Users</a></h3>
+    <h3><a href="<c:url value='/member/register'/>">Register</a></h3>
+    <h3><a href="<c:url value='/member/login'/>">Login</a></h3>
 </div>
 </body>
 </html>
