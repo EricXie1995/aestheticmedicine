@@ -12,6 +12,8 @@ import com.iiiedu.beauty.model.City;
 @Service
 public class AppointmentCityServiceImpl implements AppointmentCityService {
 
+//	@Autowired
+//	Appointment appointment;
 	
 	@Autowired
 	AppointmentCityDao appointmentCityDao;
@@ -21,6 +23,5 @@ public class AppointmentCityServiceImpl implements AppointmentCityService {
 	public List<City> findAll() {
 		return appointmentCityDao.findAll();
 	}
-	
 	
 }

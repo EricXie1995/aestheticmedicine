@@ -12,13 +12,16 @@ import com.iiiedu.beauty.model.Dist;
 @Service
 public class AppointmentDistServiceImpl implements AppointmentDistService{
 
-	
+//	@Autowired
+//	Appointment appointment;
+//	
 	@Autowired
 	AppointmentDistDao appointmentDistDao;
 	
 	@Override
-	public List<Dist> getAllDist() {
+	public List<Dist> findAll() {
 		return appointmentDistDao.findAll();
 	}
+
 
 }

@@ -11,6 +11,9 @@ import com.iiiedu.beauty.model.Items;
 @Service
 public class AppointmentItemsServiceImpl implements AppointmentItemsService {
 
+//	@Autowired
+//	Appointment appointment;
+	
 	@Autowired
 	AppointmentItemsDao appointmentItemsDao;
 	

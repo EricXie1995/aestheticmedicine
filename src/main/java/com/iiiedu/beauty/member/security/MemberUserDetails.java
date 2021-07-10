@@ -1,4 +1,4 @@
-package com.iiiedu.beauty.member.details;
+package com.iiiedu.beauty.member.security;
 
 import com.iiiedu.beauty.model.Member;
 import org.springframework.security.core.GrantedAuthority;
@@ -6,11 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class CustomMemberDetails  implements UserDetails {
+public class MemberUserDetails  implements UserDetails {
 
     private Member member;
 
-    public CustomMemberDetails(Member member) {
+    public MemberUserDetails(Member member) {
         this.member = member;
     }
 
@@ -27,6 +27,10 @@ public class CustomMemberDetails  implements UserDetails {
     @Override
     public String getUsername() {
         return member.getMemberAccount();
+    }
+
+    public Member getMember() {
+        return this.member;
     }
 
     @Override
@@ -48,4 +52,6 @@ public class CustomMemberDetails  implements UserDetails {
     public boolean isEnabled() {
         return member.isEnabled();
     }
+
+
 }

@@ -22,8 +22,13 @@
     <script src="<c:url value='/webjars/popper.js/1.14.3/umd/popper.min.js' />"></script>
 </head>
 <body>
+
+<script>
+
+</script>
 <div class="container text-center" style="margin-top: 50px">
     <div>
+        <img class="img-fluid" src="static/assets/img/logo.png">
         <h1>Member Registration - sign Up</h1>
     </div>
 
