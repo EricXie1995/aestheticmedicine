@@ -45,7 +45,7 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public Reply findOne(Integer rePkId) {
-		return replyRepository.findById(rePkId).get();
+		return replyRepository.findById(rePkId).get(); 
 	}
 
 }

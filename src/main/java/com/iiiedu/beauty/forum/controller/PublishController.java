@@ -57,9 +57,9 @@ public class PublishController {
 	    public String publishquestion(@RequestParam(required = false) Integer quId, 
 	    		@Valid QuestionDto questionDto, BindingResult result, HttpSession session, 
 	    		Model model) {
-	    	
-	    	
-	    	//分類
+	    	//這邊放進model.addAttribute的目的是為了讓前端拿到，原因寫在publish.jsp，按送出的form那裡
+	    	model.addAttribute("quId",quId);
+	    	//分類，讓前端能拿到
 	    	List<Type> types = typeService.findAll();
 	        model.addAttribute("types", types);
 	    	if (result.hasErrors()) {
@@ -73,8 +73,8 @@ public class PublishController {
 	    	//判斷前端表單沒帶id過來(為空)為新增	
 	    	} else {
 	    		question = new Question();
-//	    		question.setComment_count(0);
-//	    		question.setView_count(0);
+//	    		question.setQcommentcount(0);
+//	    		question.setviewcount(0);
 //	    		question.setLike_count(0);
 	    		BeanUtils.copyProperties(questionDto, question); 
 	    	}
@@ -109,7 +109,7 @@ public class PublishController {
 	        question.setCreatetime(new Date());
 
 	        questionService.save(question);
-	        return "redirect:/forum";
+	        return "redirect:/forum/-1";
 	    }
 	    
 	    //修改

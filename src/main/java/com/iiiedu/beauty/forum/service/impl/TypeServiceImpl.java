@@ -23,4 +23,9 @@ public class TypeServiceImpl implements TypeService{
 		return typeRepository.findAll();
 	}
 
+	@Override
+	public Type findOne(Integer typId) {
+		return typeRepository.findById(typId).get();
+	}
+
 }
