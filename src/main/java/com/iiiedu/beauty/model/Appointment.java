@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 public class Appointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer appointmentPkId;
+	private String appointmentPkId;
 	@ManyToOne
 	@JoinColumn(name = "memberPkId")
 	private Member member;
@@ -45,11 +45,11 @@ public class Appointment {
 	public Appointment() {
 	}
 
-	public Integer getAppointmentPkId() {
+	public String getAppointmentPkId() {
 		return appointmentPkId;
 	}
 
-	public void setAppointmentPkId(Integer appointmentPkId) {
+	public void setAppointmentPkId(String appointmentPkId) {
 		this.appointmentPkId = appointmentPkId;
 	}
 
@@ -181,6 +181,13 @@ public class Appointment {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	public Clinic getClinicId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 	
 	

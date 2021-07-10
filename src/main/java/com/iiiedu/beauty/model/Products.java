@@ -1,5 +1,7 @@
 package com.iiiedu.beauty.model;
 
+import java.sql.Blob;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Products {
@@ -16,11 +21,14 @@ public class Products {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer productPkId;
 	private String productName;
-	private String productUpdateDate;
+	private Timestamp productUpdateDate;
 	private Integer productPrice;
 	private Integer productQuantity;
 	private String productStatus;
-	private String productImage;
+	private Blob image;
+	@Transient
+	private MultipartFile productImage;
+	private String fileName;
 	private String productCategory;
 	private String productProfile;
 	private String productSpec;
@@ -46,11 +54,11 @@ public class Products {
 		this.productName = productName;
 	}
 
-	public String getProductUpdateDate() {
+	public Timestamp getProductUpdateDate() {
 		return productUpdateDate;
 	}
 
-	public void setProductUpdateDate(String productUpdateDate) {
+	public void setProductUpdateDate(Timestamp productUpdateDate) {
 		this.productUpdateDate = productUpdateDate;
 	}
 
@@ -78,11 +86,12 @@ public class Products {
 		this.productStatus = productStatus;
 	}
 
-	public String getProductImage() {
+	public MultipartFile getProductImage() {
 		return productImage;
 	}
 
-	public void setProductImage(String productImage) {
+	public void setProductImage(MultipartFile productImage) {
+		System.out.println("setProductImage=>" + productImage);
 		this.productImage = productImage;
 	}
 
@@ -145,6 +154,22 @@ public class Products {
 		builder.append(orderDetails);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public Blob getImage() {
+		return image;
+	}
+
+	public void setImage(Blob image) {
+		this.image = image;
 	}
 	
 }
