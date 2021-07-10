@@ -6,8 +6,8 @@ import com.iiiedu.beauty.model.MemberDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.servlet.http.HttpSession;
+
 
 @Service
 @Transactional
@@ -38,4 +38,5 @@ public class MemberServices {
         session.setAttribute("memberDetails", member.getMemberDetails());
         session.setAttribute("member",member);
     }
+    
 }

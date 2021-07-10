@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Member {
@@ -54,6 +55,11 @@ public class Member {
 	private List<Appointment> appointment = new ArrayList<>();
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Question> question = new ArrayList<>();
+	@JsonManagedReference
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Reply> reply = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Notification> notification = new ArrayList<>();
 	
 	public Member() {
 	}
@@ -178,6 +184,7 @@ public class Member {
 		this.enabled = enabled;
 	}
 
+
 	public String getResetPasswordToken() {
 		return resetPasswordToken;
 	}
@@ -222,6 +229,21 @@ public class Member {
 		long lastChangedTime = this.passwordChangedTime.getTime();
 
 		return currentTime > lastChangedTime + PASSWORD_EXPIRATION_TIME;
+
+	public List<Question> getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(List<Question> question) {
+		this.question = question;
+	}
+
+	public List<Reply> getReply() {
+		return reply;
+	}
+
+	public void setReply(List<Reply> reply) {
+		this.reply = reply;
 	}
 
 	@Override
@@ -247,10 +269,19 @@ public class Member {
 		builder.append(memberStatus);
 		builder.append(", memberLineId=");
 		builder.append(memberLineId);
+		builder.append(", verificationCode=");
+		builder.append(verificationCode);
+		builder.append(", headpic=");
+		builder.append(", enabled=");
+		builder.append(enabled);
 		builder.append(", orders=");
 		builder.append(orders);
 		builder.append(", appointment=");
 		builder.append(appointment);
+		builder.append(", question=");
+		builder.append(question);
+		builder.append(", reply=");
+		builder.append(reply);
 		builder.append("]");
 		return builder.toString();
 	}
