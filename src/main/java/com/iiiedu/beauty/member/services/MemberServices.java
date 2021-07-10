@@ -4,12 +4,10 @@ import com.iiiedu.beauty.member.repository.MemberRepository;
 import com.iiiedu.beauty.model.Member;
 import com.iiiedu.beauty.model.MemberDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 @Service
 @Transactional
