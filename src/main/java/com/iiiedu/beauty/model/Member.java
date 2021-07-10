@@ -1,10 +1,12 @@
 package com.iiiedu.beauty.model;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -12,38 +14,43 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer memberPkId;
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "memberDetailsPkId")
+	@JoinColumn(name = "memberDetailsPkId",nullable = false)
 	private MemberDetails memberDetails;
 
 	@Column(nullable = false,unique = true,length = 45)
 	private String memberAccount;
 
-	@Column(nullable = false,length = 64)
+	@Column(length = 64)
 	private String memberPwd;
 
-	@Column(nullable = false,length = 10)
+	@Column(length = 10)
 	private String memberIdNumber;
 
-	@Column(nullable = false)
 	private String memberName;
 
-	@Column(nullable = false)
 	private String memberAddress;
 
-	@Column(nullable = false)
 	private String memberPhone;
 
-	@Column(nullable = false)
 	private String memberStatus = "0";
 
-	@Column(nullable = false)
 	private String memberLineId;
+
+	private String photos;
 
 	@Column(length = 64)
 	private String verificationCode;
 
 	private boolean enabled;
+
+	private String resetPasswordToken;
+
+	@Enumerated(EnumType.STRING)
+	private Provider provider = Provider.LOCAL;
+
+	private Date passwordChangedTime = new Date();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Orders> orders = new ArrayList<>();
@@ -56,6 +63,10 @@ public class Member {
 	private List<Reply> reply = new ArrayList<>();
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Notification> notification = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Liked> liked = new ArrayList<>();
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Favorites> Favorites = new ArrayList<>();
 	
 	public Member() {
 	}
@@ -140,6 +151,14 @@ public class Member {
 		this.memberLineId = memberLineId;
 	}
 
+	public String getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(String photos) {
+		this.photos = photos;
+	}
+
 	public List<Orders> getOrders() {
 		return orders;
 	}
@@ -172,6 +191,52 @@ public class Member {
 		this.enabled = enabled;
 	}
 
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
+	public Date getPasswordChangedTime() {
+		return passwordChangedTime;
+	}
+
+	public void setPasswordChangedTime(Date passwordChangedTime) {
+		this.passwordChangedTime = passwordChangedTime;
+	}
+
+	public enum Provider{
+		LOCAL,GOOGLE
+	}
+
+	@Transient
+	public String getPhotosImagePath(){
+		if(photos == null || memberPkId == null) return null;
+		return "/member_photos/" + memberPkId + "/" + photos;
+	}
+
+	private static final long PASSWORD_EXPIRATION_TIME
+			= 30L * 24L * 60L * 60L * 1000L; //30day
+
+	public boolean isPasswordExpired() {
+		if (this.passwordChangedTime == null) return false;
+
+		long currentTime = System.currentTimeMillis();
+		long lastChangedTime = this.passwordChangedTime.getTime();
+
+		return currentTime > lastChangedTime + PASSWORD_EXPIRATION_TIME;
+
 	public List<Question> getQuestion() {
 		return question;
 	}
@@ -186,6 +251,14 @@ public class Member {
 
 	public void setReply(List<Reply> reply) {
 		this.reply = reply;
+	}
+
+	public List<Liked> getLiked() {
+		return liked;
+	}
+
+	public void setLiked(List<Liked> liked) {
+		this.liked = liked;
 	}
 
 	@Override
