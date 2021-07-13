@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -34,6 +36,7 @@ public class Products {
 	private String productSpec;
 	@OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
 	private List<OrderDetails> orderDetails = new ArrayList<>();
+	
 	
 	public Products() {
 	}

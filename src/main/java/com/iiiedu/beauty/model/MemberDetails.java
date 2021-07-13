@@ -1,24 +1,37 @@
 package com.iiiedu.beauty.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class MemberDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer memberDetailsPkId;
+
+	@Column(nullable = false)
 	private String emergencyContact;
+
+	@Column(nullable = false,length = 10)
 	private String emergencyNumber;
+
+	@Column(nullable = false,length = 5)
 	private String emergencyRelationship;
+
+	@Column(nullable = false,length = 5)
 	private String smoke;
+
+	@Column(nullable = false,length = 5)
 	private String betelNut;
+
+	@Column(nullable = false)
 	private String diseases;
+
+	@Column(nullable = false)
 	private String allergy;
+
+	@Column(nullable = false)
 	private String surgery;
+
 	@OneToOne(mappedBy = "memberDetails")
 	private Member member;
 	

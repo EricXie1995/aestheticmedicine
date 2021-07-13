@@ -115,27 +115,29 @@
 
 							<c:forEach items="${allProducts}" begin="0"
 								end="${allProducts.size()}" var="product">
-
-								<div class="col-md-4 my-3">
-									<div class="card text-center h-100 border-0 box-shadow">
-										<img src='picture/${product.productPkId}' 
-											class="card-img-top" alt="...">
-										<div class="card-body">
-											<h5 class="card-title " style="font-weight: bold;">${product.productName}</h5>
-											<p class="card-text ">${product.productProfile}</p>
-										</div>
-
-										<div class="h4 ml-auto mb-0 text-danger">
-											<small>特價 $NT</small> <strong> ${product.productPrice}</strong>
-										</div>
-
-										<div class="card-footer border-top-0 bg-white">
-											<a href="#"
-												class="btn btn-outline-secondary btn-sm mt-2 d-block"><i
-												class="fas fa-shopping-cart mr-1"></i>加入購物車</a>
+								<form action="" method="POST">
+									<div class="col-md-4 my-3">
+										<div class="card text-center h-100 border-0 box-shadow">
+											<img src='picture/${product.productPkId}' 
+												class="card-img-top" alt="...">
+											<div class="card-body">
+												<h5 class="card-title " style="font-weight: bold;">${product.productName}</h5>
+												<p class="card-text ">${product.productProfile}</p>
+											</div>
+	
+											<div class="h4 ml-auto mb-0 text-danger">
+												<small>特價 $NT</small> <strong> ${product.productPrice}</strong>
+											</div>
+	
+											<div class="card-footer border-top-0 bg-white">
+												<a onclick="addCart(${product.productPkId})"
+													class="btn btn-outline-secondary btn-sm mt-2 d-block"><i
+													class="fas fa-shopping-cart mr-1"></i>加入購物車</a>
+											</div>
 										</div>
 									</div>
-								</div>
+								</form>
+								
 								<!--  <td>${productDetail.productID}</td>
 								<td>${productDetail.name}</td>
 								<td>${productDetail.price}</td>
@@ -222,5 +224,19 @@
 
 	</section>
 </body>
+
+<script>
+	function addCart(productId) {
+		var cartList = [];
+		if(localStorage.getItem("cartList")){
+			cartList = JSON.parse(localStorage.getItem("cartList"));
+		}
+		cartList.push(productId);
+		localStorage.setItem('cartList',JSON.stringify(cartList));
+
+		console.log(product);
+		
+	}
+</script>
 
 </html>
