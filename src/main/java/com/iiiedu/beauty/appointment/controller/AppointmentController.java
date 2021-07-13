@@ -5,14 +5,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.iiiedu.beauty.appointment.dao.AppointmentRepository;
 import com.iiiedu.beauty.appointment.dao.AppointmentTimeTableDao;
@@ -26,6 +28,7 @@ import com.iiiedu.beauty.model.Appointment;
 import com.iiiedu.beauty.model.City;
 import com.iiiedu.beauty.model.Dist;
 import com.iiiedu.beauty.model.Items;
+import com.iiiedu.beauty.model.Member;
 import com.iiiedu.beauty.model.TimeTable;
 
 @Controller
@@ -67,10 +70,16 @@ public class AppointmentController {
 	
 	//跳到預約查詢畫面
 	@GetMapping(value = "/appointmentsInquiry")
-	public String userAppointmentList(Model model,Integer memberPkId) {
-		Integer memberPkId1 = 2;
-		List<Appointment> page1 = appointmentRepository.appointmentUserList(memberPkId1);
-		model.addAttribute("page",page1);
+	public String userAppointmentList(Model model,Integer memberPkId, HttpSession session) {
+		Member member = (Member) session.getAttribute("member");
+		if(member != null) {
+			Integer memberPkId1 = member.getMemberPkId();
+			List<Appointment> page1 = appointmentRepository.appointmentUserList(memberPkId1);
+			model.addAttribute("page",page1);
+		} else {
+			return "login";
+		}
+		
 		return "appointmentsInquiry";
 	}
 	
@@ -131,7 +140,7 @@ public class AppointmentController {
 		try {
 			datet = f.parse(date);
 			cal.setTime(datet);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
