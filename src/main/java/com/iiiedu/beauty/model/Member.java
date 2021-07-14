@@ -1,6 +1,9 @@
 package com.iiiedu.beauty.model;
 
+
+
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +16,7 @@ public class Member {
 	private Integer memberPkId;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "memberDetailsPkId"/*,nullable = false*/)
+	@JoinColumn(name = "memberDetailsPkId")
 	private MemberDetails memberDetails;
 
 	@Column(nullable = false,unique = true,length = 45)
