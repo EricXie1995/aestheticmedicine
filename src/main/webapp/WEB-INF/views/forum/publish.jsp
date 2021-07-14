@@ -186,7 +186,7 @@
 			<div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-ss-12">
-            <i class='fas fa-pen' style='font-size:36px'></i><h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 發起問題 </h2>
+            <i class='fas fa-pen' style='font-size:36px'></i><h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><c:if test="${question.questionPkId == null}">發起問題</c:if><c:if test="${question.questionPkId != null}">修改問題</c:if></h2>
             <hr>
 <!--             這裡寫判斷兩種路徑是針對修改的情況，若是新增則沒差，都是空的，因為修改第一次點進來的時候是從question.jsp的編輯按鈕經過controller送過來，路徑帶有 -->
 <!--             question.questionPkId，抓到id就可以判斷是新增，但如果有欄位格式出錯網頁重跳轉進來id會不見，這樣再送出會變新增，所以從controller那把第一次傳過去的 -->
@@ -341,8 +341,40 @@
                 <!--標籤頁-->
 
 
-
-                <button id="ipsb" type="submit" class="btn btn-primary" style="float: right"><b>送出問題</b></button>
+					<a class="btn btn-primary" data-toggle="modal" href="#send_modal" style="float: right">
+					<c:if test="${question.questionPkId == null}">
+						<i class="fe fe-trash"></i> <b>送出問題</b>
+					</c:if>
+					<c:if test="${question.questionPkId != null}">
+						<i class="fe fe-trash"></i> <b>修改完成</b>
+					</c:if>
+					</a>
+					<div class="modal fade" id="send_modal" aria-hidden="true" role="dialog">
+					<div class="modal-dialog modal-dialog-centered" role="document" >
+						<div class="modal-content">
+						<!--	<div class="modal-header">
+								<h5 class="modal-title">Delete</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>-->
+							<div class="modal-body" style="text-align: center;">
+								<div class="form-content p-2">
+								<c:if test="${question.questionPkId == null}">
+									<h4 class="modal-title">新增文章</h4>
+								</c:if>
+								<c:if test="${question.questionPkId != null}">
+									<h4 class="modal-title">修改文章</h4>
+								</c:if>
+									<p class="mb-4">按下確定發送文章</p>
+									<button id="ipsb" type="submit" class="btn btn-primary">確定</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+<!--                 <button id="ipsb" type="submit" class="btn btn-primary" style="float: right"><b>送出問題</b></button> -->
 <%--                 <span class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}!= null"></span> --%>
             </form>
         </div>
