@@ -6,11 +6,11 @@
 <html>
 <head>
 <style type="text/css">
-.containerpage{
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-}
+ .containerpage{ 
+    display: flex; 
+    justify-content: center;  
+   align-items: center;  
+} 
 /*多選下拉框樣式（根據自己的樣式調整）*/
 .dropdown_item{width: 100%}
 .dropdown_item>li:HOVER{background-color: #eee;cursor: pointer;}
@@ -31,7 +31,7 @@ overflow:hidden;
 white-space: nowrap;
 text-overflow: ellipsis;
 display: -webkit-box;
--webkit-line-clamp: 2;
+-webkit-line-clamp: 2; /*行數*/
 -webkit-box-orient: vertical;
 white-space: normal;
 }
@@ -138,7 +138,7 @@ white-space: normal;
 									<ul class="submenu">
 								<li><a href="<c:url value='/personal/questions' />">個人中心</a></li>
 							</ul></li>
-							<li><a href="admin/index.html" target="_blank">Admin</a></li>
+							<li><a href="<c:url value='/adminindex' />" target="_blank">Admin</a></li>
 						<li class="login-link"><a href="login.html">Login /
 								Signup</a></li>
 					</ul>

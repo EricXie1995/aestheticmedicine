@@ -21,9 +21,11 @@
 	href="<c:url value='/assets/plugins/fontawesome/css/fontawesome.min.css'></c:url>">
 <link rel="stylesheet"
 	href="<c:url value='/assets/plugins/fontawesome/css/all.min.css'></c:url>">
+	
 <!-- Main CSS -->
-<link rel="stylesheet"
-	href="<c:url value='/assets/css/style.css'></c:url>">
+<!-- <link rel="stylesheet" -->
+<%-- 	href="<c:url value='/assets/css/style.css'></c:url>"> --%>
+
 <!-- Datetimepicker CSS -->
 		<link rel="stylesheet" href="<c:url value='/assets/css/bootstrap-datetimepicker.min.css'></c:url>">
 <!-- Select2 CSS -->
@@ -37,6 +39,10 @@
           href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
+<!-- Main CSS -->
+<link rel="stylesheet"
+	href="<c:url value='/assets/css/style2.css'></c:url>">
+	
      <style>
         .s {
             filter: grayscale(1);
@@ -229,10 +235,34 @@
 				<c:if test="${member!=null && member.memberPkId==question.member.memberPkId}">
 				<div class="table-action">
 																			<a href="<c:url value='/publish/${question.questionPkId}' />" class="btn btn-sm bg-success-light">
-																				<i class="far fa-edit"></i> 編輯
+																				<i class="far fa-edit" style="font-size:25px;">編輯</i> 
 																			</a>
+<a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#delete_modal${question.questionPkId}">
+																<i class="far fa-trash-alt" style="font-size:25px;">刪除6</i> 
+															</a>
+															<div class="modal fade" id="delete_modal${question.questionPkId}" aria-hidden="true" role="dialog">
+															<div class="modal-dialog modal-dialog-centered" role="document" >
+																<div class="modal-content">
+																<!--	<div class="modal-header">
+																		<h5 class="modal-title">Delete</h5>
+																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>-->
+																	<div class="modal-body" style="text-align: center;">
+																		<div class="form-content p-2">
+																			<h4 class="modal-title">刪除</h4>
+																			<p class="mb-4">確定要刪除嗎?</p>
+																			<a href="<c:url value='/question/delete/${question.questionPkId}' />"><button type="button" class="btn btn-primary">確定</button></a>
+																			<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
 																			<a href="<c:url value='/question/delete/${question.questionPkId}' />" class="btn btn-sm bg-danger-light">
-																				<i class="far fa-trash-alt"></i> 刪除
+																				<i class="far fa-trash-alt" style="font-size:25px;">刪除</i> 
 																			</a>
 																		</div>
 <%--                 <a href="<c:url value='/publish/${question.questionPkId}' />"> --%>
@@ -648,8 +678,9 @@ function favpost(e) {
 	<script src="<c:url value='/assets/js/jquery.min.js' />"></script>
 	<!-- Bootstrap Core JS -->
 	<script src="<c:url value='/assets/js/popper.min.js' />"></script>
-	<script
-		src="http://cdn.bootstrapmb.com/bootstrap/4.4.0/js/bootstrap.min.js"></script>
+<!-- 	<script -->
+<!-- 		src="http://cdn.bootstrapmb.com/bootstrap/4.4.0/js/bootstrap.min.js"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<!-- Sticky Sidebar JS -->
 	<script
 		src="<c:url value='/assets/plugins/theia-sticky-sidebar/ResizeSensor.js' />"></script>

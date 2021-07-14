@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.iiiedu.beauty.forum.dao.TypeRepository;
 import com.iiiedu.beauty.forum.service.TypeService;
+import com.iiiedu.beauty.model.Question;
 import com.iiiedu.beauty.model.Type;
 
 @Service
@@ -26,6 +27,21 @@ public class TypeServiceImpl implements TypeService{
 	@Override
 	public Type findOne(Integer typId) {
 		return typeRepository.findById(typId).get();
+	}
+
+	@Override
+	public Type save(Type type) {
+		return typeRepository.save(type);
+	}
+
+	@Override
+	public Integer deleteByTypePkId(Integer typId) {
+		return typeRepository.deleteByTypePkId(typId);
+	}
+
+	@Override
+	public List<Type> findTypeLikeSearch(String likeString) {
+		return typeRepository.findTypeLikeSearch(likeString);
 	}
 
 }

@@ -34,6 +34,51 @@ function loadPieChart() {
 	);
 }
 
-
+function loadBarChart() {
+	$.ajax({
+		url: '/beauty/chart/queCountByMonth',
+		dataType: 'json',
+		}).done(function (results) {
+			// populate colors list
+			var colors = randomColor({luminosity: 'light', count: 12});
+			// populate labels and date
+			var labels = [], data = [];
+			jQuery.each(results, function(key, val) {
+				if (key == "monthsList") {
+					labels = val;
+				}
+				
+				if (key == "queNumList") {
+					data = val;
+				}
+			});
+			
+			var config = {
+				type: 'bar',
+				data: {
+				      labels: labels,
+				      datasets: [
+				        {
+				          backgroundColor: colors,
+				          data: data
+				        }
+				      ]
+				    },
+				    
+				    options: {
+				    		legend: { display: false },
+				    		title: {
+				    			display: false,
+				    			text: '過去十二個月的問題數量'
+				    			}
+				    }
+			};
+			
+			var barChartContext = document.getElementById("barChart").getContext("2d");
+			var myBarChart = new Chart(barChartContext, config);
+		}
+	);
+}
 
 loadPieChart();
+loadBarChart();
