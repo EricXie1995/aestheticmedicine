@@ -79,40 +79,31 @@
     <div class="card-block mt-5">
       <h5>購物車列表</h5>
       <div class="container">
-        <div class="row mt-3 product">
-          <div class="col-2 p-3">
-            <img class="img-fluid" src="https://zhenghui.idv.tw/assets/img/demo.png" />
-          </div>
-          <div class="col-10 p-3">
-            <div class="title">Kogi Cosby sweater.</div>
-            <div class="desc">
-              Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit
-              est, tincidunt mattis lorem luctus id.
-            </div>
-            <div class="info mt-5">
-              <div class="price mr-3">$100</div>
-              <div class="count">數量：5</div>
-            </div>
-          </div>
-        </div>
 
-        <div class="row mt-3 product">
+      	<c:forEach items="${showCartModel}" begin="0"
+				end="${showCartModel.size()}" var="model">
+      	
+      	<div class="row mt-3 product">
           <div class="col-2 p-3">
             <img class="img-fluid" src="https://zhenghui.idv.tw/assets/img/demo.png" />
           </div>
           <div class="col-10 p-3">
-            <div class="title">Kogi Cosby sweater.</div>
+            <div class="title">${model.productName}</div>
             <div class="desc">
-              Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit
-              est, tincidunt mattis lorem luctus id.
+              ${model.productSpec}
             </div>
             <div class="info mt-5">
-              <div class="price mr-3">$100</div>
-              <div class="count">數量：5</div>
+              <div class="price mr-3">100</div>
+              <div class="count">數量：${model.count}</div>
             </div>
           </div>
-        </div>
-      </div>
+      	      </div>
+      	
+      	</c:forEach>
+      	
+      
+      
+      
       <div class="bottom-info">
         <div class="row totla-info">
           <div class="col-8 col-lg-9 col-xl-9" style="font-size: 20px; color: #282828; line-height: 46px">總計</div>

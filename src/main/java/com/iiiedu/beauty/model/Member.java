@@ -236,7 +236,8 @@ public class Member {
 		long lastChangedTime = this.passwordChangedTime.getTime();
 
 		return currentTime > lastChangedTime + PASSWORD_EXPIRATION_TIME;
-
+	}
+		
 	public List<Question> getQuestion() {
 		return question;
 	}
