@@ -18,9 +18,11 @@ import org.springframework.http.MediaType;
 
 
 import com.iiiedu.beauty.cart.Service.CartService;
+import com.iiiedu.beauty.cart.dao.CartRepository;
 import com.iiiedu.beauty.model.Cart;
 import com.iiiedu.beauty.model.Products;
 import com.iiiedu.beauty.shopping.service.ProductsService;
+
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,15 +32,9 @@ public class CartController {
 	private ProductsService productsService;
 	@Autowired
 	private CartService cartService;
+	@Autowired
+	private CartRepository cartRepository;
 	
-	@GetMapping("/showCart")
-	public String showAllcart(Model model) {
-		
-		List<Products> list = productsService.getAllProducts();
-		System.out.println(list);
-		model.addAttribute("allProduct",list );
-		return "cart/cart";
-	}
 	
 //	@PostMapping("/addCart")
 //	public Map<String, Object> addCart(int memberPkId, int productId, int counts){
@@ -77,15 +73,37 @@ public class CartController {
         return cart;
     }
 	
-	@GetMapping("/add")
-	public String showEmptyForm(Model model) {
-		List<Cart> cart = new ArrayList<Cart>();
-		cart.add(new Cart(1, 2, 3, 4, 5, "口罩"));
-		cart.add(new Cart(2, 10, 20, 30, 40, "手套"));
-		model.addAttribute("cart", cart);
-		return "cart/Add";
+	@PostMapping("/cart/add")
+	public ResponseEntity<String> addcart(Cart cart) {
+		
+//		List<Cart> cart = new ArrayList<Cart>();
+//		cart.add(new Cart(1, 2, 3, 4, 5, "口罩"));
+//		cart.add(new Cart(2, 10, 20, 30, 40, "手套"));
+//		model.addAttribute("cart", cart);
+		this.cartService.addCart(cart);
+        return ResponseEntity.ok().body("Success");
+		
 	}
 	
+//	@GetMapping("/cart/addd")
+//	public List<Cart> showEmptyForm(Model model) {
+//		List<Cart> cart = new ArrayList<Cart>();
+//		cart.add(new Cart(1, 2, 3, 4, 5, "口罩"));
+//		model.addAttribute("cart", cart);
+//		cart.add(new Cart(2, 10, 20, 30, 40, "手套"));
+//		model.addAttribute("cart", cart);
+//		return cart;
+//	}
+//	
+//	@PostMapping("/cart/addd")
+//	public List<Cart> showEmpty(Model model) {
+//		List<Cart> cart = new ArrayList<Cart>();
+//		cart.add(new Cart(30, 20, 30, 40, 50, "口罩"));
+//		model.addAttribute("cart", cart);
+//		cart.add(new Cart(200, 100, 200, 300, 400, "手套"));
+//		model.addAttribute("cart", cart);
+//		return cart;
+//	}
 	
 	
 	

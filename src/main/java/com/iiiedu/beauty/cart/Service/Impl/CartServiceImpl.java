@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iiiedu.beauty.cart.Service.CartService;
+import com.iiiedu.beauty.cart.dao.CartRepository;
 import com.iiiedu.beauty.model.Cart;
 
 @Service
@@ -13,11 +14,12 @@ public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private CartService cartService;
-	
+	@Autowired
+	private CartRepository cartRepository;
 	@Override
 	public Cart addCart(Cart cart) {
 		// TODO Auto-generated method stub
-		return cartService.addCart(cart);
+		return this.cartRepository.save(cart);
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public List<Cart> findAll() {
 		// TODO Auto-generated method stub
-		return cartService.findAll();
+		return this.cartRepository.findAll();
 	}
 
 //	@Autowired

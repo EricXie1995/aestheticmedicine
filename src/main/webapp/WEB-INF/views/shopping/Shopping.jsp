@@ -22,6 +22,7 @@
 	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="<c:url value='/css/style2.css' />" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- <style type="text/css"> -->
 <%-- <%@include file="css/style2.css"%> --%>
 <!-- </style> -->
@@ -35,12 +36,12 @@
 
 
 		<div class="dropdown ml-auto">
-			<button class="btn btn-cart btn-sm" type="button"
+			<a href="../cart/showCart" class="btn btn-cart btn-sm" type="button"
 				id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="false">
 				<i class="fas fa-shopping-cart text-dark fa-2x"></i> <span
 					class="badge badge-pill badge-danger">9</span>
-			</button>
+			</a>
 			<div class="dropdown-menu dropdown-menu-right"
 				style="min-width: 300px" aria-labelledby="dropdownMenuButton">
 				<div class="p-3">
@@ -130,7 +131,7 @@
 											</div>
 	
 											<div class="card-footer border-top-0 bg-white">
-												<a onclick="addCart(${product.productPkId})"
+												<a onclick="addCart(${product.productPkId}, ${product.productPrice},'${product.productName}')"
 													class="btn btn-outline-secondary btn-sm mt-2 d-block"><i
 													class="fas fa-shopping-cart mr-1"></i>加入購物車</a>
 											</div>
@@ -226,15 +227,39 @@
 </body>
 
 <script>
-	function addCart(productId) {
-		var cartList = [];
-		if(localStorage.getItem("cartList")){
-			cartList = JSON.parse(localStorage.getItem("cartList"));
-		}
-		cartList.push(productId);
-		localStorage.setItem('cartList',JSON.stringify(cartList));
+	function addCart(productId,price,name) {
+		
+		console.log('A');
+		 $.ajax({
+			    type: "POST",
+			    url: "http://localhost:8081/beauty/cart/add",
+			    data:{
+			    	memberPkId:5,
+			    	productPkId:productId,
+			    	count:1,
+			    	price:price,
+			    	productName:name
+			    },
+			    success: function (response) {
+			      alert('加入完成');
+			      console.log(response)
+					console.log('B');
 
-		console.log(product);
+			    },
+			    error: function (thrownError) {
+			      console.log(thrownError);
+			    }
+			  });
+			console.log('C');
+
+// 		var cartList = [];
+// 		if(localStorage.getItem("cartList")){
+// 			cartList = JSON.parse(localStorage.getItem("cartList"));
+// 		}
+// 		cartList.push(productId);
+// 		localStorage.setItem('cartList',JSON.stringify(cartList));
+
+// 		console.log(product);
 		
 	}
 </script>
