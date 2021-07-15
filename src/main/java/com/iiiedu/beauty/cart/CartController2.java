@@ -26,7 +26,7 @@ import com.iiiedu.beauty.shopping.service.ProductsService;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class CartController {
+public class CartController2 {
 
 	@Autowired
 	private ProductsService productsService;
