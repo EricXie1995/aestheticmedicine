@@ -304,7 +304,7 @@
 
 								<div class="container">
 								 
-									<button type="button" class="btn btn-info"> 預約查詢 / 取消 </button>
+									<a href="<c:url value='appointmentsInquiry' />"><button type="button" class="btn btn-info"> 預約查詢 / 取消 </button></a>
 								  </div>
 
 								

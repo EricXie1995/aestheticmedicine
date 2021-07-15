@@ -28,10 +28,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 
-	@Override
-	public Appointment findAppointment(String appointmentPkId) {
-		return appointmentRepository.findById(appointmentPkId).get();
-	}
+
 
 	@Override
 	public List<TimeTable> getTimeTable(String day) {
@@ -66,6 +63,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public void deleteAppointment(String appointmentPkId) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Appointment> findAllById(Appointment appointment) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Appointment findAppointment(String appointmentPkId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -66,6 +66,7 @@ public class ForumController {
 
 		// 找到登錄者放進session
 		Member member = memberRepository.findByMemberAccount(user.getUsername());
+		System.out.println(user.getUsername()+"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
 		session.setAttribute("member", member);
 		
 		//未登錄返回登錄頁面

@@ -16,7 +16,7 @@ public class Member {
 	private Integer memberPkId;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "memberDetailsPkId",nullable = false)
+	@JoinColumn(name = "memberDetailsPkId")
 	private MemberDetails memberDetails;
 
 	@Column(nullable = false,unique = true,length = 45)
@@ -237,7 +237,7 @@ public class Member {
 
 		return currentTime > lastChangedTime + PASSWORD_EXPIRATION_TIME;
 	}
-		
+
 	public List<Question> getQuestion() {
 		return question;
 	}

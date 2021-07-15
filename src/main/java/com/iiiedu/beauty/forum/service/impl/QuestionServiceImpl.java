@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,6 +87,41 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public Integer findQueCountBYTypId(Integer typId) {
 		return questionRepository.findQueCountBYTypId(typId);
+	}
+
+	@Override
+	public Integer findQueCountByMonth(Integer month) {
+		return questionRepository.findQueCountByMonth(month);
+	}
+
+	@Override
+	public List<Question> findAllByOrderByCreatetimeDesc() {
+		return questionRepository.findAllByOrderByCreatetimeDesc();
+	}
+
+	@Override
+	public List<Question> findAllLikeSearch(String likeString) {
+		return questionRepository.findAllLikeSearch(likeString);
+	}
+
+	@Override
+	public List<Question> findAllByDate(String date1, String date2) {
+		return questionRepository.findAllByDate(date1, date2);
+	}
+
+	@Override
+	public List<Question> findByType(Integer typId) {
+		return questionRepository.findByType(typId);
+	}
+
+	@Override
+	public List<Question> findByLikeAndDateAndType(String likeString, String date1, String date2, Integer typId) {
+		return questionRepository.findByLikeAndDateAndType(likeString, date1, date2, typId);
+	}
+
+	@Override
+	public List<Question> findByDateAndType(String date1, String date2, Integer typId) {
+		return questionRepository.findByDateAndType(date1, date2, typId);
 	}
 
 

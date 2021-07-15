@@ -11,4 +11,6 @@ public interface ClinicService  {
 
 	//登入
 	Clinic login(String clinicAccount, String clinicPwd);
+
+	
 }

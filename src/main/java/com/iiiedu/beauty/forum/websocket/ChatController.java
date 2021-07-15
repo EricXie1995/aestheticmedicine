@@ -15,7 +15,7 @@ public class ChatController {
     @RequestMapping("/chat")
     public String chat(Model model) {
     	//用自動增加數字來命名user名稱，但因為session裡有存登錄者名稱，就不用這個了
-        model.addAttribute("username","user" + atomicInteger.getAndIncrement());
+        model.addAttribute("username","user" + atomicInteger.getAndIncrement()); 
     	return "forum/chat";
     }
 }

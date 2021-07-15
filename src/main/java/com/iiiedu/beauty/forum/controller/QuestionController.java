@@ -74,7 +74,7 @@ public class QuestionController {
 //        }
 //        Questiondto questiondto=questionService.getbyid(id);
 
-		Question question = questionService.findOne(id);
+		Question question = questionService.findOne(id); 
 		// 增加閱讀數
 		questionService.increaseview(id);
 		model.addAttribute("question", question);
