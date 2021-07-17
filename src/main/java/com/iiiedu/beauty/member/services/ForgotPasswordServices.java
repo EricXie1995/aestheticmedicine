@@ -23,13 +23,13 @@ public class ForgotPasswordServices {
     private JavaMailSender javaMailSender;
 
     public void updateResetPasswordToken(String token,String memberAccount)
-            throws CustomerNotFoundException{
+            throws MemberNotFoundException{
         Member member = memberRepository.findByMemberAccount(memberAccount);
         if (member != null){
             member.setResetPasswordToken(token);
             memberRepository.save(member);
         }else{
-            throw new CustomerNotFoundException("Could not find any member with the email" + memberAccount);
+            throw new MemberNotFoundException("Could not find any member with the email" + memberAccount);
         }
     }
 

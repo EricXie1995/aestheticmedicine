@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.iiiedu.beauty.member.security.MemberUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,6 +66,7 @@ public class ForumController {
 		model.addAttribute("sort", sort);
 
 		// 找到登錄者放進session
+
 		Member member = memberRepository.findByMemberAccount(user.getUsername());
 		System.out.println(user.getUsername()+"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
 		session.setAttribute("member", member);

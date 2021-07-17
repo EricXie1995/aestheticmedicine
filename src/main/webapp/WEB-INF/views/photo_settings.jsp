@@ -79,38 +79,11 @@
                     <li class="has-submenu active">
                         <a href="">Patients <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
-                            <li><a href="search.html">Search Doctor</a></li>
-                            <li><a href="doctor-profile.html">Doctor Profile</a></li>
-                            <li><a href="booking.html">Booking</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="booking-success.html">Booking Success</a></li>
-                            <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
-                            <li><a href="favourites.html">Favourites</a></li>
                             <li  class="active"><a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a></li>
                             <li><a href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a></li>
                             <li><a href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
                             <li><a href="<c:url value='/change_password'/>">Change Password</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-submenu">
-                        <a href="">Pages <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="voice-call.html">Voice Call</a></li>
-                            <li><a href="video-call.html">Video Call</a></li>
-                            <li><a href="search.html">Search Doctors</a></li>
-                            <li><a href="calendar.html">Calendar</a></li>
-                            <li><a href="components.html">Components</a></li>
-                            <li class="has-submenu">
-                                <a href="invoices.html">Invoices</a>
-                                <ul class="submenu">
-                                    <li><a href="invoices.html">Invoices</a></li>
-                                    <li><a href="invoice-view.html">Invoice View</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="blank-page.html">Starter Page</a></li>
-                            <li><a href="login">Login</a></li>
-                            <li><a href="register">Register</a></li>
-                            <li><a href="forgot-password.html">Forgot Password</a></li>
+                            <li><a href="<c:url value='/logout'/>">Logout</a></li>
                         </ul>
                     </li>
                     <li>
@@ -122,37 +95,29 @@
                 </ul>
             </div>
             <ul class="nav header-navbar-rht">
-                <li class="nav-item contact-item">
-                    <div class="header-contact-img">
-                        <i class="far fa-hospital"></i>
-                    </div>
-                    <div class="header-contact-detail">
-                        <p class="contact-header">Contact</p>
-                        <p class="contact-info-header"> +1 315 369 5943</p>
-                    </div>
-                </li>
-
                 <!-- User Menu -->
                 <li class="nav-item dropdown has-arrow logged-item">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<span class="user-img">
-
-									<img class="rounded-circle" src="<c:url value='${member.photosImagePath}' />" width="31">
+									<img class="rounded-circle" src="<c:url value='${member.photosImagePath}' />" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" width="31">
 								</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="user-header">
                             <div class="avatar avatar-sm">
-                                <img src="<c:url value='${member.photosImagePath}' />" alt="User Image" class="avatar-img rounded-circle">
+                                <img src="<c:url value='${member.photosImagePath}' />" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" alt="User Image" class="avatar-img rounded-circle">
                             </div>
                             <div class="user-text">
                                 <h6>${member.memberName}</h6>
                                 <p class="text-muted mb-0">Patient</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+<%--                        <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>--%>
+                        <a class="dropdown-item" href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a>
+                        <a class="dropdown-item" href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a>
                         <a class="dropdown-item" href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a>
-                        <a class="dropdown-item" href="login">Logout</a>
+                        <a class="dropdown-item" href="<c:url value='/change_password'/>">Change Password</a>
+                        <a class="dropdown-item" href="<c:url value='/logout'/>">Logout</a>
                     </div>
                 </li>
                 <!-- /User Menu -->
@@ -170,10 +135,10 @@
                     <nav aria-label="breadcrumb" class="page-breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
+                            <li class="breadcrumb-item active" aria-current="page">Photo Settings</li>
                         </ol>
                     </nav>
-                    <h2 class="breadcrumb-title">Profile Settings</h2>
+                    <h2 class="breadcrumb-title">Photo Settings</h2>
                 </div>
             </div>
         </div>
@@ -191,32 +156,16 @@
                         <div class="widget-profile pro-widget-content">
                             <div class="profile-info-widget">
                                 <a href="#" class="booking-doc-img">
-                                    <img src="<c:url value='${member.photosImagePath}' />" alt="User Image">
+                                    <img src="<c:url value='${member.photosImagePath}' />" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" alt="User Image">
                                 </a>
                                 <div class="profile-det-info">
                                     <h3>${member.memberName}</h3>
-                                    <div class="patient-details">
-                                        <h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
-                                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="dashboard-widget">
                             <nav class="dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fas fa-columns"></i>
-                                            <span>Dashboard</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="favourites.html">
-                                            <i class="fas fa-bookmark"></i>
-                                            <span>Favourites</span>
-                                        </a>
-                                    </li>
                                     <li class="active">
                                         <a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">
                                             <i class="far fa-grin-squint-tears"></i>
@@ -266,7 +215,7 @@
                                         <div class="form-group">
                                             <div class="change-avatar">
                                                 <div class="profile-img">
-                                                    <img src="<c:url value='${member.photosImagePath}'/>" id="image" alt="User Image">
+                                                    <img src="<c:url value='${member.photosImagePath}'/>" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" id="image" alt="User Image" />
                                                 </div>
                                                 <div class="upload-img">
                                                     <div class="change-photo-btn">
@@ -322,28 +271,6 @@
                             <div class="footer-logo">
                                 <img src="<c:url value='/assets/img/footer-logo.png'/>" alt="logo">
                             </div>
-                            <div class="footer-about-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                <div class="social-icon">
-                                    <ul>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <!-- /Footer Widget -->
 
@@ -355,11 +282,8 @@
                         <div class="footer-widget footer-menu">
                             <h2 class="footer-title">For Patients</h2>
                             <ul>
-                                <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
                                 <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> Login</a></li>
                                 <li><a href="<c:url value='/member/register'/>"><i class="fas fa-angle-double-right"></i> Register</a></li>
-                                <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
-                                <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
@@ -380,33 +304,7 @@
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
-
                     </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-contact">
-                            <h2 class="footer-title">Contact Us</h2>
-                            <div class="footer-contact-info">
-                                <div class="footer-address">
-                                    <span><i class="fas fa-map-marker-alt"></i></span>
-                                    <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
-                                </div>
-                                <p>
-                                    <i class="fas fa-phone-alt"></i>
-                                    +1 315 369 5943
-                                </p>
-                                <p class="mb-0">
-                                    <i class="fas fa-envelope"></i>
-                                    doccure@example.com
-                                </p>
-                            </div>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
                 </div>
             </div>
         </div>

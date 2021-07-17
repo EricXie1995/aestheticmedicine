@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +48,17 @@ public class BeautyController {
     @PostMapping("/process_register")
     public String processRegister(Member member, HttpServletRequest request,
                                   RedirectAttributes redirectAttributes,
+                                  BindingResult result,
                                   Model model)
             throws UnsupportedEncodingException, MessagingException {
+//        if(result.hasErrors()){
+//            return "register";
+//        }
+        String memberAccount = request.getParameter("memberAccount");
+        if(memberRepository.findByMemberAccount(memberAccount)!=null){
+            model.addAttribute("error","The Account is already in Member");
+            return "register";
+        }
         beautyServices.register(member ,getSiteURL(request));
         redirectAttributes.addFlashAttribute("message","You have signed up successfully!<br>Please check your email to verify your account");
         return "redirect:/member/login";
@@ -91,11 +101,15 @@ public class BeautyController {
     }
 
     @GetMapping("/verify")
-    public String verifyMember(@Param("code") String code){
+    public String verifyMember(@Param("code") String code,
+                               RedirectAttributes redirectAttributes){
         if(beautyServices.verify(code)){
-            return "verify_success";
+            redirectAttributes.addFlashAttribute("message","Congratulations, your account has been verified");
+            return "redirect:/member/login";
         } else {
-            return "verify_fail";
+            redirectAttributes.addFlashAttribute("error","Sorry, we could not verify account<br>" +
+                    "It maybe already verified,or verification code is incorrect");
+            return "redirect:/member/login";
         }
     }
 }
