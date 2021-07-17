@@ -1,5 +1,6 @@
 package com.iiiedu.beauty.shopping.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class ProductsServiceImpl implements ProductsService {
 		if (optional.isPresent()) {
 			products = optional.get();
 		} else {
-			throw new RuntimeException("Member(id=" + id + ")不存在");
+			throw new RuntimeException("Products(id=" + id + ")不存在");
 		}
 		return products;
 	}
@@ -42,5 +43,14 @@ public class ProductsServiceImpl implements ProductsService {
 	@Override
 	public Products save(Products products) {
 		return productsRepository.save(products);
+	}
+	
+	@Override
+	public void update(Products products) {
+		Timestamp adminTime = new Timestamp(System.currentTimeMillis());
+		products.setProductUpdateDate(adminTime);
+		productsRepository.save(products);			   // 方法一
+//		memberDao2.updateMember(products);   // 方法二
+//		log.info("修改成功，products=" + products);
 	}
 }

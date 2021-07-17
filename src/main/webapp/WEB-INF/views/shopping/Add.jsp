@@ -17,7 +17,8 @@
 	<div>
 		<form:form method="POST" modelAttribute="products" enctype='multipart/form-data'>
 			產品名稱：<form:input path="productName"/> 產品價格：<form:input path="productPrice"/><br> 產品數量：<form:input path="productQuantity"/>
-			產品描述：<form:input path="productProfile"/><br> 產品圖片：<form:input path="productImage" type='file'/><input type="submit">
+			產品描述：<form:input path="productProfile"/> 分類關鍵字：<form:input path="productCategory"/>
+			<br> 產品圖片：<form:input path="productImage" type='file'/><input type="submit">
 		</form:form>
 	</div>
 	<div>
