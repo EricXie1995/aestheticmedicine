@@ -1,12 +1,11 @@
 package com.iiiedu.beauty.forum.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iiiedu.beauty.forum.dto.ReplyDto;
 import com.iiiedu.beauty.forum.dto.ResultDto;
+import com.iiiedu.beauty.forum.enums.NotificationStatusEnum;
+import com.iiiedu.beauty.forum.enums.notificationEnum;
+import com.iiiedu.beauty.forum.service.NotificationService;
 import com.iiiedu.beauty.forum.service.QuestionService;
 import com.iiiedu.beauty.forum.service.ReplyService;
 import com.iiiedu.beauty.member.repository.MemberRepository;
 import com.iiiedu.beauty.model.Member;
+import com.iiiedu.beauty.model.Notification;
+import com.iiiedu.beauty.model.Question;
 import com.iiiedu.beauty.model.Reply;
 
 //回覆功能
@@ -34,7 +37,10 @@ public class ReplyController {
 	private QuestionService questionService;
 	
 	@Autowired
-	private MemberRepository memberRepository;
+	private MemberRepository memberRepository; 
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	@ResponseBody
 	@RequestMapping(value = "/reply", method = RequestMethod.POST)
@@ -61,6 +67,11 @@ public class ReplyController {
 //					break;
 //				}
 //			}
+			Member member = (Member) session.getAttribute("member");
+			//取得登錄者的未讀消息通知數量
+			Integer unreadnum = notificationService.grtUnreadcount(member.getMemberPkId());
+			session.setAttribute("unreadnum", unreadnum);
+			System.out.println("消息數量:"+unreadnum);
 			// 把收到的json資料，把評論插入資料庫
 			Reply reply1 = new Reply();
 			reply1.setParentid(reply.getParentid());
@@ -68,8 +79,8 @@ public class ReplyController {
 			reply1.setContent(reply.getContent());
 			reply1.setType(reply.getType());
 			reply1.setCreatetime(new Date());
-			//這裡等偉書的session，抓登錄訊息
-	        Member member = (Member)session.getAttribute("member");
+
+
 	        //抓到目前登錄的ID，設到外鍵memberPkId，等偉書的service寫一個透過id找會員
 //	        Member member = memberService.findMemberById(member.getId);
 	        reply1.setMember(member);
@@ -78,7 +89,7 @@ public class ReplyController {
 			
 
 			if (reply.getType() == 2) {
-				// 把回复评论的通知插入数据库
+				//把回覆評論的通知插入資料庫
 //				Notification notification = new Notification();
 //				notification.setNotifier(comment.getCommentor());
 //				Comment comment2 = commentMapper.getparentbyid(commentCreateDto.getParent_id());
@@ -88,7 +99,19 @@ public class ReplyController {
 //				notification.setCreatetime(System.currentTimeMillis());
 //				notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
 //				notificationMapper.insert(notification);
-//
+				Notification notification = new Notification();
+				//回覆人
+				notification.setReply(reply1);
+				notification.setCreatetime(new Date());
+				notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+				//找到被回覆評論的人
+				//parentid是回覆pkid，找到被回覆評論的人
+				Reply reply2 = replyService.findOne(reply1.getParentid());
+				notification.setMember(reply2.getMember());
+				
+				notificationService.save(notification);
+				
+				
 //				// 增加回覆評論的評論數
 				replyService.increaserecomment(reply.getParentid());
 			} else {
@@ -102,6 +125,17 @@ public class ReplyController {
 //				notification.setCreatetime(System.currentTimeMillis());
 //				notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
 //				notificationMapper.insert(notification);
+				Notification notification = new Notification();
+				//回覆人
+				notification.setReply(reply1);
+				notification.setCreatetime(new Date());
+				notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+				//找到被回覆問題的人
+				//parentid是問題pkid，找到被回覆問題的人
+				Question question = questionService.findOne(reply1.getParentid());
+				notification.setMember(question.getMember());
+				notificationService.save(notification);
+				
 				// 增加問題回覆量
 				questionService.increasecomment(reply.getParentid());
 			}
@@ -113,10 +147,11 @@ public class ReplyController {
 	    @RequestMapping(value = "/reply/{id}",method = RequestMethod.GET)
 	    public ResultDto<List<Reply>> reply(@PathVariable Integer id,
 	                                                HttpSession session){
-	        //查找type=2，即是回复评论的评论
+	        //查找type=2，即是回覆評論的評論
 	        List<Reply> reply = replyService.findByParIdAndType(id, 2);
 	        for (int i = 0; i < reply.size(); i++) {
-	        	
+	        	//因為用json傳無法讀到外鍵資料，所以用這樣的方式把memberName set 到 model的Reply 設定好
+	        	//@Transient註釋的memberName
 	        	reply.get(i).getMember().getMemberName();
 	        	reply.get(i).setMemberName(reply.get(i).getMember().getMemberName());
 	        	System.out.println(reply.get(i).getMember().getMemberName()+"===================================================");

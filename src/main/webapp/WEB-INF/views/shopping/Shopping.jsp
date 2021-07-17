@@ -22,6 +22,7 @@
 	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="<c:url value='/css/style2.css' />" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- <style type="text/css"> -->
 <%-- <%@include file="css/style2.css"%> --%>
 <!-- </style> -->
@@ -35,12 +36,12 @@
 
 
 		<div class="dropdown ml-auto">
-			<button class="btn btn-cart btn-sm" type="button"
+			<a href="../cart/showCart" class="btn btn-cart btn-sm" type="button"
 				id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
 				aria-expanded="false">
 				<i class="fas fa-shopping-cart text-dark fa-2x"></i> <span
 					class="badge badge-pill badge-danger">9</span>
-			</button>
+			</a>
 			<div class="dropdown-menu dropdown-menu-right"
 				style="min-width: 300px" aria-labelledby="dropdownMenuButton">
 				<div class="p-3">
@@ -115,27 +116,29 @@
 
 							<c:forEach items="${allProducts}" begin="0"
 								end="${allProducts.size()}" var="product">
-
-								<div class="col-md-4 my-3">
-									<div class="card text-center h-100 border-0 box-shadow">
-										<img src='picture/${product.productPkId}' 
-											class="card-img-top" alt="...">
-										<div class="card-body">
-											<h5 class="card-title " style="font-weight: bold;">${product.productName}</h5>
-											<p class="card-text ">${product.productProfile}</p>
-										</div>
-
-										<div class="h4 ml-auto mb-0 text-danger">
-											<small>特價 $NT</small> <strong> ${product.productPrice}</strong>
-										</div>
-
-										<div class="card-footer border-top-0 bg-white">
-											<a href="#"
-												class="btn btn-outline-secondary btn-sm mt-2 d-block"><i
-												class="fas fa-shopping-cart mr-1"></i>加入購物車</a>
+								<form action="" method="POST">
+									<div class="col-md-4 my-3">
+										<div class="card text-center h-100 border-0 box-shadow">
+											<img src='picture/${product.productPkId}' 
+												class="card-img-top" alt="...">
+											<div class="card-body">
+												<h5 class="card-title " style="font-weight: bold;">${product.productName}</h5>
+												<p class="card-text ">${product.productProfile}</p>
+											</div>
+	
+											<div class="h4 ml-auto mb-0 text-danger">
+												<small>特價 $NT</small> <strong> ${product.productPrice}</strong>
+											</div>
+	
+											<div class="card-footer border-top-0 bg-white">
+												<a onclick="addCart(${product.productPkId}, ${product.productPrice},'${product.productName}')"
+													class="btn btn-outline-secondary btn-sm mt-2 d-block"><i
+													class="fas fa-shopping-cart mr-1"></i>加入購物車</a>
+											</div>
 										</div>
 									</div>
-								</div>
+								</form>
+								
 								<!--  <td>${productDetail.productID}</td>
 								<td>${productDetail.name}</td>
 								<td>${productDetail.price}</td>
@@ -222,5 +225,43 @@
 
 	</section>
 </body>
+
+<script>
+	function addCart(productId,price,name) {
+		
+		console.log('A');
+		 $.ajax({
+			    type: "POST",
+			    url: "http://localhost:8081/beauty/cart/add",
+			    data:{
+			    	memberPkId:5,
+			    	productPkId:productId,
+			    	count:1,
+			    	price:price,
+			    	productName:name
+			    },
+			    success: function (response) {
+			      alert('加入完成');
+			      console.log(response)
+					console.log('B');
+
+			    },
+			    error: function (thrownError) {
+			      console.log(thrownError);
+			    }
+			  });
+			console.log('C');
+
+// 		var cartList = [];
+// 		if(localStorage.getItem("cartList")){
+// 			cartList = JSON.parse(localStorage.getItem("cartList"));
+// 		}
+// 		cartList.push(productId);
+// 		localStorage.setItem('cartList',JSON.stringify(cartList));
+
+// 		console.log(product);
+		
+	}
+</script>
 
 </html>

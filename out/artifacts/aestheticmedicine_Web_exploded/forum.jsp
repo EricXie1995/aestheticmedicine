@@ -42,8 +42,8 @@
                         </h4>
                     </span>
                     <span class="common-list">
-                    <span>${question.comment_count} 個評論 •<span/> 
-                    <span>${question.view_count} 次瀏覽 •<span/> 
+                    <span>${question.qcommentcount} 個評論 •<span/> 
+                    <span>${question.viewcount} 次瀏覽 •<span/> 
                     <span>${question.like_count} 個點讚<span />
 <%--                     ${#dates.format(question.createtime,'yyyy-MM-dd')} --%>
 <%--                     <span style="float: right;">${question.createtime}</span> --%>

@@ -30,4 +30,6 @@ public interface AppointmentService {
 
 	Object getClinicBeanByClinicPkId(Clinic clinic);
 
+	List<Appointment> findAllById(Appointment appointment);
+
 }

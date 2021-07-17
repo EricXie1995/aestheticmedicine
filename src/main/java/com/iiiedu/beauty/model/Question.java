@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -22,13 +23,15 @@ public class Question {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer questionPkId;
     private String title;
+    @Lob
     private String description;
-    private Integer comment_count;
-    private Integer view_count;
+    private Integer qcommentcount;
+    private Integer viewcount;
     private Integer like_count;
     private String tag;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createtime;
+    private Integer favoritecount;
     
     @ManyToOne
 	@JoinColumn(name = "memberPkId")
@@ -43,6 +46,12 @@ public class Question {
     
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Notification> notification = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	private List<Liked> liked = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	private List<Favorites> favorites = new ArrayList<>();
     
 	public Question() {
 		super();
@@ -65,17 +74,17 @@ public class Question {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getComment_count() {
-		return comment_count;
+	public Integer getQcommentcount() {
+		return qcommentcount;
 	}
-	public void setComment_count(Integer comment_count) {
-		this.comment_count = comment_count;
+	public void setQcommentcount(Integer qcommentcount) {
+		this.qcommentcount = qcommentcount;
 	}
-	public Integer getView_count() {
-		return view_count;
+	public Integer getviewcount() {
+		return viewcount;
 	}
-	public void setView_count(Integer view_count) {
-		this.view_count = view_count;
+	public void setviewcount(Integer viewcount) {
+		this.viewcount = viewcount;
 	}
 	public Integer getLike_count() {
 		return like_count;
@@ -115,7 +124,19 @@ public class Question {
 	public void setType(Type type) {
 		this.type = type;
 	}
+	public List<Liked> getLiked() {
+		return liked;
+	}
+	public void setLiked(List<Liked> liked) {
+		this.liked = liked;
+	}
 	
+	public Integer getFavoritecount() {
+		return favoritecount;
+	}
+	public void setFavoritecount(Integer favoritecount) {
+		this.favoritecount = favoritecount;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -125,10 +146,10 @@ public class Question {
 		builder.append(title);
 		builder.append(", description=");
 		builder.append(description);
-		builder.append(", comment_count=");
-		builder.append(comment_count);
-		builder.append(", view_count=");
-		builder.append(view_count);
+		builder.append(", qcommentcount=");
+		builder.append(qcommentcount);
+		builder.append(", viewcount=");
+		builder.append(viewcount);
 		builder.append(", like_count=");
 		builder.append(like_count);
 		builder.append(", tag=");

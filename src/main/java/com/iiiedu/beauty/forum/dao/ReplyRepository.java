@@ -13,7 +13,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer> {
 	@Query(value = "select * from reply where questionPkId = ?1", nativeQuery = true)
 	List<Reply> findByQuery(Integer queId);
 
-	List<Reply> findByParentidOrderByCreatetimeDesc(Integer parId);
+	List<Reply> findByParentidOrderByCreatetimeDesc(Integer parId); 
 
 	List<Reply> findByParentidAndTypeOrderByCreatetimeDesc(Integer parId, Integer type);
 
