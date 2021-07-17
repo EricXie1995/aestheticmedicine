@@ -124,6 +124,16 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionRepository.findByDateAndType(date1, date2, typId);
 	}
 
+	@Override
+	public List<Question> findAllLikeSearch2(String likeString, Integer queId) {
+		return questionRepository.findAllLikeSearch2(likeString, queId);
+	}
+
+	@Override
+	public Integer updateCutView(Integer queId) {
+		return questionRepository.updateCutView(queId);
+	}
+
 
 
 }

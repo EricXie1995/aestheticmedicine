@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.iiiedu.beauty.model.Question;
 
@@ -42,15 +43,23 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	// 透過標題、內容模糊查詢分頁顯示
 	@Query(value = "select * from question where description like %?1% or title like %?1%", nativeQuery = true)
 	Page<Question> findAllLikeSearch(String likeString, Pageable pageable);
-
 	@Query(value = "select * from question where (description like %?1% or title like %?1%) and typePkId = ?2", nativeQuery = true)
 	Page<Question> findLikeSearch(String likeString, Integer typeId, Pageable pageable);
-
 	@Query(value = "select * from question where (description like %?1% or title like %?1%) and (typePkId = ?2 or typePkId = ?3)", nativeQuery = true)
 	Page<Question> findLikeSearch(String likeString, Integer typeId, Integer typeId2, Pageable pageable);
-
+	
 	@Query(value = "select * from question where (description like %?1% or title like %?1%) and (typePkId = ?2 or typePkId = ?3 or typePkId = ?4)", nativeQuery = true)
-	Page<Question> findLikeSearch(String likeString, Integer typeId, Integer typeId2, Integer typeId3,
+	Page<Question> findLikeSearch(String likeString, Integer typeId, Integer typeId2, Integer typeId3, 
+			Pageable pageable);
+	
+	@Query(value = "select * from question where (description like %?1% or title like %?1%) and (typePkId = ?2 or typePkId = ?3 or typePkId = ?4 or typePkId = ?5)", nativeQuery = true)
+	Page<Question> findLikeSearch(String likeString, Integer typeId, Integer typeId2, Integer typeId3, Integer typeId4,
+			Pageable pageable);
+	@Query(value = "select * from question where (description like %?1% or title like %?1%) and (typePkId = ?2 or typePkId = ?3 or typePkId = ?4 or typePkId = ?5 or typePkId = ?6)", nativeQuery = true)
+	Page<Question> findLikeSearch(String likeString, Integer typeId, Integer typeId2, Integer typeId3, Integer typeId4, Integer typeId5,
+			Pageable pageable);
+	@Query(value = "select * from question where (description like %?1% or title like %?1%) and (typePkId = ?2 or typePkId = ?3 or typePkId = ?4 or typePkId = ?5 or typePkId = ?6 or typePkId = ?7)", nativeQuery = true)
+	Page<Question> findLikeSearch(String likeString, Integer typeId, Integer typeId2, Integer typeId3, Integer typeId4, Integer typeId5, Integer typeId6,
 			Pageable pageable);
 
 //	@Query(value = "select * from question where (description like %?1% or title like %?1%) and if(?2 !='',typePkId=?2,1=1) and if(?3 !='',typePkId=?3,1=1) and if(?4 !='',typePkId=?4,1=1)", nativeQuery = true)
@@ -84,4 +93,14 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	// 依日期區間、分類查詢
 	@Query(value = "select * from question where createtime >= ?1 AND createtime <= ?2 AND typePkId = ?3", nativeQuery = true)
 	List<Question> findByDateAndType(String date1, String date2, Integer typId);
+	
+	// 透過標題、內容、標籤模糊查詢，拿來給相關問題用
+//	@Query(value = "select * from question where tag like %?1% and questionPkId != %?2%", nativeQuery = true)
+	@Query(value = " select * from question where tag like %?1% AND questionPkId != ?2", nativeQuery = true)
+	List<Question> findAllLikeSearch2(String likeString, Integer queId);
+	
+	// 瀏覽數-1
+	@Modifying
+	@Query(value = "update question set viewcount = isnull(viewcount, 0)-1 where questionpkid = ?1", nativeQuery = true)
+	Integer updateCutView(Integer queId);
 }

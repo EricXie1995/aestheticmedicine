@@ -11,6 +11,34 @@
     justify-content: center; 
     align-items: center; 
 }
+.box {
+width: 620px;
+ padding: 10px; 
+/* border: #4caf50 2px solid; */
+}
+.box2 {
+width: 850px;
+ padding: 10px; 
+/* border: #4caf50 2px solid; */
+}
+.ellipsis {
+overflow:hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2; /*行數*/
+-webkit-box-orient: vertical;
+white-space: normal;
+}
+.ellipsis3 {
+overflow:hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 1; /*行數*/
+-webkit-box-orient: vertical;
+white-space: normal;
+}
 </style>
 <meta charset="UTF-8">
 <title>個人中心</title>
@@ -27,8 +55,10 @@
 <link rel="stylesheet"
 	href="<c:url value='/assets/plugins/fontawesome/css/all.min.css'></c:url>">
 <!-- Main CSS -->
+<!-- <link rel="stylesheet" -->
+<%-- 	href="<c:url value='/assets/css/style.css'></c:url>"> --%>
 <link rel="stylesheet"
-	href="<c:url value='/assets/css/style.css'></c:url>">
+	href="<c:url value='/assets/css/style2.css'></c:url>">
 <!-- Datetimepicker CSS -->
 		<link rel="stylesheet" href="<c:url value='/assets/css/bootstrap-datetimepicker.min.css'></c:url>">
 <!-- Select2 CSS -->
@@ -190,11 +220,11 @@
 						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
 						
 							<!-- Profile Sidebar -->
-							<div class="profile-sidebar">
+							<div class="profile-sidebar" style="box-shadow:3px 3px 5px 6px #cccccc;">
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="<c:url value='/personal/questions' />" class="booking-doc-img">
-											<img src="<c:url value='/images/testimg.jpg' />" alt="User Image">
+											<img src="<c:url value='${member.photosImagePath}' />" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h3>${member.memberName}</h3>
@@ -270,8 +300,15 @@
 						
 						<div class="col-md-7 col-lg-8 col-xl-9">
 							<div class="appointments">
+							<c:if test="${message != null}">
+								<div class="alert alert-primary alert-dismissible fade show" role="alert">
+									<strong>${message}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</c:if>
 							<!-- Appointment List -->
-							
 							<!-- 分頁展示我的問題 -->
 							<c:if test="${section == 'questions'}">
 							<div style="text-align:right;">${page.number+1} / 共${page.totalPages}頁</div>
@@ -281,11 +318,12 @@
 								<div class="appointment-list">
 									<div class="profile-info-widget">
 										<a href="<c:url value='/question/${question.questionPkId}' />" class="booking-doc-img">
-											<img src="<c:url value='/images/testimg.jpg' />" alt="User Image">
+											<img src="<c:url value='${member.photosImagePath}' />" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h5 style="color: gray">版塊•${question.type.typeName}</h5>
-											<h2><a href="<c:url value='/question/${question.questionPkId}' />">${question.title}</a></h2>
+											<h3 class="box"><a class="ellipsis3" href="<c:url value='/question/${question.questionPkId}' />"><b>${question.title}</b></a></h3>
+											<div class="box" style="padding-left: 20px;padding-top: 0px"><span class="ellipsis">${question.description}</span></div>
 											<div class="patient-details">
 												<h5><i class="fa fa-user"></i>發問人: ${question.member.memberName}</h5>
 												<h5><i class="far fa-clock"></i><fmt:formatDate
@@ -360,40 +398,89 @@
 							</c:if>
 							<c:if test="${section == 'information'}">
 							<button class="btn btn-primary" onclick="clearAllStatus()"><b>清除所有未讀</b></button>
-							<button class="btn btn-danger" onclick="DelAllNot()"><b>刪除所有通知</b></button>
+							<a class="btn btn-danger" data-toggle="modal" href="#deleteNot_modal">
+								<i class="fas fa-times">刪除所有通知</i> 
+							</a>
+							<div class="modal fade" id="deleteNot_modal" aria-hidden="true" role="dialog">
+							<div class="modal-dialog modal-dialog-centered" role="document" >
+								<div class="modal-content">
+								<!--	<div class="modal-header">
+										<h5 class="modal-title">Delete</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>-->
+									<div class="modal-body" style="text-align: center;">
+										<div class="form-content p-2">
+											<h4 class="modal-title">刪除</h4>
+											<p class="mb-4">確定要刪除所有通知嗎?</p>
+											<button onclick="DelAllNot()" type="button" class="btn btn-primary">確定</button>
+											<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+<!-- 							<button class="btn btn-danger" onclick="DelAllNot()"><b>刪除所有通知</b></button> -->
 							<hr>							
 							<c:forEach var="notification" items="${page.content}">
 							<span><fmt:formatDate value="${notification.createtime}" type="both"/></span>
 								<div class="appointment-list">
-									<div class="profile-info-widget">
-										
+									<div class="profile-info-widget box2">
+										<span class="avatar avatar-sm">
+											<img style="width: 40px;height: 40px" class="avatar-img rounded-circle" alt="User Image" src="<c:url value='${notification.reply.member.photosImagePath}' />">
+										</span>
 										<div class="profile-det-info">
 											<c:if test="${notification.status==0}"><span class="badge badge-danger">未讀</span></c:if>
 											<br>
 											<span><b>${notification.reply.member.memberName}</b></span>
 											<c:if test="${notification.reply.type==1}">
-						                    <span>回覆了你的問題 :【<b style="color: red">${notification.question.title}</b>】</span>
+						                    <span>回覆了你的問題 :【<a href="<c:url value='/question/${notification.question.questionPkId}' />"><b style="color: red">${notification.question.title}</b></a>】</span>
 						                    </c:if>
 						                    <c:if test="${notification.reply.type==2}">
-						                    <span>回覆了你對問題 <b>${notification.question.title}</b> 的評論 : ⌜<b style="color: red">${notification.selfReplyContent}</b>⌟</span>
+						                    <span>回覆了你對問題 <a href="<c:url value='/question/${notification.question.questionPkId}' />"><b>${notification.question.title}</b></a> 的評論 : ⌜<a href="<c:url value='/question/${notification.question.questionPkId}' />"><b style="color: red">${notification.selfReplyContent}</b></a>⌟</span>
 						                    </c:if>
 						                    <br>
+						                	<div style="margin-top: 10px;margin-left: 10px">
 						                    <a href="<c:url value="/notification/${notification.notificationPkId}" />">
 						                        <span>回覆內容 : ⌜${notification.reply.content}⌟</span>
 						                    </a>
-						                    
+						                    </div>
 										</div>
 									</div>
 									<div class="appointment-action">
 										<div class="table-action">
 										<c:if test="${notification.status==0}">	
 											<a href="javascript:void(0);" class="btn btn-sm bg-success-light" onclick="clearNotIdStatus(this)" data-id="${notification.notificationPkId}">
-												<i class="fas fa-check"></i> 設為已讀
+												<i class="fas fa-check">設為已讀</i> 
 											</a>
 										</c:if>
-											<a href="javascript:void(0);" class="btn btn-sm bg-danger-light" onclick="delNotByNotid(this)" data-id="${notification.notificationPkId}">
-												<i class="fas fa-times"></i> 刪除通知
-											</a>
+										<a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#delete_modal${notification.notificationPkId}">
+											<i class="fas fa-times">刪除通知</i> 
+										</a>
+										<div class="modal fade" id="delete_modal${notification.notificationPkId}" aria-hidden="true" role="dialog">
+										<div class="modal-dialog modal-dialog-centered" role="document" >
+											<div class="modal-content">
+											<!--	<div class="modal-header">
+													<h5 class="modal-title">Delete</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>-->
+												<div class="modal-body" style="text-align: center;">
+													<div class="form-content p-2">
+														<h4 class="modal-title">刪除</h4>
+														<p class="mb-4">確定要刪除嗎?</p>
+														<button onclick="delNotByNotid(this)" data-id="${notification.notificationPkId}" type="button" class="btn btn-primary">確定</button>
+														<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+<%-- 											<a href="javascript:void(0);" class="btn btn-sm bg-danger-light" onclick="delNotByNotid(this)" data-id="${notification.notificationPkId}"> --%>
+<!-- 												<i class="fas fa-times"></i> 刪除通知 -->
+<!-- 											</a> -->
 										</div>
 									</div>
 								</div>
@@ -455,11 +542,13 @@
 								<div class="appointment-list">
 									<div class="profile-info-widget">
 										<a href="<c:url value='/question/${favorites.question.questionPkId}' />" class="booking-doc-img">
-											<img src="<c:url value='/images/testimg.jpg' />" alt="User Image">
+											<img src="<c:url value='${favorites.question.member.photosImagePath}' />" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h5 style="color: gray">版塊•${favorites.question.type.typeName}</h5>
-											<h2><a href="<c:url value='/question/${favorites.question.questionPkId}' />">${favorites.question.title}</a></h2>
+<%-- 											<h2><a href="<c:url value='/question/${favorites.question.questionPkId}' />">${favorites.question.title}</a></h2> --%>
+											<h3 class="box"><a class="ellipsis3" href="<c:url value='/question/${favorites.question.questionPkId}' />"><b>${favorites.question.title}</b></a></h3>
+											<div class="box" style="padding-left: 20px;padding-top: 0px"><span class="ellipsis">${favorites.question.description}</span></div>
 											<div class="patient-details">
 												<h5><i class="fa fa-user"></i>發問人: ${favorites.question.member.memberName}</h5>
 												<h5><i class="far fa-clock"></i><fmt:formatDate

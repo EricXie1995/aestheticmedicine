@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.iiiedu.beauty.forum.cache.TagCache;
 import com.iiiedu.beauty.forum.dto.QuestionDto;
@@ -56,7 +58,7 @@ public class PublishController {
 	    @PostMapping("/publish")
 	    public String publishquestion(@RequestParam(required = false) Integer quId, 
 	    		@Valid QuestionDto questionDto, BindingResult result, HttpSession session, 
-	    		Model model) {
+	    		Model model, RedirectAttributes attributes) {
 	    	//這邊放進model.addAttribute的目的是為了讓前端拿到，原因寫在publish.jsp，按送出的form那裡
 	    	model.addAttribute("quId",quId);
 	    	//分類，讓前端能拿到
@@ -70,6 +72,7 @@ public class PublishController {
 	    	if(quId != null) {
 	    		question = questionService.findOne(quId);
 	    		UpdateUtil.copyNullProperties(questionDto, question);
+	    		attributes.addFlashAttribute("message", "問題修改成功");
 	    	//判斷前端表單沒帶id過來(為空)為新增	
 	    	} else {
 	    		question = new Question();
@@ -77,6 +80,7 @@ public class PublishController {
 //	    		question.setviewcount(0);
 //	    		question.setLike_count(0);
 	    		BeanUtils.copyProperties(questionDto, question); 
+	    		attributes.addFlashAttribute("message", "問題新增成功");
 	    	}
 //	    	Question question = new Question();
 //	        BeanUtils.copyProperties(questionDto, question); 
@@ -122,4 +126,46 @@ public class PublishController {
 	        model.addAttribute("question", question);
 	        return "forum/publish";
 	    }
+	    
+	    //ajax驗證
+		@ResponseBody
+		@GetMapping("/formVerification")
+		public String formVerification(String title, String description, String tag) {
+//			System.out.println(description+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+			System.out.println(title+"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+			String msg = "";
+			if (title != null) {
+
+				if (title != "") {
+					msg = "OK";
+					System.out.println("title666666666666666666666666666666666666666666");
+				} else {
+					msg = "標題不能為空";
+					System.out.println("title7777777777777777777777777777777777777777");
+				}
+			}
+
+			if (description != null) {
+
+				if (description != "") {
+					msg = "OK";
+					System.out.println("des666666666666666666666666666666666666666666");
+				} else {
+					msg = "內容不能為空";
+					System.out.println("des7777777777777777777777777777777777777777777");
+				}
+			}
+			
+			if (tag != null) {
+
+				if (tag != "") {
+					msg = "OK";
+					System.out.println("tag666666666666666666666666666666666666666666");
+				} else {
+					msg = "標籤不能為空";
+					System.out.println("tag7777777777777777777777777777777777777777777");
+				}
+			}
+			return msg;
+		}
 }

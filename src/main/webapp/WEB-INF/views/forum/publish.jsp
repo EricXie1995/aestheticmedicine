@@ -42,6 +42,19 @@
     <!-- Main CSS -->
 <link rel="stylesheet"
 	href="<c:url value='/assets/css/style2.css'></c:url>">
+	
+	<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/jquery-ui-1.11.0.css">
+	<link rel="stylesheet" href="<c:url value='/forum/src/jquery.tagsinput-revisited.css' />" />
+	<style type="text/css">
+		.jq22-content {
+			width: 800px;
+			margin: 20px auto;
+		}
+		label {
+			display: block;
+			padding: 20px 0 5px 0;
+		}
+	</style>
 </head>
 <body>
 <!-- Main Wrapper -->
@@ -243,10 +256,10 @@
                 <div class="form-group">
                     <label for="title">問題標題</label>
                     <c:if test="${questionDto.title==null}">
-                    <input id="inptitle" type="text" class="form-control" value="${question.title}" id="title" name="title" autocomplete="on" >
+                    <input id="inptitle" type="text" class="form-control" value="${question.title}" id="title" name="title" autocomplete="on" onblur="ver1()"><div id="vtitle"></div>
                     </c:if>
                     <c:if test="${questionDto.title!=null}">
-                    <input id="inptitle" type="text" class="form-control" value="${questionDto.title}" id="title" name="title" autocomplete="on" >
+                    <input id="inptitle" type="text" class="form-control" value="${questionDto.title}" id="title" name="title" autocomplete="on" onblur="ver1()"><div id="vtitle"></div>
                     </c:if>
                     <p class="form-control-static text-danger"><form:errors path="questionDto.title"/></p>
                 </div>
@@ -255,11 +268,11 @@
                     <label for="description">問題內容</label>
                     <c:if test="${questionDto.description==null}">
                     <textarea class="form-control" name="description" id="summernote" 
-                              cols="20" rows="15">${question.description}</textarea>
+                              cols="20" rows="15">${question.description}</textarea><div id="vcontent"></div>
                     </c:if>
                     <c:if test="${questionDto.description!=null}">
                     <textarea class="form-control" name="description" id="summernote" 
-                              cols="20" rows="15">${questionDto.description}</textarea>
+                              cols="20" rows="15">${questionDto.description}</textarea><div id="vcontent"></div>
                     </c:if>
                     <p class="form-control-static text-danger"><form:errors path="questionDto.description"/></p>
                 </div>
@@ -277,16 +290,18 @@
 <!-- <!--                 </script> --> 
 
                 <div class="form-group" >
-                    <label for="tag">添加標籤</label>
-<%--                     <c:if test="${questionDto.description==null}"> --%>
+                    <label for="tag">添加話題標籤</label>
+                    <c:if test="${questionDto.description==null}">
+                    <input id="form-tags-5" name="tag" type="text" value="${question.tag}"><div id="vtag"></div>
 <!--                     <input type="text" class="form-control" id="tag" autocomplete="on" -->
 <%--                            value="${question.tag}" name="tag" onclick="showselecttag()"> --%>
-<%--                     </c:if> --%>
-<%--                     <c:if test="${questionDto.description!=null}"> --%>
-                    <input type="text" class="form-control" id="tag" autocomplete="on"
-                           value="${questionDto.tag}" name="tag" onclick="showselecttag()">
-<%--                     </c:if> --%>
-<%--                      <p class="form-control-static text-danger"><form:errors path="questionDto.tag"/></p> --%>
+                    </c:if>
+                    <c:if test="${questionDto.description!=null}">
+                    <input id="form-tags-5" name="tag" type="text" value="${questionDto.tag}"><div id="vtag"></div>
+<!--                     <input type="text" class="form-control" id="tag" autocomplete="on" -->
+<%--                            value="${questionDto.tag}" name="tag" onclick="showselecttag()"> --%>
+                    </c:if>
+                     <p class="form-control-static text-danger"><form:errors path="questionDto.tag"/></p>
                 </div>
                 <!--標籤頁-->
 <%--                 <a th:href="@{'#'+${category.categoryname}}" aria-controls="home" --%>
@@ -553,14 +568,93 @@
 		<!-- Fancybox JS -->
 		<script src="<c:url value='/assets/plugins/fancybox/jquery.fancybox.min.js' />"></script>
 		
-		
+		<script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script> 
+<script src="<c:url value='/forum/src/jquery.tagsinput-revisited.js' />"></script> 
 		
 		<script>	
 		
 		 $('#summernote').summernote({
 		        height: 400, 
 		      });
-		
+		 
+		 function ver1(){
+	           $.get({
+	               url:"/beauty/formVerification",
+	               data:{
+	            	   'title':$("#inptitle").val()
+	            	   },
+	               success:function (data) {
+	                   if (data.toString()=='OK'){
+	                       $("#vtitle").css("color","green");
+	                  }else {
+	                       $("#vtitle").css("color","red");
+	                  }
+	                   $("#vtitle").html(data);
+	              }
+	          });
+	      }
+		 
+// 		 function ver2(){
+// 	           $.get({
+// 	               url:"/beauty/formVerification",
+// 	               data:{
+// 	            	   'title':$("#form-tags-5").val()
+// 	            	   },
+// 	               success:function (data) {
+// 	                   if (data.toString()=='OK'){
+// 	                       $("#vtag").css("color","green");
+// 	                  }else {
+// 	                       $("#vtag").css("color","red");
+// 	                  }
+// 	                   $("#vtag").html(data);
+// 	              }
+// 	          });
+// 	      }
+
+		//標籤輸入框失去焦點會顯示正確或錯誤訊息，但目前有bug無法顯示，待處理
+		 $("#form-tags-5").blur(function(){
+			 console.log("6666666");
+			 $.get({
+	               url:"/beauty/formVerification",
+	               data:{
+	            	   'title':$("#form-tags-5").val()
+	            	   },
+	               success:function (data) {
+	                   if (data.toString()=='OK'){
+	                       $("#vtag").css("color","green");
+	                  }else {
+	                       $("#vtag").css("color","red");
+	                  }
+	                   $("#vtag").html(data);
+	              }
+	          });
+			});
+		 
+	       $('#summernote').on('summernote.blur', function() {
+	    	   console.log("6666666");
+	    	   $.get({
+	               url:"/beauty/formVerification",
+	               data:{
+	            	   'description':$("#summernote").val()
+	            	   },
+	               success:function (data) {
+	                   if (data.toString()=='OK'){
+	                       $("#vcontent").css("color","green");
+	                  }else {
+	                       $("#vcontent").css("color","red");
+	                  }
+	                   $("#vcontent").html(data);
+	              }
+	          });
+	    	   });
+	       
+	       //輸入框生成標籤事件
+	       $(function() {
+				$('#form-tags-5').tagsInput({
+					'delimiter': ',' 
+				});
+			});
+	       
 		//儲存草稿用，遇到問題還沒做
 // 		$(window).bind('beforeunload',function(){
 // 			var title = $("#inptitle").val();
@@ -592,6 +686,7 @@
 // 		$("#ipsb").click(function () {
 // 		    $(window).unbind('beforeunload');
 // 		});
+
   		</script>
 </body>
 </html>

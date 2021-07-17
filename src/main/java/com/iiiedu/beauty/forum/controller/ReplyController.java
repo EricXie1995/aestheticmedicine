@@ -84,6 +84,9 @@ public class ReplyController {
 	        //抓到目前登錄的ID，設到外鍵memberPkId，等偉書的service寫一個透過id找會員
 //	        Member member = memberService.findMemberById(member.getId);
 	        reply1.setMember(member);
+	        //拿到照片路徑，讓ajax取用
+	        String picPath = "/beauty/member_photos/" + member.getMemberPkId() + "/" + member.getPhotos();
+	        reply1.setHeadpic(picPath);
 			replyService.save(reply1);
 			
 			

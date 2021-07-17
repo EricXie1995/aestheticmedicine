@@ -46,5 +46,8 @@ public interface QuestionService {
 	List<Question> findByLikeAndDateAndType(String likeString, String date1, String date2, Integer typId);
 	
 	List<Question> findByDateAndType(String date1, String date2, Integer typId);
-
+	
+	List<Question> findAllLikeSearch2(String likeString, Integer queId);
+	
+	Integer updateCutView(Integer queId);
 }

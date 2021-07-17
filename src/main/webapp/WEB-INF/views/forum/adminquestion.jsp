@@ -60,8 +60,8 @@
 .texaa{display: none;}
 /* 控制文章內容顯示字數 */
 .box {
-width: 200px;
-padding: 10px;
+width: 100px;
+/* padding: 10px; */
 /* border: #4caf50 2px solid; */
 }
 .ellipsis {
@@ -420,6 +420,7 @@ white-space: normal;
 													<th>作者</th>
 													<th>標題</th>
 													<th>內容</th>
+													<th>話題標籤</th>
 													<th>閱讀數</th>
 													<th>評論數</th>
 													<th>收藏數</th>
@@ -434,12 +435,13 @@ white-space: normal;
 													<td>${question.type.typeName}</td>
 													<td>
 														<h2 class="table-avatar">
-															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<c:url value='/images/testimg.jpg' />" alt="User Image"></a>
+															<a href="profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="<c:url value='${question.member.photosImagePath}' />" alt="User Image"></a>
 															<a href="profile.html">${question.member.memberName}</a>
 														</h2>
 													</td>
-													<td>${question.title}</td>
+													<td><div class="box"><span class="ellipsis">${question.title}</span></div></td>
 													<td><div class="box"><span class="ellipsis">${question.description}</span></div></td>
+													<td><div class="box"><span class="ellipsis">${question.tag}</span></div></td>
 													<td>${question.viewcount}<c:if test="${question.viewcount==null}">0</c:if></td>
 													<td>${question.qcommentcount}<c:if test="${question.qcommentcount==null}">0</c:if></td>
 													<td>${question.favoritecount}<c:if test="${question.favoritecount==null}">0</c:if></td>
