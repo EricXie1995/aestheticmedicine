@@ -22,8 +22,8 @@
 .texaa{display: none;}
 /* 控制文章內容顯示字數 */
 .box {
-width: 700px;
-padding: 10px;
+width: 620px;
+ padding: 10px; 
 /* border: #4caf50 2px solid; */
 }
 .ellipsis {
@@ -35,6 +35,44 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 white-space: normal;
 }
+.ellipsis3 {
+overflow:hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 1; /*行數*/
+-webkit-box-orient: vertical;
+white-space: normal;
+}
+/* .box2 { */
+/* width: 200px; */
+/* padding: 10px; */
+/* /* border: #4caf50 2px solid; */ 
+/* } */
+.ellipsis2 {
+overflow:hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2; /*行數*/
+-webkit-box-orient: vertical;
+white-space: normal;
+}
+.box2 {
+  overflow-x : hidden;
+  text-overflow : ellipsis;
+  white-space : nowrap;
+  width : 280px;
+}
+.box3 {
+  overflow-y : auto;
+  height: 350px;
+  padding-bottom: 0px;	
+}
+		.drop-shadow {
+	    -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));
+	    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
+		}
 </style>
 <meta charset="UTF-8">
 <title>討論板</title>
@@ -61,8 +99,10 @@ white-space: normal;
 	<link rel="stylesheet" href="<c:url value='/assets/plugins/fancybox/jquery.fancybox.min.css' />">
 	
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
 </head>
 <body>
+<%-- <img src="<c:url value='${member.photosImagePath}' />" alt="User Image"> --%>
 	<!-- Main Wrapper -->
 	<div class="main-wrapper">
 		<!-- Header -->
@@ -197,10 +237,10 @@ white-space: normal;
 							<h2 class="breadcrumb-title">問題討論</h2>
 						</div>
 
-						<div class="col-md-3 col-12">
+						<div class="col-md-4 col-12">
 						<nav class="navbar navbar-expand-sm  navbar-dark">						
 						  <form class="form-inline" action="<c:url value='/forum/-1' />">
-						    <input name="searchQ" class="form-control mr-sm-2" type="text" placeholder="搜尋">
+						    <input name="searchQ" class="form-control mr-sm-2" type="text" placeholder="搜尋" value="${searchQ}">
 						    <div class="dropdown">
 								<button class="btn btn-default dropdown-toggle form-control select_multiple" style="width: 100%;margin-left: 0px;" type="button" id="dropdownMenu21" data-toggle="dropdown">
 							    	<span class="select_text" data-is-select="false">範圍</span>
@@ -219,51 +259,77 @@ white-space: normal;
 						</nav>
 						</div>
 						
-						<div class="col-md-1 col-12">
-						<a href="<c:url value='/publish' />">
-							<span class="glyphicon glyphicon-pencil question-menu" aria-hidden="true"></span>
-               				 <i class='far fa-edit' style='font-size:30px;color:white'></i><span style='color:white'>發佈</span>
-               				 	</a>
-						</div>
-					
-						
-						<div class="col-md-7 col-12 d-md-block d-none">
-							<div class="sort-by">
-								<span class="sort-title">排序依</span>
-								<span class="sortby-fliter">
-									<select class="select2-container" onchange="self.location.href=options[selectedIndex].value">
-									<c:if test="${sort=='createtime'}">
-									<option class="sorting" selected
-											value="<c:url value='/forum/${typId}?sort=createtime&searchQ=${searchQ}&checkType=${checkType}' />">最新</option>
-									</c:if>
-									<c:if test="${sort!='createtime'}">
-										<option class="sorting" value="<c:url value='/forum/${typId}?sort=createtime&searchQ=${searchQ}&checkType=${checkType}' />">最新</option>
-									</c:if>
-									<c:if test="${sort=='viewcount'}">
-										<option class="sorting" selected
-											value=<c:url value='/forum/${typId}?sort=viewcount&searchQ=${searchQ}&checkType=${checkType}' />>熱門</option>
-									</c:if>
-									<c:if test="${sort!='viewcount'}">
-										<option class="sorting" value=<c:url value='/forum/${typId}?sort=viewcount&searchQ=${searchQ}&checkType=${checkType}' />>熱門</option>
-									</c:if>
-									<c:if test="${sort=='qcommentcount'}">
-										<option class="sorting" selected
-											value=<c:url value='/forum/${typId}?sort=qcommentcount&searchQ=${searchQ}&checkType=${checkType}' />>評論數</option>
-									</c:if>
-									<c:if test="${sort!='qcommentcount'}">
-										<option class="sorting" value=<c:url value='/forum/${typId}?sort=qcommentcount&searchQ=${searchQ}&checkType=${checkType}' />>評論數</option>
-									</c:if>
-									<c:if test="${sort=='favoritecount'}">
-										<option class="sorting" selected
-											value=<c:url value='/forum/${typId}?sort=favoritecount&searchQ=${searchQ}&checkType=${checkType}' />>收藏數</option>
-									</c:if>
-									<c:if test="${sort!='favoritecount'}">
-										<option class="sorting" value=<c:url value='/forum/${typId}?sort=favoritecount&searchQ=${searchQ}&checkType=${checkType}' />>收藏數</option>
-									</c:if>
-									</select>
-								</span>
+						<div class="col-md-4 col-12">
+						</div>				
+<!-- Notifications -->
+				<div class="col-md-1 col-12">
+					<li style="list-style-type:none;">
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<i class='fas fa-bell' style='font-size:30px;color: white;'><span style='font-size:10px' class="badge badge-success badge-pill">${unreadnum}</span></i> 
+						</a>
+						<div class="dropdown-menu notifications" style="box-shadow:3px 3px 5px 6px #cccccc;">
+							<div class="topnav-dropdown-header" style="margin-left: 20px">
+								<span class="notification-title"><b>消息通知</b></span>
+							</div>
+							<hr>
+							<div class="noti-content box3">
+								<ul class="notification-list" style="padding: 20px;padding-top: 0px;padding-bottom: 0px">
+									<li class="notification-message" style="list-style-type:none;>
+										<a href="#">
+											<div class="media">
+												<div class="media-body">
+													<c:forEach var="notification" items="${page2.content}">
+													<span style="font-size: 10px"><fmt:formatDate value="${notification.createtime}" type="both"/></span>
+														<div class="appointment-list" style="text-align: center;">
+															<div class="profile-info-widget" style="font-size: 10px">
+																<span class="avatar avatar-sm">
+																	<img class="avatar-img rounded-circle" alt="User Image" src="<c:url value='${notification.reply.member.photosImagePath}' />">
+																</span>
+																<div class="profile-det-info box2">
+																	<c:if test="${notification.status==0}"><span class="badge badge-danger">未讀</span></c:if>
+																	<br>
+																	<span><b>${notification.reply.member.memberName}</b></span>
+																	<c:if test="${notification.reply.type==1}">
+												                    <span>回覆了你的問題 :【<a href="<c:url value='/question/${notification.question.questionPkId}' />"><b style="color: red">${notification.question.title}</b></a>】</span>
+												                    </c:if>
+												                    <c:if test="${notification.reply.type==2}">
+												                    <span>回覆了你對問題 <a href="<c:url value='/question/${notification.question.questionPkId}' />"><b>${notification.question.title}</b></a> 的評論 : ⌜<a href="<c:url value='/question/${notification.question.questionPkId}' />"><b style="color: red">${notification.selfReplyContent}</b></a>⌟</span>
+												                    </c:if>
+												                    <br>
+												                    <a href="<c:url value="/notification/${notification.notificationPkId}" />">
+												                        <span>回覆內容 : ⌜${notification.reply.content}⌟</span>
+												                    </a>
+																</div>
+															</div>
+														</div>
+														<hr>
+													</c:forEach>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="topnav-dropdown-footer" style="margin-left: 20px">
+								<a href="<c:url value="/personal/information" />"><b>查看所有通知</b></a>
 							</div>
 						</div>
+					</li>
+					</div>
+						<div class="col-md-1 col-12">
+							<a href="<c:url value='/publish' />">
+								<span class="glyphicon glyphicon-pencil question-menu" aria-hidden="true"></span>
+	               				<i class='far fa-edit' style='font-size:30px;color:white'></i><span style='color:white'>發佈</span>
+	               			</a>
+	               		</div>
+	               		
+               			<div class="col-md-1 col-12">
+						</div>
+						
+						<div class="col-md-1 col-12">
+						</div>
+					<!-- /Notifications -->
+
 					</div>
 				</div>
 			</div>
@@ -276,11 +342,11 @@ white-space: normal;
 					<div class="row">
 						<div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
 							<!-- Profile Sidebar -->
-							<div class="profile-sidebar">
+							<div class="profile-sidebar drop-shadow">
 								<div class="widget-profile pro-widget-content">
 									<div class="profile-info-widget">
 										<a href="<c:url value='/personal/questions' />" class="booking-doc-img">
-											<img src="<c:url value='/images/testimg.jpg' />" alt="User Image">
+											<img src="<c:url value='${member.photosImagePath}' />" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h3>${member.memberName}</h3>
@@ -336,27 +402,67 @@ white-space: normal;
 							<!-- /Profile Sidebar -->
 							
 						</div>
-						
+
 						<div class="col-md-7 col-lg-8 col-xl-9">
 							<div class="appointments">
-							
-
-							
+							<c:if test="${message != null}">
+								<div class="alert alert-primary alert-dismissible fade show" role="alert">
+									<strong>${message}</strong>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</c:if>
 								<!-- Appointment List -->
 								<!--分頁展示內容-->
 <%-- 								<p>${checkType}</p> --%>
 							<h4><c:if test="${searchQ != null}"><i class='fas fa-search' style='font-size:20px'></i><b>搜尋內容 : ${searchQ} ${seleType}</b></c:if></h4>
-							<div style="text-align:right;">${page.number+1} / 共${page.totalPages}頁</div>
+							<div style="text-align:right;">
+								<span class="sortby-fliter">
+									<span>排序依</span>
+									<select class="select2-container " onchange="self.location.href=options[selectedIndex].value">
+									<c:if test="${sort=='createtime'}">
+									<option class="sorting" selected
+											value="<c:url value='/forum/${typId}?sort=createtime&searchQ=${searchQ}&checkType=${checkType}' />">最新</option>
+									</c:if>
+									<c:if test="${sort!='createtime'}">
+										<option class="sorting" value="<c:url value='/forum/${typId}?sort=createtime&searchQ=${searchQ}&checkType=${checkType}' />">最新</option>
+									</c:if>
+									<c:if test="${sort=='viewcount'}">
+										<option class="sorting" selected
+											value=<c:url value='/forum/${typId}?sort=viewcount&searchQ=${searchQ}&checkType=${checkType}' />>熱門</option>
+									</c:if>
+									<c:if test="${sort!='viewcount'}">
+										<option class="sorting" value=<c:url value='/forum/${typId}?sort=viewcount&searchQ=${searchQ}&checkType=${checkType}' />>熱門</option>
+									</c:if>
+									<c:if test="${sort=='qcommentcount'}">
+										<option class="sorting" selected
+											value=<c:url value='/forum/${typId}?sort=qcommentcount&searchQ=${searchQ}&checkType=${checkType}' />>評論數</option>
+									</c:if>
+									<c:if test="${sort!='qcommentcount'}">
+										<option class="sorting" value=<c:url value='/forum/${typId}?sort=qcommentcount&searchQ=${searchQ}&checkType=${checkType}' />>評論數</option>
+									</c:if>
+									<c:if test="${sort=='favoritecount'}">
+										<option class="sorting" selected
+											value=<c:url value='/forum/${typId}?sort=favoritecount&searchQ=${searchQ}&checkType=${checkType}' />>收藏數</option>
+									</c:if>
+									<c:if test="${sort!='favoritecount'}">
+										<option class="sorting" value=<c:url value='/forum/${typId}?sort=favoritecount&searchQ=${searchQ}&checkType=${checkType}' />>收藏數</option>
+									</c:if>
+									</select>
+								</span>
+							<span>${page.number+1} / 共${page.totalPages}頁</span>
+							</div>
 							<c:forEach var="question" items="${page.content}">
 								<div class="appointment-list">
 									<div class="profile-info-widget">
 										<a href="<c:url value='/question/${question.questionPkId}' />" class="booking-doc-img">
-											<img src="<c:url value='/images/testimg.jpg' />" alt="User Image">
+											<img src="<c:url value='${question.member.photosImagePath}' />" alt="User Image">
 										</a>
 										<div class="profile-det-info">
 											<h5 style="color: gray">版塊•${question.type.typeName}</h5>
-											<h3><a href="<c:url value='/question/${question.questionPkId}' />"><b>${question.title}</b></a></h3>
-											<div class="box"><span class="ellipsis">${question.description}</span></div>
+											<h3 class="box"><a class="ellipsis3" href="<c:url value='/question/${question.questionPkId}' />"><b>${question.title}</b></a></h3>
+											<div class="box" style="padding-left: 20px;padding-top: 0px"><span class="ellipsis">${question.description}</span></div>
 											<div class="patient-details">
 												<h5><i class="fa fa-user"></i>發問人: ${question.member.memberName}</h5>
 												<h5><i class="far fa-clock"></i><fmt:formatDate
@@ -589,7 +695,7 @@ white-space: normal;
 		src="<c:url value='/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js' />"></script>
 	<!-- Custom JS -->
 	<script src="<c:url value='/assets/js/script.js' />"></script>
-<!-- 	<!-- Select2 JS --> -->
+<!-- 	<!-- Select2 JS --> 
 		<script src="<c:url value='/assets/plugins/select2/js/select2.min.js' />"></script>
 		<!-- Datetimepicker JS -->
 		<script src="<c:url value='/assets/js/moment.min.js' />"></script>

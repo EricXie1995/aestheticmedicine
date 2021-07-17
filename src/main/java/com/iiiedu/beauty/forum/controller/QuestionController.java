@@ -1,5 +1,7 @@
 package com.iiiedu.beauty.forum.controller;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.iiiedu.beauty.forum.dao.ReplyRepository;
 import com.iiiedu.beauty.forum.dto.ResultDto;
@@ -82,15 +85,28 @@ public class QuestionController {
 		List<Reply> reply = replyService.findByParentid(id);
 		model.addAttribute("reply", reply);
 		// 相關問題
-//        String[] tags=questiondto.getTag().split(",");
+//        String[] tags=question.getTag().split(",");
 //        StringBuilder msg=new StringBuilder();
 //        for (String tag:tags){
 //            msg.append(tag);
 //            msg.append("|");
 //        }
 //        String result=msg.substring(0,msg.length()-1);
-//        List<Question> relativequestion =questionService.getbytag(id,result);
+//        List<Question> relativequestion =questionService.findAllLikeSearch2(result, id);
 //        model.addAttribute("relativequestion",relativequestion);
+		
+		//相關問題-----------------------------------------
+		List<Question> relativequestion = new ArrayList<>();
+		String[] tags = question.getTag().split(",");
+		for (int i = 0; i < tags.length; i++) {
+			relativequestion.addAll(questionService.findAllLikeSearch2(tags[i], id));
+		}
+		//去掉List重複資料，因為若這篇問題多個標籤剛好跟另一筆重複到多個，就會重複
+		LinkedHashSet<Question> hashSet = new LinkedHashSet<>(relativequestion);
+		List<Question> relativequestion2 = new ArrayList<>(hashSet);
+		model.addAttribute("relativequestion",relativequestion2);
+		//相關問題-----------------------------------------
+		
 		// 找到登錄者
 		Member member = (Member) session.getAttribute("member");
 		// 查詢登錄者id、文章id 是否存在在收藏資料表，這兩個一定是綁在一起的唯一值
@@ -102,8 +118,9 @@ public class QuestionController {
 	}
 
 	@GetMapping("/question/delete/{queid}")
-	public String questionType(@PathVariable Integer queid) {
+	public String questionType(@PathVariable Integer queid, RedirectAttributes attributes) {
 		questionService.deleteByQuestionPkId(queid);
+		attributes.addFlashAttribute("message", "問題刪除成功");
 		return "redirect:/personal/questions";
 	}
 

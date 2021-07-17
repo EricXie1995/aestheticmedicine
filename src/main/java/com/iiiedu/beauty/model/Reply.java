@@ -52,6 +52,8 @@ public class Reply {
 	@OneToMany(mappedBy = "reply", cascade = CascadeType.ALL)
 	private List<Liked> liked = new ArrayList<>();
 	
+	private String headpic;
+	
 	public Reply() {
 	}
 	public Integer getReplyPkId() {
@@ -126,6 +128,13 @@ public class Reply {
 	}
 	public void setLiked(List<Liked> liked) {
 		this.liked = liked;
+	}
+	
+	public String getHeadpic() {
+		return headpic;
+	}
+	public void setHeadpic(String headpic) {
+		this.headpic = headpic;
 	}
 	@Override
 	public String toString() {

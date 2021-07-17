@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iiiedu.beauty.forum.dao.QuestionRepository;
 import com.iiiedu.beauty.forum.dto.ResultDto;
 import com.iiiedu.beauty.forum.service.FavoritesService;
 import com.iiiedu.beauty.forum.service.QuestionService;
@@ -25,7 +26,7 @@ public class FavoritesController {
 	
 	@Autowired
 	private QuestionService questionService;
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/favorites", method = RequestMethod.POST)
 	public Object postFavorites(@RequestBody Question question, HttpSession session, Model model) {
@@ -50,6 +51,11 @@ public class FavoritesController {
 		System.out.println(favoriteCount+"ssssssssssssssssssssssssssssssssssssssssssssssss");
 		//將收藏數更新進對應的文章id的收藏數欄位
 		questionService.updateFavCount(favoriteCount, question.getQuestionPkId());
+		
+		//因為點擊收藏時會讓瀏覽數增加，所以這邊瀏覽數減1
+		if(question2.getviewcount() != 0 || question2.getviewcount() != null) {
+			questionService.updateCutView(question.getQuestionPkId());
+		}
 		
 			ResultDto<?> resultDto = new ResultDto<Object>();
 			return resultDto.success();
