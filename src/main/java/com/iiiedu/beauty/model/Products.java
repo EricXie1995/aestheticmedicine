@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Products {
 	@Id
@@ -25,6 +27,7 @@ public class Products {
 	private Integer productPrice;
 	private Integer productQuantity;
 	private String productStatus;
+	@JsonIgnore
 	private Blob image;
 	@Transient
 	private MultipartFile productImage;

@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.iiiedu.beauty.model.Products;
@@ -46,7 +48,9 @@ public class ProductsController {
 	
 	@GetMapping("/showAllProducts")
 	public String showAllProducts(Model model) {
+		Products products = new Products();
 		model.addAttribute("allProducts", productsService.getAllProducts());
+		model.addAttribute("products", products);
 		return "shopping/AllProductDetail";
 	}
 	
@@ -55,18 +59,6 @@ public class ProductsController {
 		Products products = new Products();
 		model.addAttribute("products", products);
 		return "shopping/Add";
-	}
-	
-	@PostMapping("/products/{id}")
-	public String test(@PathVariable("id") Integer id) {
-		System.out.println("==-=-=-=--==id"+id);
-		return "redirect:/shopping/showAllProducts";
-	}
-	
-	@DeleteMapping("/products/{id}")
-	public String delete(@PathVariable("id") Integer id) {
-		productsService.delete(id);
-		return "redirect:/shopping/showAllProducts";
 	}
 	
 	@PostMapping("/add")
@@ -101,6 +93,60 @@ public class ProductsController {
 		} catch (Exception ex) {
 			System.out.println(ex.getClass().getName() + ", ex.getMessage()=" + ex.getMessage());
 		}
+		return "redirect:/shopping/showAllProducts";
+	}
+	
+	@GetMapping("/products/{id}")
+	public String showEmptyUpdateForm(@PathVariable("id") Integer id, Model model) {
+		Products products = productsService.get(id);
+		model.addAttribute("products", products);
+		return "shopping/AllProductDetail";
+	}
+	
+//	@GetMapping("/products.json")
+//	public @ResponseBody Products showUpdateEmptyForm(@RequestParam("id") Integer id) {
+//		System.out.println("============id=============="+id);
+//		Products products = productsService.get(id);
+////		model.addAttribute(products);
+//		return products;
+//	}
+	
+	@PostMapping("/products/{id}")
+	public String modify(Products products,@PathVariable Integer id)
+	{
+		Products origProducts = productsService.get(id);
+		Blob originalImg = origProducts.getImage();
+		System.out.println("============>@PostMapping(\"/products/{id}\") #modify()  products =" + products);
+		
+		MultipartFile picture = products.getProductImage();
+		if (picture.getSize() == 0) {
+			// 表示使用者並未挑選圖片
+			products.setImage(originalImg);
+		} else {
+			String originalFilename = picture.getOriginalFilename();
+			if (originalFilename.length() > 0 && originalFilename.lastIndexOf(".") > -1) {
+				products.setFileName(originalFilename);
+			}
+			
+			// 建立Blob物件
+			if (picture != null && !picture.isEmpty()) {
+				try {
+					byte[] b = picture.getBytes();
+					Blob blob = new SerialBlob(b);
+					products.setImage(blob);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException("檔案上傳發生異常: " + e.getMessage());
+				}
+			}
+		}
+		productsService.update(products);
+		return "redirect:/shopping/showAllProducts";
+	}
+	
+	@DeleteMapping("/products/{id}")
+	public String delete(@PathVariable("id") Integer id) {
+		productsService.delete(id);
 		return "redirect:/shopping/showAllProducts";
 	}
 	
