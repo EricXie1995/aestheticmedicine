@@ -2,6 +2,7 @@ package com.iiiedu.beauty.forum.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.iiiedu.beauty.member.security.MemberUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.iiiedu.beauty.forum.service.QuestionService;
-import com.iiiedu.beauty.member.details.CustomMemberDetails;
 import com.iiiedu.beauty.member.repository.MemberRepository;
 import com.iiiedu.beauty.model.Member;
 import com.iiiedu.beauty.model.Question;
@@ -35,7 +35,7 @@ public class ForumController {
 	//論壇首頁
 	@GetMapping("/forum")
     public String forum(@PageableDefault(size = 5, sort = { "createtime" }, direction = Sort.Direction.DESC) Pageable pagegable, 
-    		HttpSession session, Model model, @AuthenticationPrincipal CustomMemberDetails user){
+    		HttpSession session, Model model, @AuthenticationPrincipal MemberUserDetails user){
 		//等書偉提供session
 //		model.addAttribute("user", session.getAttribute(xxx))
 		

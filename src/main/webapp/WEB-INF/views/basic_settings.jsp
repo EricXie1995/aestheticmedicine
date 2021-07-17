@@ -13,6 +13,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="http://cdn.bootstrapmb.com/bootstrap/4.4.0/css/bootstrap.min.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="<c:url value='/assets/plugins/fontawesome/css/fontawesome.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/assets/plugins/fontawesome/css/all.min.css'/>">
@@ -78,38 +81,11 @@
                     <li class="has-submenu active">
                         <a href="">Patients <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
-                            <li><a href="search.html">Search Doctor</a></li>
-                            <li><a href="doctor-profile.html">Doctor Profile</a></li>
-                            <li><a href="booking.html">Booking</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="booking-success.html">Booking Success</a></li>
-                            <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
-                            <li><a href="favourites.html">Favourites</a></li>
                             <li><a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a></li>
                             <li  class="active"><a href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a></li>
                             <li><a href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
                             <li><a href="<c:url value='/change_password'/>">Change Password</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-submenu">
-                        <a href="">Pages <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="voice-call.html">Voice Call</a></li>
-                            <li><a href="video-call.html">Video Call</a></li>
-                            <li><a href="search.html">Search Doctors</a></li>
-                            <li><a href="calendar.html">Calendar</a></li>
-                            <li><a href="components.html">Components</a></li>
-                            <li class="has-submenu">
-                                <a href="invoices.html">Invoices</a>
-                                <ul class="submenu">
-                                    <li><a href="invoices.html">Invoices</a></li>
-                                    <li><a href="invoice-view.html">Invoice View</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="blank-page.html">Starter Page</a></li>
-                            <li><a href="login">Login</a></li>
-                            <li><a href="register">Register</a></li>
-                            <li><a href="forgot-password.html">Forgot Password</a></li>
+                            <li><a href="<c:url value='/logout'/>">Logout</a></li>
                         </ul>
                     </li>
                     <li>
@@ -121,37 +97,29 @@
                 </ul>
             </div>
             <ul class="nav header-navbar-rht">
-                <li class="nav-item contact-item">
-                    <div class="header-contact-img">
-                        <i class="far fa-hospital"></i>
-                    </div>
-                    <div class="header-contact-detail">
-                        <p class="contact-header">Contact</p>
-                        <p class="contact-info-header"> +1 315 369 5943</p>
-                    </div>
-                </li>
-
                 <!-- User Menu -->
                 <li class="nav-item dropdown has-arrow logged-item">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<span class="user-img">
-
-									<img class="rounded-circle" src="<c:url value='${member.photosImagePath}' />" width="31">
+									<img class="rounded-circle" src="<c:url value='${member.photosImagePath}' />" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" width="31">
 								</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="user-header">
                             <div class="avatar avatar-sm">
-                                <img src="<c:url value='${member.photosImagePath}' />" alt="User Image" class="avatar-img rounded-circle">
+                                <img src="<c:url value='${member.photosImagePath}' />" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" alt="User Image" class="avatar-img rounded-circle">
                             </div>
                             <div class="user-text">
                                 <h6>${member.memberName}</h6>
                                 <p class="text-muted mb-0">Patient</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>
+<%--                        <a class="dropdown-item" href="patient-dashboard.html">Dashboard</a>--%>
+                        <a class="dropdown-item" href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a>
+                        <a class="dropdown-item" href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a>
                         <a class="dropdown-item" href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a>
-                        <a class="dropdown-item" href="login">Logout</a>
+                        <a class="dropdown-item" href="<c:url value='/change_password'/>">Change Password</a>
+                        <a class="dropdown-item" href="<c:url value='/logout'/>">Logout</a>
                     </div>
                 </li>
                 <!-- /User Menu -->
@@ -169,10 +137,10 @@
                     <nav aria-label="breadcrumb" class="page-breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
+                            <li class="breadcrumb-item active" aria-current="page">Basic Settings</li>
                         </ol>
                     </nav>
-                    <h2 class="breadcrumb-title">Profile Settings</h2>
+                    <h2 class="breadcrumb-title">Basic Settings</h2>
                 </div>
             </div>
         </div>
@@ -183,39 +151,22 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-
                 <!-- Profile Sidebar -->
                 <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
                     <div class="profile-sidebar">
                         <div class="widget-profile pro-widget-content">
                             <div class="profile-info-widget">
                                 <a href="#" class="booking-doc-img">
-                                    <img src="<c:url value='${member.photosImagePath}' />" alt="User Image">
+                                    <img src="<c:url value='${member.photosImagePath}' />" onerror="this.src='<c:url value="/assets/img/DefaultPhoto.jpg"/>'" alt="User Image">
                                 </a>
                                 <div class="profile-det-info">
                                     <h3>${member.memberName}</h3>
-                                    <div class="patient-details">
-                                        <h5><i class="fas fa-birthday-cake"></i> 24 Jul 1983, 38 years</h5>
-                                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</h5>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="dashboard-widget">
                             <nav class="dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fas fa-columns"></i>
-                                            <span>Dashboard</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="favourites.html">
-                                            <i class="fas fa-bookmark"></i>
-                                            <span>Favourites</span>
-                                        </a>
-                                    </li>
                                     <li>
                                         <a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">
                                             <i class="far fa-grin-squint-tears"></i>
@@ -316,7 +267,44 @@
                                             <input type="text" class="form-control" name="memberLineId" value="${member.memberLineId}" >
                                         </div>
                                     </div>
-
+<%--                                    <div class="col-12 col-md-4">--%>
+<%--                                        <label>Member Address</label>--%>
+<%--                                        <div id="zipcode" class="form-group">--%>
+<%--                                            <div class="f10" data-role="county"></div>--%>
+<%--                                            <div class="f10" data-role="district"></div>--%>
+<%--                                        </div>--%>
+<%--                                        <script>--%>
+<%--                                            $("#zipcode").twzipcode({--%>
+<%--                                                "zipcodeIntoDistrict": true,--%>
+<%--                                                "css": ["city form-control", "town form-control"],--%>
+<%--                                                "countyName": "city", // 指定城市 select name--%>
+<%--                                                "districtName": "town" // 指定地區 select name--%>
+<%--                                            });--%>
+<%--                                        </script>--%>
+<%--                                        <style>--%>
+<%--                                            .city, .town{width: 100%;}--%>
+<%--                                            .f1{float:left;margin-left:5px;margin-right:5px;width:calc(5% - 10px)}--%>
+<%--                                            .f2{float:left;margin-left:5px;margin-right:5px;width:calc(10% - 10px)}--%>
+<%--                                            .f3{float:left;margin-left:5px;margin-right:5px;width:calc(15% - 10px)}--%>
+<%--                                            .f4{float:left;margin-left:5px;margin-right:5px;width:calc(20% - 10px)}--%>
+<%--                                            .f5{float:left;margin-left:5px;margin-right:5px;width:calc(25% - 10px)}--%>
+<%--                                            .f6{float:left;margin-left:5px;margin-right:5px;width:calc(30% - 10px)}--%>
+<%--                                            .f7{float:left;margin-left:5px;margin-right:5px;width:calc(35% - 10px)}--%>
+<%--                                            .f8{float:left;margin-left:5px;margin-right:5px;width:calc(40% - 10px)}--%>
+<%--                                            .f9{float:left;margin-left:5px;margin-right:5px;width:calc(45% - 10px)}--%>
+<%--                                            .f10{float:left;margin-left:5px;margin-right:5px;width:calc(50% - 10px)}--%>
+<%--                                            .f11{float:left;margin-left:5px;margin-right:5px;width:calc(55% - 10px)}--%>
+<%--                                            .f12{float:left;margin-left:5px;margin-right:5px;width:calc(60% - 10px)}--%>
+<%--                                            .f13{float:left;margin-left:5px;margin-right:5px;width:calc(65% - 10px)}--%>
+<%--                                            .f14{float:left;margin-left:5px;margin-right:5px;width:calc(70% - 10px)}--%>
+<%--                                            .f15{float:left;margin-left:5px;margin-right:5px;width:calc(75% - 10px)}--%>
+<%--                                            .f16{float:left;margin-left:5px;margin-right:5px;width:calc(80% - 10px)}--%>
+<%--                                            .f17{float:left;margin-left:5px;margin-right:5px;width:calc(85% - 10px)}--%>
+<%--                                            .f18{float:left;margin-left:5px;margin-right:5px;width:calc(90% - 10px)}--%>
+<%--                                            .f19{float:left;margin-left:5px;margin-right:5px;width:calc(95% - 10px)}--%>
+<%--                                            .f20{float:left;margin-left:5px;margin-right:5px;width:calc(100% - 10px)}--%>
+<%--                                        </style>--%>
+<%--                                    </div>--%>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label>Member Address</label>
@@ -326,11 +314,22 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group"></div>
                                     </div>
-                                    <div class="submit-section">
-                                        <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                                    <div class="submit-section" style="text-align: center">
+                                        <button type="submit"  class="btn btn-primary submit-btn">Save Changes</button>
+                                        <input class="btn btn-primary" value="橘子" type="button" onclick="buttin1()">
                                     </div>
                                 </f>
                             </form>
+                            <script>
+                                function buttin1(){
+                                    document.querySelector("body > div.main-wrapper > div.content > div > div > div.col-md-7.col-lg-8.col-xl-9 > div > div > form > f > div:nth-child(6) > div > input").value='立花蜜柑（花橘子）'
+                                    document.querySelector("body > div.main-wrapper > div.content > div > div > div.col-md-7.col-lg-8.col-xl-9 > div > div > form > f > div:nth-child(7) > div > input").value='B987654321';
+                                    document.querySelector("body > div.main-wrapper > div.content > div > div > div.col-md-7.col-lg-8.col-xl-9 > div > div > form > f > div:nth-child(8) > div > input").value='靜岡市靜岡市清水區入船町13-15';
+                                    document.querySelector("body > div.main-wrapper > div.content > div > div > div.col-md-7.col-lg-8.col-xl-9 > div > div > form > f > div:nth-child(9) > div > input").value='0987654321';
+                                    document.querySelector("body > div.main-wrapper > div.content > div > div > div.col-md-7.col-lg-8.col-xl-9 > div > div > form > f > div:nth-child(10) > div > input").value='shawnhws0306@gmail.com';
+                                }
+                            </script>
+
                             <!-- /Profile Settings Form -->
                         </div>
                     </div>
@@ -355,28 +354,6 @@
                             <div class="footer-logo">
                                 <img src="<c:url value='/assets/img/footer-logo.png'/>" alt="logo">
                             </div>
-                            <div class="footer-about-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                <div class="social-icon">
-                                    <ul>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <!-- /Footer Widget -->
 
@@ -388,11 +365,11 @@
                         <div class="footer-widget footer-menu">
                             <h2 class="footer-title">For Patients</h2>
                             <ul>
-                                <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
-                                <li><a href="login"><i class="fas fa-angle-double-right"></i> Login</a></li>
-                                <li><a href="register"><i class="fas fa-angle-double-right"></i> Register</a></li>
-                                <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
-                                <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
+<%--                                <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>--%>
+                                <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> Login</a></li>
+                                <li><a href="<c:url value='/register'/>"><i class="fas fa-angle-double-right"></i> Register</a></li>
+<%--                                <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>--%>
+<%--                                <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>--%>
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
@@ -413,33 +390,7 @@
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
-
                     </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-contact">
-                            <h2 class="footer-title">Contact Us</h2>
-                            <div class="footer-contact-info">
-                                <div class="footer-address">
-                                    <span><i class="fas fa-map-marker-alt"></i></span>
-                                    <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
-                                </div>
-                                <p>
-                                    <i class="fas fa-phone-alt"></i>
-                                    +1 315 369 5943
-                                </p>
-                                <p class="mb-0">
-                                    <i class="fas fa-envelope"></i>
-                                    doccure@example.com
-                                </p>
-                            </div>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
                 </div>
             </div>
         </div>

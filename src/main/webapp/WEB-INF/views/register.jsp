@@ -84,38 +84,11 @@
                     <li class="has-submenu">
                         <a href="">Patients <i class="fas fa-chevron-down"></i></a>
                         <ul class="submenu">
-                            <li><a href="search.html">Search Doctor</a></li>
-                            <li><a href="doctor-profile.html">Doctor Profile</a></li>
-                            <li><a href="booking.html">Booking</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="booking-success.html">Booking Success</a></li>
-                            <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
-                            <li><a href="favourites.html">Favourites</a></li>
-                            <li><a href="<c:url value='/member/photo_settings/${memberDetails.member.memberPkId}'/>">Photo Settings</a></li>
-                            <li><a href="<c:url value='/member/basic_settings/${memberDetails.member.memberPkId}'/>">Basic Settings</a></li>
-                            <li><a href="<c:url value='/memberDetails/profile_settings/${memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
-                            <li><a href="change-password.html">Change Password</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-submenu active">
-                        <a href="">Pages <i class="fas fa-chevron-down"></i></a>
-                        <ul class="submenu">
-                            <li><a href="voice-call.html">Voice Call</a></li>
-                            <li><a href="video-call.html">Video Call</a></li>
-                            <li><a href="search.html">Search Doctors</a></li>
-                            <li><a href="calendar.html">Calendar</a></li>
-                            <li><a href="components.html">Components</a></li>
-                            <li class="has-submenu">
-                                <a href="invoices.html">Invoices</a>
-                                <ul class="submenu">
-                                    <li><a href="invoices.html">Invoices</a></li>
-                                    <li><a href="invoice-view.html">Invoice View</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="blank-page.html">Starter Page</a></li>
-                            <li><a href="login">Login</a></li>
-                            <li class="active"><a href="register">Register</a></li>
-                            <li><a href="forgot-password.html">Forgot Password</a></li>
+                                <li><a href="<c:url value='/member/photo_settings/${memberDetails.member.memberPkId}'/>">Photo Settings</a></li>
+                                <li><a href="<c:url value='/member/basic_settings/${memberDetails.member.memberPkId}'/>">Basic Settings</a></li>
+                                <li><a href="<c:url value='/memberDetails/profile_settings/${memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
+                                <li><a href="<c:url value='/change_password'/>">Change Password</a></li>
+                                <li><a href="<c:url value='/logout'/>">Logout</a></li>
                         </ul>
                     </li>
                     <li>
@@ -127,15 +100,6 @@
                 </ul>
             </div>
             <ul class="nav header-navbar-rht">
-                <li class="nav-item contact-item">
-                    <div class="header-contact-img">
-                        <i class="far fa-hospital"></i>
-                    </div>
-                    <div class="header-contact-detail">
-                        <p class="contact-header">Contact</p>
-                        <p class="contact-info-header"> +1 315 369 5943</p>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link header-login" href="<c:url value='/member/login'/>">login / Signup </a>
                 </li>
@@ -163,19 +127,17 @@
                                 </div>
 
                                 <!-- Register Form -->
-                                <form action="<c:url value='/process_register'/>" method="post">
+                                <form action="<c:url value='/process_register'/>" method="post" id="form">
                                     <div id="memberAccountInfo" class="text-danger"></div>
                                     <div class="form-group form-focus">
                                         <input type="email" name="memberAccount" id="memberAccount" onblur="validateNotRepeatedAccount();"
                                                class="email form-control floating" required />
                                         <label class="focus-label">E-mail Account</label>
                                     </div>
-
                                     <div class="form-group form-focus">
                                         <input type="password" name="memberPwd" id="memberPwd" class="password form-control floating" minlength="6" maxlength="10"
                                                required />
                                         <label class="focus-label">Create Password</label>
-
                                     </div>
                                     <div class="form-group form-focus">
                                         <input type="text" name="memberName" class="form-control floating" required minlength="2" maxlength="20"/>
@@ -197,13 +159,35 @@
                                         <input type="text" name="memberLineId" class="form-control floating" required minlength="10" maxlength="20"/>
                                         <label class="focus-label">Line Id</label>
                                     </div>
-
                                     <div class="text-right">
                                         <a class="forgot-link" href="<c:url value='/member/login'/>">Already have an account?</a>
+                                        <input class="btn btn-primary" value="花爸" type="button" onclick="buttin1()">
+                                        <input class="btn btn-primary" value="橘子" type="button" onclick="buttin2()">
                                     </div>
                                     <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Signup</button>
+
                                 </form>
                                 <script>
+                                    function buttin1(){
+                                        document.querySelector("#memberAccount").value='shawnhws@yahoo.com.tw';
+                                        document.querySelector("#memberPwd").value='123456';
+                                        document.querySelector("#form > div:nth-child(4) > input").value='立花仁（花爸）'
+                                        document.querySelector("#form > div:nth-child(5) > input").value='A123456789';
+                                        document.querySelector("#form > div:nth-child(6) > input").value='日本東京埼玉縣春日部市雙葉町904';
+                                        document.querySelector("#form > div:nth-child(7) > input").value='0912345678';
+                                        document.querySelector("#form > div:nth-child(8) > input").value='0912345678';
+                                    }
+
+                                    function buttin2(){
+                                        document.querySelector("#memberAccount").value='shawnhws0306@gmail.com';
+                                        document.querySelector("#memberPwd").value='123456';
+                                        document.querySelector("#form > div:nth-child(4) > input").value='立花蜜柑（花橘子）'
+                                        document.querySelector("#form > div:nth-child(5) > input").value='B987654321';
+                                        document.querySelector("#form > div:nth-child(6) > input").value='靜岡市靜岡市清水區入船町13-15';
+                                        document.querySelector("#form > div:nth-child(7) > input").value='0987654321';
+                                        document.querySelector("#form > div:nth-child(8) > input").value='shawnhws0306@gmail.com';
+                                    }
+
                                     var xmlhttprequest = null;
                                     function validateNotRepeatedAccount() {
                                         if (window.ActiveXObject) {//IE瀏覽器
@@ -256,28 +240,6 @@
                             <div class="footer-logo">
                                 <img src="<c:url value='/assets/img/footer-logo.png'/>" alt="logo">
                             </div>
-                            <div class="footer-about-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                <div class="social-icon">
-                                    <ul>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <!-- /Footer Widget -->
 
@@ -289,11 +251,11 @@
                         <div class="footer-widget footer-menu">
                             <h2 class="footer-title">For Patients</h2>
                             <ul>
-                                <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
-                                <li><a href="login"><i class="fas fa-angle-double-right"></i> Login</a></li>
+<%--                                <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>--%>
+                                <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> Login</a></li>
                                 <li><a href="<c:url value='/register'/>"><i class="fas fa-angle-double-right"></i> Register</a></li>
-                                <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
-                                <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
+<%--                                <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>--%>
+<%--                                <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>--%>
                             </ul>
                         </div>
                         <!-- /Footer Widget -->
@@ -316,31 +278,6 @@
                         <!-- /Footer Widget -->
 
                     </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-contact">
-                            <h2 class="footer-title">Contact Us</h2>
-                            <div class="footer-contact-info">
-                                <div class="footer-address">
-                                    <span><i class="fas fa-map-marker-alt"></i></span>
-                                    <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
-                                </div>
-                                <p>
-                                    <i class="fas fa-phone-alt"></i>
-                                    +1 315 369 5943
-                                </p>
-                                <p class="mb-0">
-                                    <i class="fas fa-envelope"></i>
-                                    doccure@example.com
-                                </p>
-                            </div>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
                 </div>
             </div>
         </div>

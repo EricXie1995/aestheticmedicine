@@ -1,10 +1,11 @@
 package com.iiiedu.beauty.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Member {
@@ -13,7 +14,7 @@ public class Member {
 	private Integer memberPkId;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "memberDetailsPkId",nullable = false)
+	@JoinColumn(name = "memberDetailsPkId")
 	private MemberDetails memberDetails;
 
 	@Column(nullable = false,unique = true,length = 45)
@@ -229,7 +230,7 @@ public class Member {
 		long lastChangedTime = this.passwordChangedTime.getTime();
 
 		return currentTime > lastChangedTime + PASSWORD_EXPIRATION_TIME;
-
+	}
 	public List<Question> getQuestion() {
 		return question;
 	}

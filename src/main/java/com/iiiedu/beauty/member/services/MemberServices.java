@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 @Transactional
 public class MemberServices {
 
-
-
     @Autowired
     private MemberRepository memberRepository;
 
