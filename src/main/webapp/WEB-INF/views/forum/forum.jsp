@@ -88,15 +88,17 @@ white-space: normal;
 	href="<c:url value='/assets/plugins/fontawesome/css/fontawesome.min.css'></c:url>">
 <link rel="stylesheet"
 	href="<c:url value='/assets/plugins/fontawesome/css/all.min.css'></c:url>">
-<!-- Main CSS -->
-<link rel="stylesheet"
-	href="<c:url value='/assets/css/style.css'></c:url>">
+
 <!-- Datetimepicker CSS -->
 		<link rel="stylesheet" href="<c:url value='/assets/css/bootstrap-datetimepicker.min.css'></c:url>">
 <!-- Select2 CSS -->
 	<link rel="stylesheet" href="<c:url value='/assets/plugins/select2/css/select2.min.css' />">
 <!-- Fancybox CSS -->
 	<link rel="stylesheet" href="<c:url value='/assets/plugins/fancybox/jquery.fancybox.min.css' />">
+	
+	<!-- Main CSS -->
+<link rel="stylesheet"
+	href="<c:url value='/assets/css/style.css'></c:url>">
 	
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
@@ -693,8 +695,7 @@ white-space: normal;
 		src="<c:url value='/assets/plugins/theia-sticky-sidebar/ResizeSensor.js' />"></script>
 	<script
 		src="<c:url value='/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js' />"></script>
-	<!-- Custom JS -->
-	<script src="<c:url value='/assets/js/script.js' />"></script>
+	
 <!-- 	<!-- Select2 JS --> 
 		<script src="<c:url value='/assets/plugins/select2/js/select2.min.js' />"></script>
 		<!-- Datetimepicker JS -->
@@ -703,6 +704,9 @@ white-space: normal;
 		
 		<!-- Fancybox JS -->
 		<script src="<c:url value='/assets/plugins/fancybox/jquery.fancybox.min.js' />"></script>
+		
+		<!-- Custom JS -->
+	<script src="<c:url value='/assets/js/script.js' />"></script>
 		
 		<script type="text/javascript">
 		

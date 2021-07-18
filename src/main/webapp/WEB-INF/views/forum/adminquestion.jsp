@@ -415,6 +415,7 @@ white-space: normal;
 										<table class="datatable table table-hover table-center mb-0">
 											<thead>
 												<tr>
+													<th>狀態</th>
 													<th>ID</th>
 													<th>分類</th>
 													<th>作者</th>
@@ -431,6 +432,28 @@ white-space: normal;
 											<tbody>
 											<c:forEach var="question" items="${page}">
 												<tr>
+													<td>
+														<select class="select2-container " onchange="self.location.href=options[selectedIndex].value">
+														<c:if test="${question.status == 1}">
+														<option class="sorting" selected
+																value="<c:url value='/admin/question/status?queId=${question.questionPkId}&sta=1' />">正常</option>
+																<option class="sorting"
+																value="<c:url value='/admin/question/status?queId=${question.questionPkId}&sta=0' />">封鎖</option>
+														</c:if>
+														<c:if test="${question.status == 0}">
+														<option class="sorting" 
+																value="<c:url value='/admin/question/status?queId=${question.questionPkId}&sta=1' />">正常</option>
+														<option class="sorting" selected
+																value="<c:url value='/admin/question/status?queId=${question.questionPkId}&sta=0' />">封鎖</option>
+														</c:if>
+														</select>
+	<!-- 														<div class="status-toggle"> -->
+	<%-- 														<c:if test="${question.status == 1}"> --%>
+	<%-- 															<input type="checkbox" id="status_${question.questionPkId}" class="check" checked data-id="${question.questionPkId}"> --%>
+	<%-- 															<label for="status_${question.questionPkId}" class="checktoggle">checkbox</label> --%>
+	<%-- 														</c:if> --%>
+	<!-- 														</div> -->
+													</td>
 													<td>${question.questionPkId}</td>
 													<td>${question.type.typeName}</td>
 													<td>
@@ -601,6 +624,67 @@ white-space: normal;
 		
 		<script src="<c:url value='/js/forum/custom/dashboard-charts.js' />"></script>
 		<script src="<c:url value='/js/forum/custom/randomColor.min.js' />"></script>
+		<script type="text/javascript">
+// 		var queId = e.getAttribute("data-id");
+		
+// 		$("#status_" + queId).click(function() {
+// 			if($("#status_" + queId).attr('checked')){
+// 		    	console.log("1111111111111111111111111111111111111111111111");
+// 				   //如給被勾選將做什麼事
+
+// 				}else{
+// 		    	console.log("000000000000000000000000000000000000000000000000");
+
+// 			});
+
+// $('.check').on('click', function() {
+  // 這裡的 this 指向 #dataTable tbody tr 這一個 DOM 元素
+  // 用 $() 將 this 轉成 jQuery object
+//   console.log("000000000000000");
+// });
+
+// var sta = document.querySelector("#status_" + queId);
+// sta.addEventListener('click', function() {
+//   alert('click!');
+// });
+		
+		
+// 		function statusabc() {
+// 		    var queId = e.getAttribute("data-id");
+// 		    var content = $().val();
+// 		    if($("#status_" + queId).attr('checked')){
+// 		    	console.log("1111111111111111111111111111111111111111111111");
+				   //如給被勾選將做什麼事
+
+// 				}else{
+// 		    	console.log("000000000000000000000000000000000000000000000000");
+
+				   //沒被勾選做什麼事
+
+// 				}
+// 		    if (content == '') {
+// 		        alert("回覆內容不能為空")
+// 		    } else {
+// 		        $.ajax({
+// 		            type: "POST",
+// 		            url: "/beauty/reply",
+// 		            contentType: 'application/json',
+// 		            data: JSON.stringify({
+// 		                "parentid": commentid,
+// 		                "type": 2,
+// 		                "content": content
+// 		            }),
+// 		            success: function (data) {
+// 		                if (data.code == 200) {
+// 		                    window.location.reload();
+// 		                } else {
+// 		                    alert("出現了錯誤");
+// 		                }
+// 		            },
+// 		            dataType: "json"
+// 		        });
+		
+		</script>
 		
 </body>
 </html>

@@ -232,6 +232,7 @@
                 	<span style="color: gray">${question.type.typeName} • <span style="color: gray"><fmt:formatDate value="${question.createtime}" type="both"/></span></span>                                            
             </span>
                 <hr>
+                <c:if test="${question.status==1}">
                 <!--内容-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12" id="question-view" style="background-color: white;border-radius:10px;width: 1000px;">
                     ${question.description}
@@ -328,7 +329,7 @@
                             <!-- 點讚(還沒做)、評論、時間 -->
                             <div class="question-menu" style="margin-bottom: 10px">
                                 <!-- 回覆按鈕 -->
-                                <span class="far fa-comment" aria-hidden="true" style="font-size: 15px"
+                                <span class="far fa-comment" aria-hidden="true" style="font-size: 15px;"
                                       data-id="${reply.replyPkId}" data-check="1" onclick="secondcomment(this)">${reply.commentcount}</span><c:if test="${reply.commentcount==null}">0</c:if>&nbsp;
                                 <span style="color: gray;"><fmt:formatDate value="${reply.createtime}" type="both"/></span>
                             </div>                                
@@ -376,7 +377,7 @@
         <!--右側信息框-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-ss-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-ss-12">
-                <h2><b>問題發起人</b></h2>
+                <h2><b>作者</b></h2>
                 <div class="media">
                     <div class="media-left"> 
                         <img class="avatar-img rounded-circle" style="width: 150px;height: 150px"   
@@ -393,7 +394,7 @@
 <!--             ============================ -->
 			<div class="col-lg-12 col-md-12 col-sm-12 col-ss-12"><h1><b>相關問題</b></h1></div>
 							<div class="doctor-slider slider col-lg-12 col-md-12 col-sm-12 col-ss-12 drop-shadow">
-							
+				
 								<!-- Doctor Widget -->
 								<c:forEach var="relativequestion" items="${relativequestion}">
 								<div class="profile-widget">
@@ -427,6 +428,13 @@
 								</div>
 								</c:forEach>
 								<!-- /Doctor Widget -->
+								
+								</c:if>	
+								<c:if test="${question.status==0}">
+						        	<i class='fas fa-ban' style='font-size:48px;color:red'></i>
+						        	<h1>違反發文規則，文章已封鎖</h1>
+						        	<br><br>
+					        	</c:if>
 								
 							</div>
 <!-- =================================================== -->

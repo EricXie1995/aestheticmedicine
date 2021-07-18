@@ -1,6 +1,8 @@
 package com.iiiedu.beauty.model;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

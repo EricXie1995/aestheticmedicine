@@ -158,6 +158,8 @@ public class ForumController {
 			model.addAttribute("typId", typId);
 		}
 //====================================================================================================
+		//首頁通知區塊
+		
 		Pageable pageable2 = PageRequest.of(0, 6, Sort.by(Sort.Direction.DESC, "createtime"));
 //		Member member = (Member) session.getAttribute("member");
 //		Integer unreadnum = (Integer) session.getAttribute("unreadnum");

@@ -134,6 +134,16 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionRepository.updateCutView(queId);
 	}
 
+	@Override
+	public Integer updateStatus1(Integer queId) {
+		return questionRepository.updateStatus1(queId);
+	}
+
+	@Override
+	public Integer updateStatus0(Integer queId) {
+		return questionRepository.updateStatus0(queId);
+	}
+
 
 
 }

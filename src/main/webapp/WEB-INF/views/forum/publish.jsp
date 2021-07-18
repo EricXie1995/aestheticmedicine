@@ -188,7 +188,7 @@
 									<li class="breadcrumb-item active" aria-current="page">討論板</li>
 								</ol>
 							</nav>
-							<h2 class="breadcrumb-title">問題發佈</h2>
+							<h2 class="breadcrumb-title">貼文發佈</h2>
 						</div>
 					</div>
 				</div>
@@ -199,7 +199,7 @@
 			<div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-ss-12">
-            <i class='fas fa-pen' style='font-size:36px'></i><h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><c:if test="${question.questionPkId == null}">發起問題</c:if><c:if test="${question.questionPkId != null}">修改問題</c:if></h2>
+            <i class='fas fa-pen' style='font-size:36px'></i><h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span><c:if test="${question.questionPkId == null}">發起討論</c:if><c:if test="${question.questionPkId != null}">修改問題</c:if></h2>
             <hr>
 <!--             這裡寫判斷兩種路徑是針對修改的情況，若是新增則沒差，都是空的，因為修改第一次點進來的時候是從question.jsp的編輯按鈕經過controller送過來，路徑帶有 -->
 <!--             question.questionPkId，抓到id就可以判斷是新增，但如果有欄位格式出錯網頁重跳轉進來id會不見，這樣再送出會變新增，所以從controller那把第一次傳過去的 -->
@@ -254,7 +254,7 @@
           <!-- 分類選擇 -->
                 
                 <div class="form-group">
-                    <label for="title">問題標題</label>
+                    <label for="title">文章標題</label>
                     <c:if test="${questionDto.title==null}">
                     <input id="inptitle" type="text" class="form-control" value="${question.title}" id="title" name="title" autocomplete="on" onblur="ver1()"><div id="vtitle"></div>
                     </c:if>
@@ -265,7 +265,7 @@
                 </div>
                 
                 <div class="form-group" id="question-editor">
-                    <label for="description">問題內容</label>
+                    <label for="description">文章內容</label>
                     <c:if test="${questionDto.description==null}">
                     <textarea class="form-control" name="description" id="summernote" 
                               cols="20" rows="15">${question.description}</textarea><div id="vcontent"></div>
@@ -358,7 +358,7 @@
 
 					<a class="btn btn-primary" data-toggle="modal" href="#send_modal" style="float: right">
 					<c:if test="${question.questionPkId == null}">
-						<i class="fe fe-trash"></i> <b>送出問題</b>
+						<i class="fe fe-trash"></i> <b>送出文章</b>
 					</c:if>
 					<c:if test="${question.questionPkId != null}">
 						<i class="fe fe-trash"></i> <b>修改完成</b>
@@ -394,10 +394,10 @@
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-ss-12">
-            <h3>發起問題說明</h3>
-            <h4>問題標題：請用簡潔的標題描述發佈問題</h4>
-            <h4>問題內容：詳細描述問題的內容</h4>
-            <h4>選擇標籤：選擇一個或多個合適的標籤</h4>
+            <h3 style="text-align: center;">發文規則</h3>
+            <h4>1. 勿中傷、歧視、挑釁或謾罵他人</h4>
+            <h4>2. 勿惡意洗板、重複張貼</h4>
+            <h4>3. 文章請發表在適當分類看板</h4>
         </div>
     </div>
 </div>
