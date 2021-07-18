@@ -72,7 +72,7 @@
 								<span></span>
 							</span>
 						</a>
-						<a href="index.html" class="navbar-brand logo">
+						<a href="<c:url value='/'/>" class="navbar-brand logo">
 							<img src="assets/img/logo.png" class="img-fluid" alt="Logo">
 						</a>
 					</div>
@@ -149,15 +149,15 @@
 						</ul>
 					</div>		 
 					<ul class="nav header-navbar-rht">
-						<li class="nav-item contact-item">
-							<div class="header-contact-img">
-								<i class="far fa-hospital"></i>							
-							</div>
-							<div class="header-contact-detail">
-								<p class="contact-header">Contact</p>
-								<p class="contact-info-header"> +1 315 369 5943</p>
-							</div>
-						</li>
+<!-- 						<li class="nav-item contact-item"> -->
+<!-- 							<div class="header-contact-img"> -->
+<!-- 								<i class="far fa-hospital"></i>							 -->
+<!-- 							</div> -->
+<!-- 							<div class="header-contact-detail"> -->
+<!-- 								<p class="contact-header">Contact</p> -->
+<!-- 								<p class="contact-info-header"> +1 315 369 5943</p> -->
+<!-- 							</div> -->
+<!-- 						</li> -->
 						<li class="nav-item">
 							<a class="nav-link header-login" href="login.html">login / Signup </a>
 						</li>
