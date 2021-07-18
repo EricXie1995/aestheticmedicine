@@ -86,36 +86,46 @@
         </div>
         <ul class="main-nav">
           <li>
-            <a href="<c:url value=''/>">Home</a>
+            <a href="<c:url value='/'/>"><b>首頁</b></a>
           </li>
           <li class="has-submenu">
-            <a href="">Doctors <i class="fas fa-chevron-down"></i></a>
+            <a href=""><b>診所</b> <i class="fas fa-chevron-down"></i></a>
             <ul class="submenu">
-              <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
-              <li><a href="appointments.html">Appointments</a></li>
-              <li><a href="schedule-timings.html">Schedule Timing</a></li>
-              <li><a href="my-patients.html">Patients List</a></li>
-              <li><a href="patient-profile.html">Patients Profile</a></li>
-              <li><a href="chat-doctor.html">Chat</a></li>
-              <li><a href="invoices.html">Invoices</a></li>
-              <li><a href="doctor-profile-settings.html">Profile Settings</a></li>
-              <li><a href="reviews.html">Reviews</a></li>
-              <li><a href="doctor-register.html">Doctor Register</a></li>
+<!--               <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li> -->
+              <li><a href="/beauty/appointment/appointment1">預約</a></li>
+<!--               <li><a href="schedule-timings.html">Schedule Timing</a></li> -->
+<!--               <li><a href="my-patients.html">Patients List</a></li> -->
+<!--               <li><a href="patient-profile.html">Patients Profile</a></li> -->
+<!--               <li><a href="chat-doctor.html">Chat</a></li> -->
+<!--               <li><a href="invoices.html">Invoices</a></li> -->
+<!--               <li><a href="doctor-profile-settings.html">Profile Settings</a></li> -->
+<!--               <li><a href="reviews.html">Reviews</a></li> -->
+<!--               <li><a href="doctor-register.html">Doctor Register</a></li> -->
             </ul>
           </li>
-          <li class="has-submenu active">
-            <a href="">Patients <i class="fas fa-chevron-down"></i></a>
+          <li class="has-submenu">
+            <a href=""><b>會員</b> <i class="fas fa-chevron-down"></i></a>
             <ul class="submenu">
-              <li  class="active"><a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">Photo Settings</a></li>
-              <li><a href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">Basic Settings</a></li>
-              <li><a href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">Profile Settings</a></li>
-              <li><a href="<c:url value='/change_password'/>">Change Password</a></li>
-              <li><a href="<c:url value='/logout'/>">Logout</a></li>
+              <li  class="active"><a href="<c:url value='/member/photo_settings/${member.memberPkId}'/>">照片上傳</a></li>
+              <li><a href="<c:url value='/member/basic_settings/${member.memberPkId}'/>">基本資料</a></li>
+              <li><a href="<c:url value='/memberDetails/profile_settings/${member.memberDetails.memberDetailsPkId}'/>">初診資料</a></li>
+              <li><a href="<c:url value='/change_password'/>">更換密碼</a></li>
+              <li><a href="<c:url value='/logout'/>">登出</a></li>
             </ul>
           </li>
-          <li>
-            <a href="admin/index.html" target="_blank">Admin</a>
-          </li>
+          <li class="has-submenu"><a href="<c:url value='/forum/-1' />"><b>討論板</b><i
+						class="fas fa-chevron-down"></i></a>
+						<ul class="submenu">
+					<li><a href="<c:url value='/personal/questions' />">個人中心</a></li>
+					<li><a href="<c:url value='/adminindex' />">Admin</a></li>
+				</ul></li>
+			<li class="has-submenu"><a href="shoppingMall/main" target="_blank"><b>購物商城</b></a><i
+					class="fas fa-chevron-down"></i></a>
+					<ul class="submenu">
+			</ul></li>
+<!--           <li> -->
+<!--             <a href="admin/index.html" target="_blank">Admin</a> -->
+<!--           </li> -->
           <li class="login-link">
             <a href="login">Login / Signup</a>
           </li>
@@ -123,7 +133,7 @@
       </div>
       <ul class="nav header-navbar-rht">
         <li class="nav-item">
-          <a class="nav-link header-login" href="<c:url value='/member/login'/>">login / Signup</a>
+          <a class="nav-link header-login" href="<c:url value='/member/login'/>">登入 / 註冊</a>
         </li>
       </ul>
     </nav>
@@ -135,8 +145,8 @@
     <div class="container-fluid">
       <div class="banner-wrapper">
         <div class="banner-header text-center">
-          <h1>Search Doctor, Make an Appointment</h1>
-          <p>Discover the best doctors, clinic & hospital the city nearest to you.</p>
+          <h1>你與白天鵝之間，只差了一個搜尋</h1>
+          <p>找出離你最近的診所吧！</p>
         </div>
 
         <!-- Search -->
@@ -155,7 +165,7 @@
                   <span class="f10" data-role="county" style="width: 100px"></span>
                   <span class="f10" data-role="district" style="width: 150px"></span>
                   <input name="likeString" style="width: 200px;display: inline;" type="text" placeholder="搜尋" class="form-control">
-                  <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>
+                  <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>出發！</span></button>
               </div>
             
           </form>
@@ -206,8 +216,8 @@
             <div class="footer-widget footer-menu">
               <h2 class="footer-title">For Patients</h2>
               <ul>
-                <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> Login</a></li>
-                <li><a href="<c:url value='/register'/>"><i class="fas fa-angle-double-right"></i> Register</a></li>
+                <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> 登入</a></li>
+                <li><a href="<c:url value='/register'/>"><i class="fas fa-angle-double-right"></i> 註冊</a></li>
               </ul>
             </div>
             <!-- /Footer Widget -->
@@ -217,11 +227,11 @@
             <div class="footer-widget footer-menu">
               <h2 class="footer-title">For Doctors</h2>
               <ul>
-                <li><a href="appointments.html"><i class="fas fa-angle-double-right"></i> Appointments</a></li>
-                <li><a href="chat.html"><i class="fas fa-angle-double-right"></i> Chat</a></li>
-                <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> Login</a></li>
-                <li><a href="doctor-register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
-                <li><a href="doctor-dashboard.html"><i class="fas fa-angle-double-right"></i> Doctor Dashboard</a></li>
+                <li><a href="appointments.html"><i class="fas fa-angle-double-right"></i> 預約</a></li>
+<!--                 <li><a href="chat.html"><i class="fas fa-angle-double-right"></i> Chat</a></li> -->
+                <li><a href="<c:url value='/member/login'/>"><i class="fas fa-angle-double-right"></i> 登出</a></li>
+                <li><a href="doctor-register.html"><i class="fas fa-angle-double-right"></i> 註冊</a></li>
+<!--                 <li><a href="doctor-dashboard.html"><i class="fas fa-angle-double-right"></i> Doctor Dashboard</a></li> -->
               </ul>
             </div>
             <!-- /Footer Widget -->

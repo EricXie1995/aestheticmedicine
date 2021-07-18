@@ -389,6 +389,7 @@
 						</div>
 					</div>
 				</div>
+				<button id="auto" class="btn btn-primary" style="margin-left: 900px" type="button"><b>一鍵發文</b></button>
 <!--                 <button id="ipsb" type="submit" class="btn btn-primary" style="float: right"><b>送出問題</b></button> -->
 <%--                 <span class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}!= null"></span> --%>
             </form>
