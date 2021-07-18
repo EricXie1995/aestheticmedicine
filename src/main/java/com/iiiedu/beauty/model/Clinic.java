@@ -39,6 +39,11 @@ public class Clinic {
 	@OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
 	private List<Dentist> dentist = new ArrayList<>();
 	
+	private String clinicType;
+	private String clinicCity;
+	private String clinicDist;
+	private String BHours;
+	
 	public Clinic() {
 		super();
 	}
@@ -161,6 +166,38 @@ public class Clinic {
 
 	public void setDentist(List<Dentist> dentist) {
 		this.dentist = dentist;
+	}
+
+	public String getClinicType() {
+		return clinicType;
+	}
+
+	public void setClinicType(String clinicType) {
+		this.clinicType = clinicType;
+	}
+
+	public String getClinicCity() {
+		return clinicCity;
+	}
+
+	public void setClinicCity(String clinicCity) {
+		this.clinicCity = clinicCity;
+	}
+
+	public String getClinicDist() {
+		return clinicDist;
+	}
+
+	public void setClinicDist(String clinicDist) {
+		this.clinicDist = clinicDist;
+	}
+
+	public String getBHours() {
+		return BHours;
+	}
+
+	public void setBHours(String bHours) {
+		BHours = bHours;
 	}
 
 	@Override

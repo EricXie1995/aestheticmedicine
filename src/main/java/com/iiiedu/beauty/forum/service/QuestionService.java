@@ -50,4 +50,8 @@ public interface QuestionService {
 	List<Question> findAllLikeSearch2(String likeString, Integer queId);
 	
 	Integer updateCutView(Integer queId);
+	
+	Integer updateStatus1(Integer queId);
+	
+	Integer updateStatus0(Integer queId);
 }

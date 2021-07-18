@@ -21,13 +21,38 @@
   <!-- Main CSS -->
   <link rel="stylesheet" href="<c:url value='/assets/css/style.css'/>">
 
+<script src="<c:url value='/assets/js/jquery.min.js'/>"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>	
+	
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
 
     <script src=" <c:url value='/assets/js/html5shiv.min.js'/>"></script>
     <script src=" <c:url value='/assets/js/respond.min.js'/>"></script>
    <![endif]-->
-
+<style>
+                                           .city, .town{width: 100%;}
+                                           .f1{float:left;margin-left:5px;margin-right:5px;width:calc(5% - 10px)}
+                                           .f2{float:left;margin-left:5px;margin-right:5px;width:calc(10% - 10px)}
+                                           .f3{float:left;margin-left:5px;margin-right:5px;width:calc(15% - 10px)}
+                                           .f4{float:left;margin-left:5px;margin-right:5px;width:calc(20% - 10px)}
+                                           .f5{float:left;margin-left:5px;margin-right:5px;width:calc(25% - 10px)}
+                                           .f6{float:left;margin-left:5px;margin-right:5px;width:calc(30% - 10px)}
+                                           .f7{float:left;margin-left:5px;margin-right:5px;width:calc(35% - 10px)}
+                                           .f8{float:left;margin-left:5px;margin-right:5px;width:calc(40% - 10px)}
+                                           .f9{float:left;margin-left:5px;margin-right:5px;width:calc(45% - 10px)}
+                                           .f10{float:left;margin-left:5px;margin-right:5px;width:calc(50% - 10px)}
+                                           .f11{float:left;margin-left:5px;margin-right:5px;width:calc(55% - 10px)}
+                                           .f12{float:left;margin-left:5px;margin-right:5px;width:calc(60% - 10px)}
+                                           .f13{float:left;margin-left:5px;margin-right:5px;width:calc(65% - 10px)}
+                                           .f14{float:left;margin-left:5px;margin-right:5px;width:calc(70% - 10px)}
+                                           .f15{float:left;margin-left:5px;margin-right:5px;width:calc(75% - 10px)}
+                                           .f16{float:left;margin-left:5px;margin-right:5px;width:calc(80% - 10px)}
+                                           .f17{float:left;margin-left:5px;margin-right:5px;width:calc(85% - 10px)}
+                                           .f18{float:left;margin-left:5px;margin-right:5px;width:calc(90% - 10px)}
+                                           .f19{float:left;margin-left:5px;margin-right:5px;width:calc(95% - 10px)}
+                                           .f20{float:left;margin-left:5px;margin-right:5px;width:calc(100% - 10px)}
+                                       </style>
 </head>
 <body>
 
@@ -115,19 +140,42 @@
         </div>
 
         <!-- Search -->
-        <div class="search-box">
-          <form action="search.html">
-            <div class="form-group search-location">
-              <input type="text" class="form-control" placeholder="Search Location">
-              <span class="form-text">Based on your Location</span>
-            </div>
-            <div class="form-group search-info">
-              <input type="text" class="form-control" placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc">
-              <span class="form-text">Ex : Dental or Sugar Check up etc</span>
-            </div>
-            <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>
+        <div style="width: 800px;">
+        
+          <form action="<c:url value="/searchClinic" />">
+<!--             <div class="form-group search-location"> -->
+<!--               <input type="text" class="form-control" placeholder="Search Location"> -->
+<!--               <span class="form-text">選擇縣市</span> -->
+<!--             </div> -->
+<!--             <div class="form-group search-info"> -->
+<!--               <input type="text" class="form-control" placeholder="Search Doctors, Clinics, Hospitals, Diseases Etc"> -->
+<!--               <span class="form-text">選擇市區</span> -->
+<!--             </div> -->
+              <div id="zipcode" style="margin-left: 110px" class="form-group">
+                  <span class="f10" data-role="county" style="width: 100px"></span>
+                  <span class="f10" data-role="district" style="width: 150px"></span>
+                  <input name="likeString" style="width: 200px;display: inline;" type="text" placeholder="搜尋" class="form-control">
+                  <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>
+              </div>
+            
           </form>
         </div>
+        
+<!--                                        <div class="col-12 col-md-4"> -->
+<!--                                        <div id="zipcode" class="form-group"> -->
+<!--                                            <span class="f10" data-role="county"></span> -->
+<!--                                            <span class="f10" data-role="district" style="width: 300px"></span> -->
+<!--                                        </div> -->
+                                       <script>
+                                           $("#zipcode").twzipcode({
+                                               "zipcodeIntoDistrict": true,
+                                               "css": ["city form-control", "town form-control"],
+                                               "countyName": "clinicCity", // 指定城市 select name
+                                               "districtName": "clinicDist" // 指定地區 select name
+                                           });
+                                       </script>
+                                       
+                                   </div>
         <!-- /Search -->
 
       </div>
@@ -224,7 +272,7 @@
 </div>
 <!-- /Main Wrapper -->
 <!-- jQuery -->
-<script src="<c:url value='/assets/js/jquery.min.js'/>"></script>
+<%-- <script src="<c:url value='/assets/js/jquery.min.js'/>"></script> --%>
 
 <!-- Bootstrap Core JS -->
 <script src="<c:url value='/assets/js/popper.min.js'/>"></script>

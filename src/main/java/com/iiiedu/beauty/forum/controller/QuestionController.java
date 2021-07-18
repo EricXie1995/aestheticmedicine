@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -96,7 +97,7 @@ public class QuestionController {
 //        model.addAttribute("relativequestion",relativequestion);
 		
 		//相關問題-----------------------------------------
-		List<Question> relativequestion = new ArrayList<>();
+		List<Question> relativequestion = new ArrayList<>(); 
 		String[] tags = question.getTag().split(",");
 		for (int i = 0; i < tags.length; i++) {
 			relativequestion.addAll(questionService.findAllLikeSearch2(tags[i], id));
@@ -123,7 +124,7 @@ public class QuestionController {
 		attributes.addFlashAttribute("message", "問題刪除成功");
 		return "redirect:/personal/questions";
 	}
-
+	
 	//想做草稿，有問題還沒做
 //	@ResponseBody
 //	@RequestMapping(value = "/testa", method = RequestMethod.POST)

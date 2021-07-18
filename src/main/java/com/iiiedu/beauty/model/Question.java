@@ -32,6 +32,7 @@ public class Question {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createtime;
     private Integer favoritecount;
+    private Integer status;
     
     @ManyToOne
 	@JoinColumn(name = "memberPkId")
@@ -136,6 +137,13 @@ public class Question {
 	}
 	public void setFavoritecount(Integer favoritecount) {
 		this.favoritecount = favoritecount;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	@Override
 	public String toString() {

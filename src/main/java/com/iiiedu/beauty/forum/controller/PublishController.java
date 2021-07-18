@@ -111,6 +111,7 @@ public class PublishController {
 	        
 	        
 	        question.setCreatetime(new Date());
+	        question.setStatus(1);
 
 	        questionService.save(question);
 	        return "redirect:/forum/-1";

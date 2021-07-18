@@ -361,7 +361,8 @@ white-space: normal;
 												</a></li>
 											</c:if>
 					
-											<c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1">
+<%-- 											<c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1"> --%>
+											<c:forEach begin="0" end="${(page.totalPages-1) > 0 ? page.totalPages-1:0}" var="i" step="1">
 												<c:if test="${i==page.number}">
 													<li style="opacity:0.4"><a class="page-link"
 														href="<c:url value='/personal/${section}?page=${i}' />">${i+1}</a>
@@ -502,7 +503,8 @@ white-space: normal;
 												</a></li>
 											</c:if>
 					
-											<c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1">
+<%-- 											<c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1"> --%>
+											<c:forEach begin="0" end="${(page.totalPages-1) > 0 ? page.totalPages-1:0}" var="i" step="1">
 												<c:if test="${i==page.number}">
 													<li style="opacity:0.4"><a class="page-link"
 														href="<c:url value='/personal/${section}?page=${i}' />">${i+1}</a>
@@ -586,7 +588,8 @@ white-space: normal;
 												</a></li>
 											</c:if>
 					
-											<c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1">
+<%-- 											<c:forEach begin="0" end="${page.totalPages-1}" var="i" step="1"> --%>
+											<c:forEach begin="0" end="${(page.totalPages-1) > 0 ? page.totalPages-1:0}" var="i" step="1">
 												<c:if test="${i==page.number}">
 													<li style="opacity:0.4"><a class="page-link"
 														href="<c:url value='/personal/${section}?page=${i}' />">${i+1}</a>

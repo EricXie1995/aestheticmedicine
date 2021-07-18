@@ -150,6 +150,16 @@ public class AdminForumController {
 		return "forum/adminType";
 	}
 	
+	@GetMapping("/admin/question/status")
+	public String questionType(@RequestParam Integer queId, @RequestParam Integer sta) {
+		if(sta == 1) {
+			questionService.updateStatus1(queId);
+		} else {
+			questionService.updateStatus0(queId);
+		}
+		return "redirect:/adminQuestion";
+	}
+	
 	//一些套件的測試頁
 	@GetMapping("/testt")
 	public String adminQuestion() {

@@ -103,4 +103,13 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	@Modifying
 	@Query(value = "update question set viewcount = isnull(viewcount, 0)-1 where questionpkid = ?1", nativeQuery = true)
 	Integer updateCutView(Integer queId);
+	
+	// 文章狀態
+	@Modifying
+	@Query(value = "update question set status = 1 where questionpkid = ?1", nativeQuery = true)
+	Integer updateStatus1(Integer queId);
+	
+	@Modifying
+	@Query(value = "update question set status = 0 where questionpkid = ?1", nativeQuery = true)
+	Integer updateStatus0(Integer queId);
 }
