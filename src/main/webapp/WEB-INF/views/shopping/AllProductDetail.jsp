@@ -174,12 +174,12 @@
 		function updateProduct(href,id) {
 			console.log("func.updateProduct.herf = "+href);
 			var form = $('#updateForm')[0];
-			console.log("func.updateProduct.form = ");
-			console.log(form);
+// 			console.log("func.updateProduct.form = ");
+// 			console.log(form);
 				
 			var data = new FormData(form);
-			console.log("func.updateProduct.data = "+data);
-			console.log(data);
+// 			console.log("func.updateProduct.data = "+data);
+// 			console.log(data);
 			data.append("productPkId",id);
 			$.ajax({
 		        type: "POST",

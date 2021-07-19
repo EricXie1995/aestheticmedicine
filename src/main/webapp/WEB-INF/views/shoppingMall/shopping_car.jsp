@@ -156,8 +156,10 @@
 		
         
 		function buyConfirm(carId,productsCounts) {
-			var address = getUserAddress(${currentUser.id});
-			var phoneNumber = getUserPhoneNumber(${currentUser.id});
+// 			var address = getUserAddress(${currentUser.id},carId);
+			console.log("buyConfirm.carId = "+carId);
+			var address = getUserAddress(carId);
+			var phoneNumber = getUserPhoneNumber(carId);
 			var totalPrice = 0;
 			
 			var html = 
@@ -232,18 +234,22 @@
 		}
 
 
-		function getUserAddress(id) {
+		function getUserAddress(carId) {
 			var address = "";
-			var user = {};
-			user.id = id;
+			var car = {};
+			car.id = carId[0];
+			console.log("getUserAddress.user = ");
+			console.log(carId[0]);
+			
 			$.ajax({
 				async : false, //设置同步
 				type : 'POST',
-				url : '${cp}/shoppingMall/getUserAddressAndPhoneNumber',
-				data : user,
+				url : '${cp}/shoppingMall/getUserAddress',
+				data : car,
 				dataType : 'json',
 				success : function(result) {
 					address = result.address;
+// 					layer.alert('查詢成功'+address);
 				},
 				error : function(result) {
 					layer.alert('查詢錯誤');
@@ -253,18 +259,21 @@
 		}
 
 
-		function getUserPhoneNumber(id) {
+		function getUserPhoneNumber(carId) {
 			var phoneNumber = "";
-			var user = {};
-			user.id = id;
+			var car = {};
+			car.id = carId[0];
+			console.log("getUserPhoneNumber.user = ");
+			console.log(car.id);
 			$.ajax({
 				async : false, //设置同步
 				type : 'POST',
-				url : '${cp}/shoppingMall/getUserAddressAndPhoneNumber',
-				data : user,
+				url : '${cp}/shoppingMall/getUserPhoneNumber',
+				data : car,
 				dataType : 'json',
 				success : function(result) {
 					phoneNumber = result.phoneNumber;
+// 					layer.alert('查詢成功'+phoneNumber);
 				},
 				error : function(result) {
 					layer.alert('查詢錯誤');

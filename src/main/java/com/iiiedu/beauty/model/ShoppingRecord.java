@@ -1,5 +1,6 @@
 package com.iiiedu.beauty.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 //@IdClass(value=ShoppingRecordPriKey.class)
@@ -27,11 +29,11 @@ public class ShoppingRecord {
     private int productPrice;
     private int counts;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "productPkId",nullable = false)
 	private Product product;
     
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userPkId",nullable = false)
 	private UserMain userMain;
 

@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 //@IdClass(value=ShoppingRecordPriKey.class)
@@ -22,7 +23,7 @@ public class Evaluation {
     private String time;
     private String content;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "userPkId",nullable = false)
 	private UserMain userMain;
     

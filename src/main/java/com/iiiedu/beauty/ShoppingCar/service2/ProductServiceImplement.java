@@ -30,7 +30,7 @@ public class ProductServiceImplement implements ProductService {
     @Override
     public Product getProduct(int id) {
     	
-    	System.out.println("12312313213");
+//    	System.out.println("12312313213");
     	Optional<Product> optional = productDao.findById(id);
 		Product product = null;
 		if (optional.isPresent()) {

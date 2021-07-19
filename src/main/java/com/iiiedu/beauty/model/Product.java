@@ -1,17 +1,16 @@
 package com.iiiedu.beauty.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Blob;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
@@ -25,6 +24,11 @@ public class Product {
     private int price;
     private int counts;
     private int type;
+    private String fileName;
+    @JsonIgnore
+	private Blob image;
+	@Transient
+	private MultipartFile productImage;
     
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //	private List<ShoppingCar> shoppingCar = new ArrayList<>();
@@ -32,9 +36,36 @@ public class Product {
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //	private List<Evaluation> evaluation = new ArrayList<>();
 
+	
+	public String getFileName() {
+		return fileName;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
+	public Blob getImage() {
+		return image;
+	}
+	
+	public void setImage(Blob image) {
+		this.image = image;
+	}
+	
+	public MultipartFile getProductImage() {
+		return productImage;
+	}
+	
+	public void setProductImage(MultipartFile productImage) {
+		System.out.println("setProductImage=>" + productImage);
+		this.productImage = productImage;
+	}
+	
 	public int getId() {
 		return id;
 	}
+
 
 	public void setId(int id) {
 		this.id = id;
