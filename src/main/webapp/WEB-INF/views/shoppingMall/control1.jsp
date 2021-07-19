@@ -24,9 +24,11 @@
   <body>
     <!--导航栏部分-->
     <jsp:include page="../include/header.jsp"/>
- 
 
-	<!-- update Modal -->
+    <!-- 中间内容 -->
+    <div class="container-fluid">
+    
+    <!-- update Modal -->
 				<div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
 					aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
@@ -53,21 +55,9 @@
 										<input type='text' class='form-control' name='description' id='product-description'>
 									</div>
 									<div class='form-group'>
-										<label for='product-keyword' class='col-form-label'>分類關鍵字:</label>
-										<input type='text' class='form-control' name='keyWord' id='product-keyword'>
+										<label for='product-keyWord' class='col-form-label'>分類關鍵字:</label>
+										<input type='text' class='form-control' name='keyWord' id='product-keyWord'>
 									</div>
-									<div class="form-group">
-                                		<label for="product-type" class="col-form-label">商品類別</label>
-                                   			<select class="form-control" name="type" id="product-type">
-                                       			<option value="1">護目鏡</option>
-                                        		<option value="2">防護衣</option>
-                                       			<option value="3">抗菌噴霧</option>
-                                        		<option value="4">醫用手套</option>
-                                       			<option value="5">酒精／優碘棉片</option>
-                                    			<option value="6">藥皂／乾洗手(藥用)</option>
-                                       			<option value="7">傷口護理用品</option>
-                                   			</select>
-                           		   </div>
 									<div class='form-group'>
 										<label for='product-image' class='col-form-label'>產品圖片:</label>
 										<input type='file' name='productImage' id='product-image'>
@@ -77,23 +67,20 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-dismiss="modal">取消</button>
-									<a class='updatelink' href="<c:url value='/' />shoppingMall/product/">
+									<a class='updatelink' href="<c:url value='/' />shopping/products/">
 								<button id="confirmUpdate" type="button" class="btn btn-primary">儲存變更</button></a>
 							</div>
 						</div>
 					</div>
 				</div>
-
-    <!-- 中间内容 -->
-    <div class="container-fluid">
+    
         <div class="row">
             <!-- 控制栏 -->
-            <div class="col-sm-3 col-md-2 sidebar sidebar-1" style="background-color:#ACD6FF;">
+            <div class="col-sm-3 col-md-2 sidebar sidebar-1">
                 <ul class="nav nav-sidebar">
                     <li class="list-group-item-diy"><a href="#section1">查看所有會員<span class="sr-only">(current)</span></a></li>
                     <li class="list-group-item-diy"><a href="#section2">查看所有商品</a></li>
                     <li class="list-group-item-diy"><a href="#section3">添加商品</a></li>
-                    
                 </ul>
             </div>
             <!-- 控制内容 -->
@@ -112,7 +99,6 @@
                     <div class="col-lg-12 col-md-12 col-sm-12" id="productArea"></div>
                     <br/>
                 </div>
-				
 
                 <div class="col-md-12">
                     <hr/>
@@ -120,42 +106,41 @@
                     <hr/>
                     <div class="col-sm-offset-2 col-md-offest-2">
                         <!-- 表单输入 -->
-                        <form id="addForm" method="POST"  enctype="multipart/form-data" >
                         <div  class="form-horizontal">
                             <div class="form-group">
                                 <label for="productName" class="col-sm-2 col-md-2 control-label">商品名稱</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input type="text" class="form-control" name='Name' id="productName"/>
+                                    <input type="text" class="form-control" id="productName" placeholder="口罩帶好，防疫沒煩惱" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="productDescribe" class="col-sm-2 col-md-2 control-label">商品描述</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input type="text" class="form-control" name='description'  id="productDescribe" >
+                                    <textarea type="text" class="form-control" id="productDescribe" placeholder="balabalabalabala"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="productkeyWord" class="col-sm-2 col-md-2 control-label">關鍵字</label>
+                                <label for="keyWord" class="col-sm-2 col-md-2 control-label">關鍵字</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input type='text' class='form-control' name='keyWord' id="productkeyWord" >
+                                    <textarea type="text" class="form-control" id="keyWord" placeholder="xxxx;xxxx;xxxx"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="productPrice" class="col-sm-2 col-md-2 control-label">商品價格</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input type="text" class="form-control" name='Price' id="productPrice" />
+                                    <input type="text" class="form-control" id="productPrice" placeholder="399" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="productCount" class="col-sm-2 col-md-2 control-label">商品數量</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input type="text" class="form-control"  name='counts' id="productCount" />
+                                    <input type="text" class="form-control" id="productCount" placeholder="100" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="productType" class="col-sm-2 col-md-2 control-label">商品類別</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <select class="form-control" name="type" id="productType">
+                                    <select name="productType" class="form-control" id="productType">
                                         <option value="1">護目鏡</option>
                                         <option value="2">防護衣</option>
                                         <option value="3">抗菌噴霧</option>
@@ -167,24 +152,23 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="productImgUpload" class="col-sm-2 col-md-2 control-label" >商品圖片</label>
+                                <label for="productImgUpload" class="col-sm-2 col-md-2 control-label" accept="image/jpg">商品圖片</label>
                                 <div class="col-sm-6 col-md-6">
-                                    <input type="file" name="productImage" id="productImgUpload"/>
+                                    <input name="productImgUpload" type="file"  id="productImgUpload"/>
                                     <p class="help-block">上傳圖片大小應為280*160大小</p>
                                 </div>
                                 <%--<button class="btn btn-primary col-sm-2 col-md-2" onclick="fileUpload()">上传图片</button>--%>
                             </div>
-<!--                             <div class="form-group"> -->
-<!--                                 <div class="col-sm-offset-2 col-sm-6" id="imgPreSee"> -->
-<!--                                 </div> -->
-<!--                             </div> -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-6" id="imgPreSee">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
                                     <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="addProduct()">新增商品</button>
                                 </div>
                             </div>
                         </div>
-                        </form>
                         <br/>
                     </div>
                 </div>
@@ -196,75 +180,7 @@
     <!-- 尾部 -->
     <jsp:include page="../include/foot.jsp"/>
   <script type="text/javascript">
-		function showModal(id) {
-// 		        console.log("開啟靜態框");
-		        $("#updateModal").on('show.bs.modal', function(event) {
-// 					console.log("updateModal");
-					var button = $("#updatebtn"+id);
-					id = button.data('id');
-					var name = button.data('name');
-					$(this).find('.modal-body #product-name').val(name)
-					var price = button.data('price');
-					$(this).find('.modal-body #product-price').val(price)
-					var counts = button.data('counts');
-					$(this).find('.modal-body #product-counts').val(counts)
-					var keyword = button.data('keyword');
-// 					console.log("K = "+keyword);
-					$(this).find('.modal-body #product-keyword').val(keyword)
-					var description = button.data('description');
-					$(this).find('.modal-body #product-description').val(description)
-					var type = button.data('type');
-					$(this).find(".modal-body select").val(type);
-				});
-			 $("#updateModal").modal("show");
-			 $(".updatelink").click(function() {
-					console.log(id);
-						if (confirm('確定變更此筆資料? ')) {
-							var href = $(this).attr('href')+id;
-							console.log(href);
-							event.preventDefault();
-							if(id != null){							
-		 					updateProduct(href,id);
-							}else{
-								alert("id is null");
-							}
-//							$('#updateForm').attr('action', href).submit();
-						}
-						return false;
-				});
-		}
- 
-		function updateProduct(href,id) {
-			console.log("func.updateProduct.herf = "+href);
-			var form = $('#updateForm')[0];
-// 			console.log("func.updateProduct.form = ");
-// 			console.log(form);
-				
-			var data = new FormData(form);
-			data.append("productPkId",id);
-// 			console.log("func.updateProduct.data = "+data);
-// 			console.log(data);
-			$.ajax({
-		        type: "POST",
-		        enctype: 'multipart/form-data',
-		        url: href,
-		        data: data,
-		        processData: false, //prevent jQuery from automatically transforming the data into a query string
-		        contentType: false,
-		        cache: false,
-		        success: function (data) {
-		            console.log("SUCCESS !! ", data.result);
-// 		            window.location = '/beauty/shopping/showAllProducts	';
-		        	 listAllProduct();
-		        	 window.location = '/beauty/shoppingMall/control';
-		        },
-		        error: function (e) {
-		            console.log("ERROR : ", e);
-		        }
-	    	});
-		}
-		
-  
+
       var loading = layer.load(0);
       listAllUser();
       listAllProduct();
@@ -327,22 +243,16 @@
           var html="";
           productArea.innerHTML = '';
           for(var i=0;i<allProduct.length;i++){
-              var imgURL = "${cp}/shoppingMall/picture/"+allProduct[i].id;
+              var imgURL = "${cp}/Mall/img/"+allProduct[i].id+".jpg";
               html+='<div class="col-sm-4 col-md-4 pd-5">'+
                       '<div class="boxes">'+
                       '<div class="big bigimg">'+
-                      '<img onclick="showModal('+allProduct[i].id+')" src="'+imgURL+'">'+
+                      '<img src="'+imgURL+'">'+
                       '</div>'+
                       '<p class="font-styles center">'+allProduct[i].name+'</p>'+
                       '<p class="pull-right">價格：'+allProduct[i].price+'</p>'+
                       '<p class="pull-left">庫存：'+allProduct[i].counts+'</p>'+
                       '<div class = "row">'+
-                      '<button style="display:none" class="btn btn-primary" id="updatebtn'+allProduct[i].id+'"'+
-      				  'data-id="'+allProduct[i].id+'" data-name="'+allProduct[i].name+'"'+
-      				  'data-price="'+allProduct[i].price+'" data-counts="'+allProduct[i].counts+'"'+
-      				  'data-keyword="'+allProduct[i].keyWord+'" data-description="'+allProduct[i].description+'"'+
-      				  'data-type="'+allProduct[i].type+'">'+
-                      '修改</button>'+
                       '<button class="btn btn-primary delete-button" type="submit" onclick="deleteProduct('+allProduct[i].id+')">删除商品</button>'+
                       '</div>'+
                       '</div>'+
@@ -373,13 +283,11 @@
                   layer.alert('查詢所以商品錯誤');
               }
           });
-        //這裡的eval方法不同於prase方法，外面加括號
           allProducts = eval("("+allProducts+")");
           return allProducts;
       }
 
       function deleteUser(id) {
-    	  console.log(id);
           var user = {};
           user.id = id;
           var deleteResult = "";
@@ -393,16 +301,14 @@
                   deleteResult = result;
               },
               error : function(result) {
-                  layer.alert('查詢會員錯誤deleteUser');
+                  layer.alert('查詢會員錯誤');
               }
           });
-//           layer.msg(deleteResult.message);
+          layer.msg(deleteResult.message);
           listAllUser()
       }
 
       function deleteProduct(id) {
-    	  if (confirm('確定刪除此產品? ')) {
-//     	  event.preventDefault();
           var product = {};
           product.id = id;
           var deleteResult = "";
@@ -413,59 +319,45 @@
               data : product,
               dataType : 'json',
               success : function(result) {
-//                   deleteResult = result;
-//                   layer.alert('刪除商品成功');
-         		 listAllProduct();
+                  deleteResult = result;
               },
               error : function(result) {
                   layer.alert('刪除商品錯誤');
               }
           });
-//           layer.msg(deleteResult.message);
-			}
-			return false;
+          layer.msg(deleteResult.message);
+          listAllProduct();
       }
       
       function addProduct() {
-    	  event.preventDefault();
-    	  console.log("func.addProduct");
-		  var form = $('#addForm')[0];
-		  console.log(form);
-		  var data = new FormData(form);
-//           var loadings = layer.load(0);
-//           var product = {};
-//           product.name = document.getElementById("productName").value;
-//           product.description = document.getElementById("productDescribe").value;
-//           product.keyWord = document.getElementById("keyWord").value;
-//           product.price = document.getElementById("productPrice").value;
-//           product.counts = document.getElementById("productCount").value;
-//           product.type = document.getElementById("productType").value;
-//           var addResult="";
+          var loadings = layer.load(0);
+          var product = {};
+          product.name = document.getElementById("productName").value;
+          product.description = document.getElementById("productDescribe").value;
+          product.keyWord = document.getElementById("keyWord").value;
+          product.price = document.getElementById("productPrice").value;
+          product.counts = document.getElementById("productCount").value;
+          product.type = document.getElementById("productType").value;
+          var addResult="";
           $.ajax({
               async : false,
               type : 'POST',
-              enctype: 'multipart/form-data',
               url : '${cp}/shoppingMall/addProduct',
-              data : data,
-              processData: false, //prevent jQuery from automatically transforming the data into a query string
-		      contentType: false,
-		      cache: false,
+              data : product,
+              dataType : 'json',
               success : function(result) {
-//                   addResult = result.result;
-//                   layer.alert('新增商品成功');
-                  listAllProduct();
-// 		          window.location = '/beauty/shoppingMall/control';
+                  addResult = result.result;
               },
-//               error : function(result) {
-//                   layer.alert('新增商品錯誤');
-//               }
+              error : function(result) {
+                  layer.alert('刪除商品錯誤');
+              }
           });
-//           if(addResult == "success") {
-//               fileUpload();
-//               layer.msg('新增商品成功', {icon: 1, time: 1000});
-//               layer.close(loadings)
-//           }
-//           listAllProduct();
+          if(addResult == "success") {
+              fileUpload();
+              layer.msg('新增商品成功', {icon: 1, time: 1000});
+              layer.close(loadings)
+          }
+          listAllProduct();
       }
       
       function fileUpload() {

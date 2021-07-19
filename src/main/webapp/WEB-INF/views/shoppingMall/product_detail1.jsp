@@ -8,14 +8,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>商品详情</title>
+    <title>商品詳情</title>
 
-      <link href="${cp}/css/bootstrap.min.css" rel="stylesheet">
-      <link href="${cp}/css/style.css" rel="stylesheet">
+      <link href="${cp}/Mall/css/bootstrap.min.css" rel="stylesheet">
+      <link href="${cp}/Mall/css/style.css" rel="stylesheet">
 
-      <script src="${cp}/js/jquery.min.js" type="text/javascript"></script>
-      <script src="${cp}/js/bootstrap.min.js" type="text/javascript"></script>
-      <script src="${cp}/js/layer.js" type="text/javascript"></script>
+      <script src="${cp}/Mall/js/jquery.min.js" type="text/javascript"></script>
+      <script src="${cp}/Mall/js/bootstrap.min.js" type="text/javascript"></script>
+      <script src="${cp}/Mall/js/layer.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
       <script src="${cp}/js/html5shiv.min.js"></script>
@@ -24,7 +24,7 @@
   </head>
   <body>
     <!--导航栏部分-->
-    <jsp:include page="include/header.jsp"/>
+    <jsp:include page="../include/header.jsp"/>
 
     <!-- 中间内容 -->
     <div class="container-fluid">
@@ -38,16 +38,16 @@
         <div class="row">
             <div class="col-sm-1 col-md-1"></div>
             <div class="col-sm-5 col-md-5">
-                <img class="detail-img" src="${cp}/img/${productDetail.id}.jpg">
+                <img class="detail-img" src="${cp}/shoppingMall/picture/${productDetail.id}">
             </div>
             <div class="col-sm-5 col-md-5 detail-x">
                 <table class="table table-striped">
                     <tr>
-                        <th>商品名称</th>
+                        <th>商品名稱</th>
                         <td>${productDetail.name}</td>
                     </tr>
                     <tr>
-                        <th>商品价格</th>
+                        <th>商品價格</th>
                         <td>${productDetail.price}</td>
                     </tr>
                     <tr>
@@ -55,15 +55,15 @@
                         <td>${productDetail.description}</td>
                     </tr>
                     <tr>
-                        <th>商品类别</th>
+                        <th>商品類別</th>
                         <td>${productDetail.type}</td>
                     </tr>
                     <tr>
-                        <th>商品库存</th>
+                        <th>商品庫存</th>
                         <td>${productDetail.counts}</td>
                     </tr>
                     <tr>
-                        <th>购买数量</th>
+                        <th>購買數量</th>
                         <td>
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn btn-default" onclick="subCounts()">-</button>
@@ -75,9 +75,9 @@
                 </table>
                 <div class="row">
                     <div class="col-sm-1 col-md-1 col-lg-1"></div>
-                    <button class="btn btn-danger btn-lg col-sm-4 col-md-4 col-lg-4" onclick="addToShoppingCar(${productDetail.id})">添加购物车</button>
+                    <button class="btn btn-danger btn-lg col-sm-4 col-md-4 col-lg-4" onclick="addToShoppingCar(${productDetail.id})">新增至購物車</button>
                     <div class="col-sm-2 col-md-2 col-lg-2"></div>
-                    <button  class="btn btn-danger btn-lg col-sm-4 col-md-4 col-lg-4" onclick="buyConfirm(${productDetail.id})">购买</button>
+                    <button  class="btn btn-danger btn-lg col-sm-4 col-md-4 col-lg-4" onclick="buyConfirm(${productDetail.id})">購買</button>
 
                 </div>
             </div>
@@ -95,7 +95,7 @@
     </div>
 
     <!-- 尾部 -->
-    <jsp:include page="include/foot.jsp"/>
+    <jsp:include page="../include/foot.jsp"/>
   <script type="text/javascript">
       listEvaluations();
 
@@ -111,20 +111,20 @@
           $.ajax({
               async : false,
               type : 'POST',
-              url : '${cp}/addShoppingCar',
+              url : '${cp}/shoppingMall/addShoppingCar',
               data : shoppingCar,
               dataType : 'json',
               success : function(result) {
                   addResult = result.result;
               },
               error : function(result) {
-                  layer.alert('查询用户错误');
+                  layer.alert('查詢帳號錯誤123');
               }
           });
           if(addResult == "success") {
-              layer.confirm('前往购物车？', {icon: 1, title:'添加成功',btn:['前往购物车','继续浏览']},
+              layer.confirm('前往購物車？', {icon: 1, title:'新增成功',btn:['前往購物車','繼續瀏覽']},
                       function(){
-                          window.location.href = "${cp}/shopping_car";
+                          window.location.href = "${cp}/shoppingMall/shopping_car";
                       },
                       function(index){
                         layer.close(index);}
@@ -134,7 +134,7 @@
 
       function judgeIsLogin() {
           if("${currentUser.id}" == null || "${currentUser.id}" === undefined || "${currentUser.id}" ===""){
-              window.location.href = "${cp}/login";
+              window.location.href = "${cp}/shoppingMall/login";
           }
       }
 
@@ -165,38 +165,38 @@
                   '<div class="col-sm-10 col-md-10 col-lg-10">'+
                   '<table class="table confirm-margin">'+
                   '<tr>'+
-                  '<th>商品名称：</th>'+
+                  '<th>商品名稱：</th>'+
                   '<td>'+product.name+'</td>'+
                   '</tr>'+
                   '<tr>'+
-                  '<th>商品单价：</th>'+
+                  '<th>商品單價：</th>'+
                   '<td>'+product.price+'</td>'+
                   '</tr>'+
                   '<tr>'+
-                  '<th>购买数量：</th>'+
+                  '<th>購買數量：</th>'+
                   '<td>'+counts+'</td>'+
                   '</tr>'+
                   '<tr>'+
-                  '<th>总金额：</th>'+
+                  '<th>總金額：</th>'+
                   '<td>'+counts*product.price+'</td>'+
                   '</tr>'+
                   '<tr>'+
-                  '<th>收货地址：</th>'+
+                  '<th>收貨地址：</th>'+
                   '<td>'+address+'</td>'+
                   '</tr>'+
                   '<tr>'+
-                  '<th>联系电话：</th>'+
+                  '<th>連絡電話：</th>'+
                   '<td>'+phoneNumber+'</td>'+
                   '</tr>'+
                   '</table>'+
                   '<div class="row">'+
                   '<div class="col-sm-4 col-md-4 col-lg-4"></div>'+
-                  '<button class="btn btn-danger col-sm-4 col-md-4 col-lg-4" onclick="addToShoppingRecords('+productId+')">确认购买</button>'+
+                  '<button class="btn btn-danger col-sm-4 col-md-4 col-lg-4" onclick="addToShoppingRecords('+productId+')">確認購買</button>'+
                   '</div>'+
                   '</div>';
           layer.open({
               type:1,
-              title:'请确认订单信息：',
+              title:'請確認訂單訊息：',
               content:html,
               area:['650px','350px'],
           });
@@ -209,14 +209,14 @@
           $.ajax({
               async : false, //设置同步
               type : 'POST',
-              url : '${cp}/getProductById',
+              url : '${cp}/shoppingMall/getProductById',
               data : product,
               dataType : 'json',
               success : function(result) {
                   productResult = result.result;
               },
               error : function(result) {
-                  layer.alert('查询错误');
+                  layer.alert('查詢錯誤');
               }
           });
           productResult = JSON.parse(productResult);
@@ -230,14 +230,14 @@
           $.ajax({
               async : false, //设置同步
               type : 'POST',
-              url : '${cp}/getUserAddressAndPhoneNumber',
+              url : '${cp}/shoppingMall/getUserAddressAndPhoneNumber',
               data : user,
               dataType : 'json',
               success : function(result) {
                   address = result.address;
               },
               error : function(result) {
-                  layer.alert('查询错误');
+                  layer.alert('查詢錯誤');
               }
           });
           return address;
@@ -250,14 +250,14 @@
           $.ajax({
               async : false, //设置同步
               type : 'POST',
-              url : '${cp}/getUserAddressAndPhoneNumber',
+              url : '${cp}/shoppingMall/getUserAddressAndPhoneNumber',
               data : user,
               dataType : 'json',
               success : function(result) {
                   phoneNumber = result.phoneNumber;
               },
               error : function(result) {
-                  layer.alert('查询错误');
+                  layer.alert('查詢錯誤');
               }
           });
           return phoneNumber;
@@ -274,27 +274,27 @@
           $.ajax({
               async : false,
               type : 'POST',
-              url : '${cp}/addShoppingRecord',
+              url : '${cp}/shoppingMall/addShoppingRecord',
               data : shoppingRecord,
               dataType : 'json',
               success : function(result) {
                   buyResult = result.result;
               },
               error : function(result) {
-                  layer.alert('购买错误');
+                  layer.alert('購買錯誤');
               }
           });
           if(buyResult === "success") {
-              layer.confirm('前往订单状态？', {icon: 1, title:'购买成功',btn:['前往订单','继续购买']},
+              layer.confirm('前往訂單狀態？', {icon: 1, title:'購買成功',btn:['前往訂單','繼續購買']},
                       function(){
-                          window.location.href = "${cp}/shopping_record";
+                          window.location.href = "${cp}/shoppingMall/shopping_record";
                       },
                       function(index){
                           layer.close(index);}
               );
           }
           else if(buyResult === "unEnough"){
-              layer.alert("库存不足，购买失败")
+              layer.alert("庫存不足，購買失敗")
           }
       }
 
@@ -302,10 +302,16 @@
           var evaluations = getEvaluations();
           var evaluationTable = document.getElementById("evaluation");
           var html = "";
+          
           for(var i=0;i<evaluations.length;i++){
-              var user = getUserById(evaluations[i].userId);
+        	  
+              var user = getUserByEvaId(evaluations[i].evaId);
               html+='<tr>'+
-                      '<th>'+user.nickName+'</th>'+
+              			'<th> 暱稱 </th>'+
+              			'<th> 內容 </th>'+
+              		'</tr>'+
+              		'<tr>'+
+                      '<td>'+user.nickName+'</td>'+
                       '<td>'+evaluations[i].content+'</td>'+
                       '</tr>';
           }
@@ -318,7 +324,7 @@
                       '</div>'+
                       '<div class="col-sm-12 col-md-12 col-lg-12">'+
                       '<div class="col-sm-4 col-md-4 col-lg-4"></div>'+
-                      '<button class="btn btn-primary btn-lg evaluationButton col-sm-4 col-md-4 col-lg-4" onclick="addToEvaluation()">评价</button>'+
+                      '<button class="btn btn-primary btn-lg evaluationButton col-sm-4 col-md-4 col-lg-4" onclick="addToEvaluation()">評價</button>'+
                       '</div>';
               inputArea.innerHTML +=html;
           }
@@ -333,14 +339,14 @@
           $.ajax({
               async : false, //设置同步
               type : 'POST',
-              url : '${cp}/getUserProductRecord',
+              url : '${cp}/shoppingMall/getUserProductRecord',
               data : product,
               dataType : 'json',
               success : function(result) {
                   results = result.result;
               },
               error : function(result) {
-                  layer.alert('查询错误');
+                  layer.alert('查詢錯誤');
               }
           });
           return results;
@@ -353,14 +359,14 @@
           $.ajax({
               async : false, //设置同步
               type : 'POST',
-              url : '${cp}/getShoppingEvaluations',
+              url : '${cp}/shoppingMall/getShoppingEvaluations',
               data : product,
               dataType : 'json',
               success : function(result) {
                   evaluations = result.result;
               },
               error : function(result) {
-                  layer.alert('查询错误');
+                  layer.alert('查詢錯誤');
               }
           });
           evaluations = eval("("+evaluations+")");
@@ -371,17 +377,40 @@
           var userResult = "";
           var user = {};
           user.id = id;
+          console.log(id);
           $.ajax({
               async : false, //设置同步
               type : 'POST',
-              url : '${cp}/getUserById',
+              url : '${cp}/shoppingMall/getUserById',
               data : user,
               dataType : 'json',
               success : function(result) {
                   userResult = result.result;
               },
               error : function(result) {
-                  layer.alert('查询错误');
+                  layer.alert('查詢錯誤45646');
+              }
+          });
+          userResult = JSON.parse(userResult);
+          return userResult;
+      }
+      
+      function getUserByEvaId(id) {
+          var userResult = "";
+          var user = {};
+          user.id = id;
+          console.log(id);
+          $.ajax({
+              async : false, //设置同步
+              type : 'POST',
+              url : '${cp}/shoppingMall/getUserByEvaId',
+              data : user,
+              dataType : 'json',
+              success : function(result) {
+                  userResult = result.result;
+              },
+              error : function(result) {
+                  layer.alert('查詢錯誤789456');
               }
           });
           userResult = JSON.parse(userResult);
@@ -398,19 +427,19 @@
           $.ajax({
               async : false,
               type : 'POST',
-              url : '${cp}/addShoppingEvaluation',
+              url : '${cp}/shoppingMall/addShoppingEvaluation',
               data : evaluation,
               dataType : 'json',
               success : function(result) {
                   addResult = result.result;
               },
               error : function(result) {
-                  layer.alert('查询用户错误');
+                  layer.alert('查詢帳號錯誤');
               }
           });
           if(addResult = "success"){
-              layer.msg("评价成功",{icon:1});
-              window.location.href = "${cp}/product_detail";
+              layer.msg("評價成功",{icon:1});
+              window.location.href = "${cp}/shoppingMall/product_detail";
           }
       }
 

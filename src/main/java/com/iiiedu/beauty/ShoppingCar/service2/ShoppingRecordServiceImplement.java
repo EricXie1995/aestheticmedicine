@@ -26,10 +26,6 @@ public class ShoppingRecordServiceImplement implements ShoppingRecordService {
         shoppingRecordDao.save(shoppingRecord);
     }
 
-    @Override
-    public void deleteShoppingRecord(int userId) {
-         shoppingRecordDao.deleteById(userId);
-    }
 
     @Override
     public void updateShoppingRecord(ShoppingRecord shoppingRecord) {

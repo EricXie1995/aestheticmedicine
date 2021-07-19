@@ -15,6 +15,8 @@ public interface EvaluationDao extends JpaRepository<Evaluation, Integer> {
 	@Query("from Evaluation where userPkId=?1 and productPkId=?2 and time=?3")
     public Evaluation findByUserIdAndProductIdAndTime(int userPkId,int productPkId,String time);
 
+	@Query("from Evaluation where userPkId=?1")
+	public List<Evaluation> findByUserPkId(int userPkId);
 //    public void addEvaluation(Evaluation evaluation);
 //
 //    public boolean deleteEvaluation(int userId,int productId,String time);

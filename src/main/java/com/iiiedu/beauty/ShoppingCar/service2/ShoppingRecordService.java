@@ -13,7 +13,6 @@ public interface ShoppingRecordService {
 
     public void addShoppingRecord(ShoppingRecord shoppingRecord);
 
-    public void deleteShoppingRecord(int userId);
 
     public void updateShoppingRecord(ShoppingRecord shoppingRecord);
 

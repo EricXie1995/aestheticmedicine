@@ -27,22 +27,22 @@
 	<div class="container-fluid">
 		<div class="row">
 			<!-- 控制栏 -->
-			<div class="col-sm-3 col-md-2 sidebar sidebar-1">
+			<div class="col-sm-3 col-md-2 sidebar sidebar-1" style="background-color:#ACD6FF;">
 				<ul class="nav nav-sidebar">
-					<li class="list-group-item-diy"><a href="#productArea1">衣服配饰 <span class="sr-only">(current)</span></a></li>
-					<li class="list-group-item-diy"><a href="#productArea2">数码产品</a></li>
-					<li class="list-group-item-diy"><a href="#productArea3">书籍办公</a></li>
-					<li class="list-group-item-diy"><a href="#productArea4">游戏周边</a></li>
-					<li class="list-group-item-diy"><a href="#productArea5">生活用品</a></li>
-					<li class="list-group-item-diy"><a href="#productArea6">化妆用品</a></li>
-					<li class="list-group-item-diy"><a href="#productArea7">运动用品</a></li>
+					<li class="list-group-item-diy"><a href="#productArea1">護目鏡 <span class="sr-only">(current)</span></a></li>
+					<li class="list-group-item-diy"><a href="#productArea2">防護衣</a></li>
+					<li class="list-group-item-diy"><a href="#productArea3">抗菌噴霧</a></li>
+					<li class="list-group-item-diy"><a href="#productArea4">醫用手套</a></li>
+					<li class="list-group-item-diy"><a href="#productArea5">酒精／優碘棉片</a></li>
+					<li class="list-group-item-diy"><a href="#productArea6">藥皂／乾洗手(藥用)</a></li>
+					<li class="list-group-item-diy"><a href="#productArea7">傷口護理用品</a></li>
 				</ul>
 			</div>
 			<!-- 控制内容 -->
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<div class="jumbotron">
-					<h1>歡迎來到購物+</h1>
-					<p>购物+是一个非常优秀的购物网站，你可以在这里买到物美价廉的东西，虽然它只是练习用的项目，哈哈哈哈</p>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" >
+				<div class="jumbotron" style="background-image: url('${cp}/Mall/img/Banners.jpg');">
+					<h1>歡迎來到 DOCCURE購物+</h1>
+					<p>知識就是力量，洗手就是榜樣！讓我們一起為台灣加油</p>
 				</div>
 
 				<div name="productArea1" class="row pd-10" id="productArea1">
@@ -79,13 +79,13 @@
 	  var loading = layer.load(0);
 
       var productType = new Array;
-      productType[1] = "衣服配饰";
-      productType[2] = "数码产品";
-      productType[3] = "书籍办公";
-      productType[4] = "游戏周边";
-      productType[5] = "生活用品";
-      productType[6] = "化妆用品";
-      productType[7] = "运动用品";
+      productType[1] = "護目鏡";
+      productType[2] = "防護衣";
+      productType[3] = "抗菌噴霧";
+      productType[4] = "醫用手套";
+      productType[5] = "酒精／優碘棉片";
+      productType[6] = "藥皂／乾洗手(藥用)";
+      productType[7] = "傷口護理用品";
 
 
 	  listProducts();
@@ -103,51 +103,54 @@
           console.log(allProduct);
           for(var i=0;i<allProduct.length;i++){
               var html = "";
-			  var imgURL = "${cp}/Mall/img/"+allProduct[i].id+".jpg";
+			  var imgURL = "${cp}/shoppingMall/picture/"+allProduct[i].id;
 			  html += '<div class="col-sm-4 col-md-4" >'+
 					  '<div class="boxes pointer" onclick="productDetail('+allProduct[i].id+')">'+
 					  '<div class="big bigimg">'+
 					  '<img src="'+imgURL+'">'+
 					  '</div>'+
 					  '<p class="product-name">'+allProduct[i].name+'</p>'+
-					  '<p class="product-price">¥'+allProduct[i].price+'</p>'+
+					  '<p class="product-price">'+allProduct[i].price+'</p>'+
 					  '</div>'+
 					  '</div>';
               var id = "productArea"+allProduct[i].type;
+              console.log("productArea = "+id);
+              console.log("html = "+html);
               var productArea = document.getElementById(id);
               if(mark[allProduct[i].type] == 0){
                   html ='<hr/><h1>'+productType[allProduct[i].type]+'</h1><hr/>'+html;
                   mark[allProduct[i].type] = 1;
               }
+              console.log("productArea = "+productArea);
               productArea.innerHTML += html;
 		  }
 		  layer.close(loading);
 	  }
 	  function getAllProducts() {
-		  var allProducts = null;
-		  var nothing = {};
-		  $.ajax({
-			  async : false, //设置同步
-			  type : 'POST',
-			  url : '${cp}/shoppingMall/getAllProducts',
-			  data : nothing,
-			  dataType : 'json',
-			  success : function(result) {
-				  if (result!=null) {
-					  allProducts = result.allProducts;
-				  }
-				  else{
-					  layer.alert('查詢錯誤');
-				  }
-			  },
-			  error : function(resoult) {
-				  layer.alert('查詢錯誤456');
-			  }
-		  });
-		  //划重点划重点，这里的eval方法不同于prase方法，外面加括号
-		  allProducts = eval("("+allProducts+")");
-		  return allProducts;
-	  }
+          var allProducts = null;
+          var nothing = {};
+          $.ajax({
+              async : false, //设置同步
+              type : 'POST',
+              url : '${cp}/shoppingMall/getAllProducts',
+              data : nothing,
+              dataType : 'json',
+              success : function(result) {
+                  if (result!=null) {
+                      allProducts = result.allProducts;
+                  }
+                  else{
+                      layer.alert('查詢所以商品錯誤');
+                  }
+              },
+              error : function(resoult) {
+                  layer.alert('查詢所以商品錯誤');
+              }
+          });
+        //這裡的eval方法不同於prase方法，外面加括號
+          allProducts = eval("("+allProducts+")");
+          return allProducts;
+      }
 
 	  function productDetail(id) {
 		  var product = {};

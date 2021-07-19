@@ -34,7 +34,7 @@ public class ShoppingCar implements Serializable {
 	@JoinColumn(name = "userPkId",nullable = false)
 	private UserMain userMain;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "productPkId",nullable = false)
 	private Product product;
 

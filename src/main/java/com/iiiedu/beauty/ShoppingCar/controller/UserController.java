@@ -13,15 +13,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.iiiedu.beauty.ShoppingCar.service2.EvaluationService;
+import com.iiiedu.beauty.ShoppingCar.service2.ShoppingCarService;
 import com.iiiedu.beauty.ShoppingCar.service2.ShoppingRecordService;
 import com.iiiedu.beauty.ShoppingCar.service2.UserDetailService;
 import com.iiiedu.beauty.ShoppingCar.service2.UserService;
 import com.iiiedu.beauty.model.Evaluation;
+import com.iiiedu.beauty.model.ShoppingCar;
 import com.iiiedu.beauty.model.ShoppingRecord;
 import com.iiiedu.beauty.model.UserDetail;
 import com.iiiedu.beauty.model.UserMain;
@@ -44,6 +47,9 @@ public class UserController {
     
     @Resource
     ShoppingRecordService shoppingRecordService;
+    
+    @Resource
+    ShoppingCarService shoppingCarService;
 
     @RequestMapping(value = "/register")
     public String register() {
@@ -174,14 +180,21 @@ public class UserController {
     //2018.04.08 修改BUG 这种方法为前后端交互推荐写法
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
     @ResponseBody
-    public void deleteUser(int id) {
-         userService.deleteUser(id);;
+    public Map<String, Object> deleteUser(int id) {
+    	System.out.println("/deleteUser id = "+id);
+//    	shoppingRecordService.deleteShoppingRecord(id);
+//    	shoppingCarService.deleteShoppingCar(id);
+//    	userDetailService.deleteUserDetail(id);
+         userService.deleteUser(id);
+         Map<String,Object> resultMap = new HashMap<String,Object>();
+         resultMap.put("result","Success");
+         return resultMap;
     }
 
     @RequestMapping(value = "/getUserAddressAndPhoneNumber", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getUserAddressAndPhoneNumber(int recordId) {
-    	System.out.println(recordId+"---------------7777777777777-----------------");
+    	System.out.println(recordId+"--------------------");
     	ShoppingRecord shoppingRecord = shoppingRecordService.getShoppingRecordById(recordId);
         String address = userDetailService.getUserDetail(shoppingRecord.getUserMain().getId()).getAddress();
         String phoneNumber = userDetailService.getUserDetail(shoppingRecord.getUserMain().getId()).getPhoneNumber();
@@ -191,6 +204,29 @@ public class UserController {
         return resultMap;
     }
 
+    @RequestMapping(value = "/getUserAddress", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getUserAddress(Integer id) {
+    	System.out.println(id+"---------------7777777777777-----------------");
+    	ShoppingCar shoppingCar = shoppingCarService.getShoppingCarById(id);
+        String address = userDetailService.getUserDetail(shoppingCar.getUserMain().getId()).getAddress();
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("address",address);
+        return resultMap;
+    }
+    
+    @RequestMapping(value = "/getUserPhoneNumber", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> getUserPhoneNumber(Integer id) {
+    	System.out.println(id+"---------------8888888888888-----------------");
+    	ShoppingCar shoppingCar = shoppingCarService.getShoppingCarById(id);
+        String phoneNumber = userDetailService.getUserDetail(shoppingCar.getUserMain().getId()).getPhoneNumber();
+        Map<String,Object> resultMap = new HashMap<String,Object>();
+        resultMap.put("phoneNumber",phoneNumber);
+        return resultMap;
+    }
+
+    
     @RequestMapping(value = "/doLogout")
     public String doLogout(HttpSession httpSession){
         httpSession.setAttribute("currentUser","");

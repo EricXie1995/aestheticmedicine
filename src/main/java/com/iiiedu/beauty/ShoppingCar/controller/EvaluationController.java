@@ -71,7 +71,7 @@ public class EvaluationController {
     public Map<String,Object> getShoppingEvaluations(int productId){
     	List<Evaluation> evaluationList = evaluationService.getProductEvaluations(productId);
         String evaluations = JSONArray.toJSONString(evaluationList);
-        System.out.println(evaluations+"--------------------321321321--------------------------");
+        System.out.println(evaluations+"--------------------/getShoppingEvaluations--------------------------");
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("result",evaluations);
         return resultMap;
